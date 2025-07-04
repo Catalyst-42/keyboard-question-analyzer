@@ -1,0 +1,6 @@
+[display]
+show_frequencies = true
+show_control_keys = true
+show_layout = true
+
+color_by = "Row"  # "Row" | "Frequency" | "Hand" | "None"
