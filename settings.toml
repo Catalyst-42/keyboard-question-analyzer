@@ -1,6 +1,14 @@
-[display]
-show_frequencies = true
-show_control_keys = true
-show_layout = true
+[global]
+frequencies = "data/frequencies/russian.yaml"  # -language <frequencies file>
+keyboard = "data/keyboards/ansi_60.yaml"       # -keyboard <keyboard file>
+layout = "data/layouts/jcuken.yaml"            # -layout <layout file>
 
-color_by = "Row"  # "Row" | "Frequency" | "Hand" | "None"
+[display]
+show_modifiers = true    # -m
+show_layout = true       # -l
+
+show_rows = false        # -r
+show_fingers = false     # -f
+show_frequencies = true  # -p
+
+color_by = "Frequency"  # -c <"Frequency" | "Row" | "Hand" | "Finger" | "None">

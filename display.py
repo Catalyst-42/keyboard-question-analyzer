@@ -3,54 +3,43 @@ import matplotlib.patches as ptc
 import matplotlib.patheffects as pe
 from matplotlib import colormaps
 
-import json
+from keyboard import Keyboard
+from setup import setup
 
-physical_layout: dict = json.load(open("data/physical_layouts/ansi_60.json"))
-logical_layout: dict = json.load(open("data/logical_layouts/jcuken.json"))
-keys_frequencies: dict = json.load(open("data/keys_frequencies/russian.json"))
+ARGS = setup("display")
+keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequencies"])
 
-total_keys_pressed = sum(keys_frequencies.values())
-colormap = colormaps["Purples"]
-
-HIDE_CONTROL_KEYS = False
-
-def get_mapping(physical_key, layout: dict, layer: int):
-    if physical_key in layout["Controls"]:
-        return layout["Controls"][physical_key]["Icon"]
-    
-    elif physical_key in layout["Mappings"]:
-        return layout["Mappings"][physical_key][str(layer)]
-    
-    else:
-        return ""
-
-def create_keyboard_heatmap(layer: int, keyboard: dict, layout: dict):
+def draw_keyboard(layer: int, keyboard: Keyboard):
     keyboard_padding = 1
     keyboard_bbox = [0, 0, 0, 0]
 
-    for physical_key in keyboard:
-        is_control_key = False
-        if physical_key["Key"] in layout["Controls"]:
-            is_control_key = True
-            if HIDE_CONTROL_KEYS:
-                continue
+    for key in keyboard.keyboard.values():
+        if not ARGS["show_modifiers"] and key.is_modifier:
+            continue
 
-        key_mapping = get_mapping(physical_key["Key"], layout, layer)
-        key_usage_frequency = keys_frequencies.get(key_mapping, 0) / max(keys_frequencies.values())
-        
-        patch_color = colormap(key_usage_frequency ** 0.3)
-        patch_color = colormaps["Pastel1"](int(physical_key["Row"]) - 1)
-        
+        # Choice colormap for key
+        if ARGS["color_by"].lower() in "frequency":
+            patch_color = colormaps["Purples"]((key.get_usage(layer) / keyboard.get_max_usage()) ** 0.3)
+        elif ARGS["color_by"].lower() in "row":
+            patch_color = colormaps["Pastel1"](key.row - 1)
+        elif ARGS["color_by"].lower() in "finger":
+            patch_color = colormaps["Set3"](key.finger - 1)
+        elif ARGS["color_by"].lower() in "hand":
+            patch_color = colormaps["Set3"](key.finger > 5)
+        else:
+            patch_color = (0, 0, 0, 0)
+
         key_patch = ptc.FancyBboxPatch(
-            (physical_key["X"], -physical_key["Y"] - physical_key["H"]),
-            physical_key["W"],
-            physical_key["H"],
+            (key.x, -key.y - key.h),
+            key.w,
+            key.h,
             boxstyle="round,rounding_size=3",
             linewidth=1,
             facecolor=patch_color,
             edgecolor="black",
         )
 
+        # Find all patch canvas border
         x0, y0, x1, y1 = key_patch.get_bbox().extents
         keyboard_bbox[0] = min(keyboard_bbox[0], x0)
         keyboard_bbox[1] = min(keyboard_bbox[1], y0)
@@ -58,22 +47,49 @@ def create_keyboard_heatmap(layer: int, keyboard: dict, layout: dict):
         keyboard_bbox[3] = max(keyboard_bbox[3], y1)
 
         axs[f"layer{layer}"].add_patch(key_patch)
-        axs[f"layer{layer}"].text(
-            physical_key["X"] + physical_key["W"]/2,
-            -physical_key["Y"] - physical_key["H"]/2 + 0.5,
-            key_mapping,
-            color="white",
-            path_effects=[pe.withStroke(linewidth=2, foreground="black")],
-            va="center_baseline",
-            ha="center",
-            fontsize=14
-        )
-        
-        if not is_control_key:
+
+        # Display key info
+        if ARGS["show_layout"]:
             axs[f"layer{layer}"].text(
-                physical_key["X"] + physical_key["W"]/2,
-                -physical_key["Y"] - physical_key["H"] + 0.5,
-                f"{keys_frequencies.get(key_mapping, 0) / sum(keys_frequencies.values()):.2%}",
+                key.x + key.w/2,
+                -key.y - key.h/2 + 0.5,
+                key.get_mapping(layer),
+                color="white",
+                path_effects=[pe.withStroke(linewidth=2, foreground="black")],
+                va="center_baseline",
+                ha="center",
+                fontsize=14
+            )
+
+        if ARGS["show_rows"]:
+            axs[f"layer{layer}"].text(
+                key.x + key.w - 1.5,
+                -key.y - 1.5,
+                f"r{key.row}",
+                color="white",
+                path_effects=[pe.withStroke(linewidth=2, foreground="black")],
+                va="top",
+                ha="right",
+                fontsize=6
+            )
+
+        if ARGS["show_fingers"]:
+            axs[f"layer{layer}"].text(
+                key.x + 1.5,
+                -key.y - 1.5,
+                f"f{key.finger}",
+                color="white",
+                path_effects=[pe.withStroke(linewidth=2, foreground="black")],
+                va="top",
+                ha="left",
+                fontsize=6
+            )
+
+        if ARGS["show_frequencies"] and not key.is_modifier:
+            axs[f"layer{layer}"].text(
+                key.x + key.w/2,
+                -key.y - key.h + 0.5,
+                f"{key.get_frequency(layer):.2%}",
                 color="white",
                 path_effects=[pe.withStroke(linewidth=2, foreground="black")],
                 va="bottom",
@@ -81,13 +97,32 @@ def create_keyboard_heatmap(layer: int, keyboard: dict, layout: dict):
                 fontsize=6
             )
 
+    def format_coord(x, y):
+        selected_key = None
+        for key in keyboard.keys: 
+           if (key.x <= x <= key.x + key.w) and (key.y <= -y <= key.y + key.h):
+               selected_key = key
+               break
+        
+        if not selected_key:
+            return ""
+        
+        return (
+            f"{key.key} \"{key.get_mapping(layer)}\", finger {key.finger}, row {key.row}\n"
+            f"Frequency: {key.get_frequency(layer):.2%} on mapping, total: {key.get_total_frequency():.2%}"
+        )
+
+    axs[f"layer{layer}"].format_coord = format_coord
     axs[f"layer{layer}"].set_xlim(keyboard_bbox[0] - keyboard_padding, keyboard_bbox[2] + keyboard_padding)
     axs[f"layer{layer}"].set_ylim(keyboard_bbox[1] - keyboard_padding, keyboard_bbox[3] + keyboard_padding)
 
     axs[f"layer{layer}"].axis("off")
     axs[f"layer{layer}"].set_aspect("equal")
-    
-# Generate heatmaps
+
+# Show accumulative data 
+keyboard.print_keyboard_usage()
+
+# Generate plot 
 fig, axs = plt.subplot_mosaic(
     [["layer1"],
     ["layer2"]],
@@ -96,8 +131,8 @@ fig, axs = plt.subplot_mosaic(
 
 fig.canvas.manager.set_window_title("Keyboard")
 
-create_keyboard_heatmap(1, physical_layout, logical_layout)
-create_keyboard_heatmap(2, physical_layout, logical_layout)
+draw_keyboard(1, keyboard)
+draw_keyboard(2, keyboard)
 
 plt.tight_layout()
 plt.show()

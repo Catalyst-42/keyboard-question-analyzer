@@ -10,6 +10,15 @@ Stages of editing:
 - Watch statistics
   - From frequency file color layout
 
+### Data hierarchy
+- Keyboard
+  - Physical key
+    - Key code
+    - Key layout
+      - Layer
+        - Key mapping
+        - Key usage
+
 ### Keyboard profile
 
 Keyboard layout describes list of available
@@ -20,26 +29,6 @@ Key rectangle specs:
   |      |
   h      |
   '------'
-
-```
-` 1 2 3 4 5 6 7 8 9 0 - =   
-0 0 1 2 3 3 6 6 7 8 9 9 9
-1 1 1 1 1 1 1 1 1 1 1 1 1
-
-  q w e r t y u i o p [ ] \ 
-  0 1 2 3 3 6 6 7 8 9 9 9 9
-  1 1 1 1 1 1 1 1 1 1 1 1 1
-
-  a s d f g h j k l ; '     
-  0 1 2 3 3 6 6 7 8 9 9
-  1 1 1 1 1 1 1 1 1 1 1
-
-  z x c v b n m , . /       
-  0 1 2 3 3 6 6 7 8 9
-  1 1 1 1 1 1 1 1 1 1
-```
-
-But, how about... distance?
 
 ### Layout
 ```
@@ -63,14 +52,24 @@ But, how about... distance?
 
 ### Keys by fingers
 ```
-   _.-._           _.-._
- _|1|2|3|         |6|7|8|_
-|0| | | |         | | | |9|
-| | | | |  _   _  | | | | |
-| '     |/4/   \5\|     ' |
-|       / /     \ \       |
- \       /       \       /
-  |     |         |     |
+   _.-._                _.-._
+ _|2|3|4|              |7|8|9|_
+|1| | | |              | | | 10|
+| | | | |  _        _  | | | | |
+| '     |/5/        \6\|     ' |
+|       / /          \ \       |
+ \       /            \       /
+  |     |              |     |
+
+         Usage of fingers           Usage of rows
+
+ ╭ 00.00%              00.00% ╮       1 00.00%
+ │ ╭ 00.00%          00.00% ╮ │       2 00.00%
+ 1 2 3 4                7 8 9 10      3 00.00%
+     │ ╰ 00.00%  00.00% ╯ │           4 00.00%
+     ╰ 00.00%      00.00% ╯           5 00.00%
+
+ Left - 00.00%    00.00% - Right
 ```
 
 ```
