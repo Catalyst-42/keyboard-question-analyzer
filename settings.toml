@@ -1,14 +1,19 @@
-[global]
-frequencies = "data/frequencies/russian.yaml"  # -language <frequencies file>
-keyboard = "data/keyboards/ansi_60.yaml"       # -keyboard <keyboard file>
-layout = "data/layouts/jcuken.yaml"            # -layout <layout file>
-
 [display]
+frequencies = "data/frequencies/obsidian.yaml"  # -language <frequencies file>
+keyboard = "data/keyboards/ansi_60.yaml"       # -keyboard <keyboard file>
+layout = "data/layouts/fasttype.yaml"            # -layout <layout file>
+
 show_modifiers = true    # -m
 show_layout = true       # -l
+show_key_codes = false   # -k
 
 show_rows = false        # -r
 show_fingers = false     # -f
 show_frequencies = true  # -p
+show_home_keys = true    # -h
 
 color_by = "Frequency"  # -c <"Frequency" | "Row" | "Hand" | "Finger" | "None">
+
+[frequency-checker]
+files = [""]            # -f <file [...]>
+allowed_glyphs = false  # -g

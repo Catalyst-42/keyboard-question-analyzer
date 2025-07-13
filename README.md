@@ -19,16 +19,33 @@ Stages of editing:
         - Key mapping
         - Key usage
 
+### Terms
+##### Key
+Means physical key code. Prefer to use key codes, described in [W3C](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode#constants_for_keycode_value)
+
+##### Mapping
+Representation of pressed key.
+For example, basic `KeyS` pressed on standard qwerty layout will give the `s` mapping.
+But on jcucken it will give the `ы` mapping. 
+
+##### Layout
+The joints between physical keys and it's mappings.
+
+##### Keyboard
+Describes the position of physical keys, it's physical parameters.
+
 ### Keyboard profile
 
 Keyboard layout describes list of available
 physical keys with their location and sizes on canvas.
 
+```
 Key rectangle specs:
  x.y---w-.
   |      |
   h      |
   '------'
+```
 
 ### Layout
 ```
@@ -63,11 +80,11 @@ Key rectangle specs:
 
          Usage of fingers           Usage of rows
 
- ╭ 00.00%              00.00% ╮       1 00.00%
- │ ╭ 00.00%          00.00% ╮ │       2 00.00%
+ ╭╴00.00%              00.00%╶╮       1 00.00%
+ │ ╭╴00.00%          00.00%╶╮ │       2 00.00%
  1 2 3 4                7 8 9 10      3 00.00%
-     │ ╰ 00.00%  00.00% ╯ │           4 00.00%
-     ╰ 00.00%      00.00% ╯           5 00.00%
+     │ ╰╴00.00%  00.00%╶╯ │           4 00.00%
+     ╰╴00.00%      00.00%╶╯           5 00.00%
 
  Left - 00.00%    00.00% - Right
 ```

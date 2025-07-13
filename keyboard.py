@@ -30,17 +30,17 @@ class Key():
 
     def get_frequency(self, layer: int):
         return self.keyboard.get_frequency(self.get_mapping(layer))
-        
+
     def get_total_frequency(self):
         return sum([self.get_frequency(mapping) for mapping in self.mappings])
-    
+
     def get_usage(self, layer):
         return self.keyboard.get_usage(self.get_mapping(layer))
 
 
 class Keyboard():
     def __init__(self, physical_layout: dict, logical_layout: dict, keys_frequencies: dict):
-        self.frequencies = keys_frequencies["frequencies"] 
+        self.frequencies = keys_frequencies["frequencies"]
         self.total = sum(keys_frequencies["frequencies"].values())
 
         self.keyboard: dict[str, Key] = {}
@@ -49,6 +49,9 @@ class Keyboard():
                 if physical_key["key"] == logical_key["key"]:
                     self.keyboard[physical_key["key"]] = Key(self, physical_key, logical_key)
                     break
+
+        # Ehsure that layout mapped properly
+        self.check_unique_keys()
 
     @classmethod
     def load(self, physical_layout: str, logical_layout: str, keys_frequencies: str):
@@ -62,49 +65,66 @@ class Keyboard():
     def keys(self) -> list[Key]:
         return self.keyboard.values()
 
+    def check_unique_keys(self):
+        dublicates_found = False
+        mappings = set()
+        for key in self.keys:
+            if key.is_modifier:
+                continue
+
+            for mapping in key.mappings.values():
+                if mapping not in mappings:
+                    mappings.add(mapping)
+                else:
+                    dublicates_found = True
+                    print(f"Warning: mapping \"{mapping}\" repeats on layout more than once")
+
+        if dublicates_found:
+            print()
+
     def print_keyboard_usage(self):
-        format_map = {"fingers": "Usage of fingers", "rows": "Usage of rows"}
+        format_map = {"fingers": "Usage of fingers", "rows": "Usage of rows", "total": 0}
         hands_frequency = """\
-        \r{fingers:^32}   {rows:^13}
+        \r{fingers:^32}{rows:^19}
         \r
         \r ╭╴{l1:<6.2%}              {r10:>6.2%}╶╮      {o1}
         \r │ ╭╴{l2:<6.2%}          {r9:>6.2%}╶╮ │      {o2}
         \r 1 2 3 4                7 8 9 10     {o3}
         \r     │ ╰╴{l4:<6.2%}  {r7:>6.2%}╶╯ │          {o4}
-        \r     ╰ {l3:<6.2%}      {r8:>6.2%}╶╯          {o5}
+        \r     ╰╴{l3:<6.2%}      {r8:>6.2%}╶╯          {o5}
         \r
-        \r Left - {l:<6.2%}    {r:>6.2%} - Right"""
+        \r Left - {l:<6.2%}    {r:>6.2%} - Right     ∑ {total:.1%}
+        \r"""
 
         def calculate_hand_uage(hand: Literal["left", "right"]):
             hand_frequency = 0
             fingers = ["pinky", "ring", "middle", "index", "thumb"]
-            
+
             finger_direction = 1 if hand == "left" else -1
             finger_offset = 1 if hand == "left" else 6
 
-            for finger_index, finger_label in enumerate(fingers[::finger_direction], finger_offset):
+            for finger_index, _ in enumerate(fingers[::finger_direction], finger_offset):
                 finger_frequency = sum([key.get_total_frequency() for key in self.keyboard.values() if key.finger == finger_index])
                 hand_frequency += finger_frequency
 
                 format_map[f"{"l" if hand == "left" else "r"}{finger_index}"] = finger_frequency
             format_map["l" if hand == "left" else "r"] = hand_frequency
-         
+
         calculate_hand_uage("left")
         calculate_hand_uage("right")
 
         def calculate_row_usage(row):
             row_usage = sum([
                 key.get_total_frequency() for key in self.keyboard.values() if key.row == row
-            ]) 
+            ])
 
+            format_map["total"] += row_usage
             format_map[f"o{row}"] = f"{row} {row_usage:.2%}" if row_usage != 0 else ""
-                
-        
+
         # Can display only first 6 rows
         for row in range(1, 6):
             calculate_row_usage(row)
 
-        assert format_map["l"] + format_map["r"] == 1
         print(hands_frequency.format_map(format_map))
 
     def get_frequency(self, mapping: str):

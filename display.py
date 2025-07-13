@@ -9,11 +9,12 @@ from setup import setup
 ARGS = setup("display")
 keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequencies"])
 
+
 def draw_keyboard(layer: int, keyboard: Keyboard):
     keyboard_padding = 1
     keyboard_bbox = [0, 0, 0, 0]
 
-    for key in keyboard.keyboard.values():
+    for key in keyboard.keys:
         if not ARGS["show_modifiers"] and key.is_modifier:
             continue
 
@@ -61,27 +62,46 @@ def draw_keyboard(layer: int, keyboard: Keyboard):
                 fontsize=14
             )
 
-        if ARGS["show_rows"]:
+        if ARGS["show_key_codes"]:
             axs[f"layer{layer}"].text(
-                key.x + key.w - 1.5,
-                -key.y - 1.5,
-                f"r{key.row}",
+                key.x + key.w/2,
+                -key.y - key.h/2 + 0.5,
+                key.key,
                 color="white",
                 path_effects=[pe.withStroke(linewidth=2, foreground="black")],
                 va="top",
-                ha="right",
-                fontsize=6
+                ha="center",
+                fontsize=7
             )
 
-        if ARGS["show_fingers"]:
+        if ARGS["show_rows"] or ARGS["show_fingers"]:
+            row_or_finger = ""
+            if ARGS["show_rows"]:
+                row_or_finger += f"r{key.row}"
+
+            if ARGS["show_fingers"]:
+                row_or_finger += f"f{key.finger}"
+
             axs[f"layer{layer}"].text(
                 key.x + 1.5,
                 -key.y - 1.5,
-                f"f{key.finger}",
+                row_or_finger,
                 color="white",
                 path_effects=[pe.withStroke(linewidth=2, foreground="black")],
                 va="top",
                 ha="left",
+                fontsize=6
+            )
+
+        if key.is_home and ARGS["show_home_keys"]:
+            axs[f"layer{layer}"].text(
+                key.x + key.w - 1.5,
+                -key.y - 0.5,
+                "•",
+                color="white",
+                path_effects=[pe.withStroke(linewidth=2, foreground="black")],
+                va="top",
+                ha="right",
                 fontsize=6
             )
 
@@ -99,14 +119,14 @@ def draw_keyboard(layer: int, keyboard: Keyboard):
 
     def format_coord(x, y):
         selected_key = None
-        for key in keyboard.keys: 
-           if (key.x <= x <= key.x + key.w) and (key.y <= -y <= key.y + key.h):
-               selected_key = key
-               break
-        
+        for key in keyboard.keys:
+            if (key.x <= x <= key.x + key.w) and (key.y <= -y <= key.y + key.h):
+                selected_key = key
+                break
+
         if not selected_key:
             return ""
-        
+
         return (
             f"{key.key} \"{key.get_mapping(layer)}\", finger {key.finger}, row {key.row}\n"
             f"Frequency: {key.get_frequency(layer):.2%} on mapping, total: {key.get_total_frequency():.2%}"
@@ -119,13 +139,14 @@ def draw_keyboard(layer: int, keyboard: Keyboard):
     axs[f"layer{layer}"].axis("off")
     axs[f"layer{layer}"].set_aspect("equal")
 
-# Show accumulative data 
+
+# Show stats data
 keyboard.print_keyboard_usage()
 
-# Generate plot 
+# Generate plot
 fig, axs = plt.subplot_mosaic(
     [["layer1"],
-    ["layer2"]],
+     ["layer2"]],
     figsize=(8, 6)
 )
 

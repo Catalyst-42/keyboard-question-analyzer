@@ -1,0 +1,22 @@
+# MOCKUP
+global:
+  # setting_file:            # -settings <flie_path>
+  keyboard: ansi_60          # -keyboard <keyboard | file_path>
+  layout: programmer_dvorak  # -layout <layout | file_path>
+  frequency: querty          # -language <frequency | file_path>
+
+display:
+  show_modifiers: true     # -m
+  show_layout: true        # -l
+  show_key_codes: false    # -k
+
+  show_row_numbers: false  # -r
+  show_fingers: false      # -f
+  show_frequencies: true   # -p
+  show_home_keys: true     # -h
+
+  color_by: frequency      # -c <"frequency" | "row" | "hand" | "finger" | "none">
+
+frequency-checker:
+  file_paths:                 # -f <file [...]>
+  only_layout_mappings: true  # -m
