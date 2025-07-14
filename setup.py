@@ -1,35 +1,17 @@
 import argparse
-import tomllib
+
+import yaml
 
 
 def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
     match argument:
-        case "help":
-            parser.add_argument(
-                "-help",
-                action="help",
-                default=argparse.SUPPRESS,
-                help="Show all script startup parameters and exit"
-            )
-
         # Global
-        case "frequencies":
-            parser.add_argument(
-                "-frequencies",
-                help=(
-                    "File which contain information about key usage frequency",
-                ),
-                default=ARGS["frequencies"],
-                type=str,
-                dest="frequencies",
-            )
-
         case "keyboard":
             parser.add_argument(
-                "-keyboard",
+                "--keyboard",
                 help=(
-                    "File which contain information about"
-                    " keyboard keys placement",
+                    "File which contain information about. File must be placed in data/keyboards folder"
+                    " keyboard keys placement"
                 ),
                 default=ARGS["keyboard"],
                 type=str,
@@ -38,14 +20,23 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
 
         case "layout":
             parser.add_argument(
-                "-layout",
+                "--layout",
                 help=(
-                    "File which contain information about keyboard"
-                    " language layout of keys",
+                    "File which contain information about keyboard. File must be placed in data/layouts folder"
+                    " language layout of keys"
                 ),
                 default=ARGS["layout"],
                 type=str,
                 dest="layout",
+            )
+
+        case "frequency":
+            parser.add_argument(
+                "--frequency",
+                help="File which contain information about key usage frequency. File must be placed in data/frequencies folder",
+                default=ARGS["frequency"],
+                type=str,
+                dest="frequency",
             )
 
         # Display
@@ -113,7 +104,7 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
 
         case "show_home_keys":
             parser.add_argument(
-                "-h",
+                "-hk",
                 help="Display dots on top right corner of home keys",
                 action="store_const",
                 const=not ARGS["show_home_keys"],
@@ -133,19 +124,19 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
                 dest="color_by",
             )
 
-        case "files":
+        case "file_paths":
             parser.add_argument(
-                "files",
+                "file_paths",
                 help="List of files to be processed",
-                default=ARGS["files"],
+                default=ARGS["file_paths"],
                 type=str,
                 nargs='+'
             )
 
 
 def setup(script_name):
-    settings = tomllib.load(open("settings.toml", "rb"))
-    ARGS = settings[script_name]
+    settings = yaml.safe_load(open("settings.yaml", encoding="utf-8"))
+    ARGS = settings["global"] | settings[script_name]
 
     options = {}
     if "options" in ARGS:
@@ -153,15 +144,17 @@ def setup(script_name):
         ARGS |= options
 
     # Parse arguments
-    parser = argparse.ArgumentParser(add_help=False)
-    add_argument("help", parser, ARGS)
+    parser = argparse.ArgumentParser(prog=script_name)
 
     for argument in ARGS:
         add_argument(argument, parser, ARGS)
 
-    parsed_args = dict(parser.parse_args()._get_kwargs())
-    for arg in parsed_args:
-        ARGS[arg] = parsed_args[arg]
+    ARGS.update(dict(parser.parse_args()._get_kwargs()))
+
+    # Full paths for global settings
+    ARGS["keyboard"] = f"./data/keyboards/{ARGS["keyboard"]}.yaml"
+    ARGS["layout"] = f"./data/layouts/{ARGS["layout"]}.yaml"
+    ARGS["frequency"] = f"./data/frequencies/{ARGS["frequency"]}.yaml"
 
     # print(ARGS)
     return ARGS

@@ -1,9 +1,8 @@
-# MOCKUP
 global:
-  # setting_file:            # -settings <flie_path>
-  keyboard: ansi_60          # -keyboard <keyboard | file_path>
-  layout: programmer_dvorak  # -layout <layout | file_path>
-  frequency: querty          # -language <frequency | file_path>
+  keyboard: ansi_60      # --keyboard <keyboard>
+  layout: colemak        # --layout <layout>
+  frequency: python      # --language <frequency>
+  corpus: english_bools  # --corpus <corpus>
 
 display:
   show_modifiers: true     # -m
@@ -13,10 +12,10 @@ display:
   show_row_numbers: false  # -r
   show_fingers: false      # -f
   show_frequencies: true   # -p
-  show_home_keys: true     # -h
+  show_home_keys: true     # -hk
 
-  color_by: frequency      # -c <"frequency" | "row" | "hand" | "finger" | "none">
+  color_by: freq           # -c <"frequency" | "row" | "hand" | "finger" | "none">
 
-frequency-checker:
+frequencies:
   file_paths:                 # -f <file [...]>
   only_layout_mappings: true  # -m

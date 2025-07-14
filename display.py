@@ -7,7 +7,7 @@ from keyboard import Keyboard
 from setup import setup
 
 ARGS = setup("display")
-keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequencies"])
+keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequency"])
 
 
 def draw_keyboard(layer: int, keyboard: Keyboard):
@@ -19,13 +19,13 @@ def draw_keyboard(layer: int, keyboard: Keyboard):
             continue
 
         # Choice colormap for key
-        if ARGS["color_by"].lower() in "frequency":
+        if ARGS["color_by"] in "frequency":
             patch_color = colormaps["Purples"]((key.get_usage(layer) / keyboard.get_max_usage()) ** 0.3)
-        elif ARGS["color_by"].lower() in "row":
+        elif ARGS["color_by"] in "row":
             patch_color = colormaps["Pastel1"](key.row - 1)
-        elif ARGS["color_by"].lower() in "finger":
+        elif ARGS["color_by"] in "finger":
             patch_color = colormaps["Set3"](key.finger - 1)
-        elif ARGS["color_by"].lower() in "hand":
+        elif ARGS["color_by"] in "hand":
             patch_color = colormaps["Set3"](key.finger > 5)
         else:
             patch_color = (0, 0, 0, 0)
@@ -74,9 +74,9 @@ def draw_keyboard(layer: int, keyboard: Keyboard):
                 fontsize=7
             )
 
-        if ARGS["show_rows"] or ARGS["show_fingers"]:
+        if ARGS["show_row_numbers"] or ARGS["show_fingers"]:
             row_or_finger = ""
-            if ARGS["show_rows"]:
+            if ARGS["show_row_numbers"]:
                 row_or_finger += f"r{key.row}"
 
             if ARGS["show_fingers"]:

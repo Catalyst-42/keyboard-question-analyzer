@@ -215,6 +215,7 @@ keyboard:
     h: 34
     row: 3
     finger: 1
+    is_home: true
   - key: "KeyS"
     x: 108
     y: 80
@@ -222,6 +223,7 @@ keyboard:
     h: 34
     row: 3
     finger: 2
+    is_home: true
   - key: "KeyD"
     x: 148
     y: 80
@@ -229,6 +231,7 @@ keyboard:
     h: 34
     row: 3
     finger: 3
+    is_home: true
   - key: "KeyF"
     x: 188
     y: 80
@@ -236,6 +239,7 @@ keyboard:
     h: 34
     row: 3
     finger: 4
+    is_home: true
   - key: "KeyG"
     x: 228
     y: 80
@@ -257,6 +261,7 @@ keyboard:
     h: 34
     row: 3
     finger: 7
+    is_home: true
   - key: "KeyK"
     x: 348
     y: 80
@@ -264,6 +269,7 @@ keyboard:
     h: 34
     row: 3
     finger: 8
+    is_home: true
   - key: "KeyL"
     x: 388
     y: 80
@@ -271,6 +277,7 @@ keyboard:
     h: 34
     row: 3
     finger: 9
+    is_home: true
   - key: "Semicolon"
     x: 428
     y: 80
@@ -278,6 +285,7 @@ keyboard:
     h: 34
     row: 3
     finger: 10
+    is_home: true
   - key: "Quote"
     x: 468
     y: 80
@@ -415,6 +423,7 @@ keyboard:
     h: 34
     row: 5
     finger: 5
+    is_home: true
   - key: "MetaRight"
     x: 368
     y: 160

@@ -6,22 +6,22 @@ from yaml import safe_load
 
 class Key():
     def __init__(self, keyboard: Keyboard, physical_key: dict, logical_key: dict):
+        self.keyboard: Keyboard = keyboard
+
         # Physical keyboard
-        self.keyboard = keyboard
         self.key = physical_key["key"]
-        self.x = physical_key["x"]
-        self.y = physical_key["y"]
-        self.w = physical_key["w"]
-        self.h = physical_key["h"]
-        self.row = physical_key["row"]
-        self.finger = physical_key.get("finger", 0)
+        self.x: int = physical_key["x"]
+        self.y: int = physical_key["y"]
+        self.w: int = physical_key["w"]
+        self.h: int = physical_key["h"]
+        self.row: int = physical_key["row"]
+        self.finger: int = physical_key.get("finger", 0)
+        self.is_home: bool = physical_key.get("is_home", False)
 
         # Logical keyboard
-        self.keyboard = keyboard
-        self.key = logical_key["key"]
-        self.mappings = logical_key["mappings"]
-        self.is_modifier = logical_key.get("is_modifier", False)
-        self.is_home = logical_key.get("is_home", False)
+        self.key: str = logical_key["key"]
+        self.mappings: dict = logical_key["mappings"]
+        self.is_modifier: bool = logical_key.get("is_modifier", False)
 
     def get_mapping(self, layer: int):
         if layer > 0:
@@ -50,7 +50,7 @@ class Keyboard():
                     self.keyboard[physical_key["key"]] = Key(self, physical_key, logical_key)
                     break
 
-        # Ehsure that layout mapped properly
+        # Ensure that layout mapped properly
         self.check_unique_keys()
 
     @classmethod
@@ -98,7 +98,7 @@ class Keyboard():
 
         def calculate_hand_uage(hand: Literal["left", "right"]):
             hand_frequency = 0
-            fingers = ["pinky", "ring", "middle", "index", "thumb"]
+            fingers = range(1, 6, 1)
 
             finger_direction = 1 if hand == "left" else -1
             finger_offset = 1 if hand == "left" else 6
@@ -138,3 +138,14 @@ class Keyboard():
 
     def get_max_usage(self):
         return max(self.frequencies.values())
+
+    @property
+    def mappings(self):
+        mappings = set()
+        for key in self.keys:
+            if key.is_modifier:
+                continue
+
+            mappings.update(key.mappings.values())
+
+        return mappings

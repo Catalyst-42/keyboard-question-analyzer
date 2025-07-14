@@ -26,7 +26,7 @@ Means physical key code. Prefer to use key codes, described in [W3C](https://dev
 ##### Mapping
 Representation of pressed key.
 For example, basic `KeyS` pressed on standard qwerty layout will give the `s` mapping.
-But on jcucken it will give the `ы` mapping. 
+But on jcuken it will give the `ы` mapping. 
 
 ##### Layout
 The joints between physical keys and it's mappings.
