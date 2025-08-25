@@ -57,7 +57,7 @@ layout:
     is_modifier: true
     mappings:
       1: "⌫"
-      
+
   # Top layer
   - key: "Tab"
     is_modifier: true
@@ -146,7 +146,7 @@ layout:
       1: "р"
       2: "Р"
   - key: "KeyJ"
-  mappings:
+    mappings:
       1: "о"
       2: "О"
   - key: "KeyK"

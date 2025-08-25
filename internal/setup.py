@@ -124,13 +124,12 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
                 dest="color_by",
             )
 
-        case "file_paths":
+        case "corpus":
             parser.add_argument(
-                "file_paths",
-                help="List of files to be processed",
-                default=ARGS["file_paths"],
+                "--corpus",
+                help="Directory for corpus of text for keyboard efficency analysis",
+                default=ARGS["corpus"],
                 type=str,
-                nargs='+'
             )
 
 
@@ -155,6 +154,7 @@ def setup(script_name):
     ARGS["keyboard"] = f"./data/keyboards/{ARGS["keyboard"]}.yaml"
     ARGS["layout"] = f"./data/layouts/{ARGS["layout"]}.yaml"
     ARGS["frequency"] = f"./data/frequencies/{ARGS["frequency"]}.yaml"
+    ARGS["corpus"] = f"./data/corpus/{ARGS["corpus"]}"
 
     # print(ARGS)
     return ARGS

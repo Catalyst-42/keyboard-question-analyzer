@@ -1,8 +1,8 @@
 global:
-  keyboard: ansi_60      # --keyboard <keyboard>
-  layout: colemak        # --layout <layout>
-  frequency: python      # --language <frequency>
-  corpus: english_bools  # --corpus <corpus>
+  keyboard: ansi_60          # --keyboard <keyboard>
+  layout: colemak             # --layout <layout>
+  frequency: english          # --language <frequency>
+  corpus: english            # --corpus <corpus>
 
 display:
   show_modifiers: true     # -m
@@ -17,5 +17,4 @@ display:
   color_by: freq           # -c <"frequency" | "row" | "hand" | "finger" | "none">
 
 frequencies:
-  file_paths:                 # -f <file [...]>
   only_layout_mappings: true  # -m

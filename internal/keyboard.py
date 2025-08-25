@@ -8,7 +8,7 @@ class Key():
     def __init__(self, keyboard: Keyboard, physical_key: dict, logical_key: dict):
         self.keyboard: Keyboard = keyboard
 
-        # Physical keyboard
+        # Keyboard
         self.key = physical_key["key"]
         self.x: int = physical_key["x"]
         self.y: int = physical_key["y"]
@@ -18,10 +18,18 @@ class Key():
         self.finger: int = physical_key.get("finger", 0)
         self.is_home: bool = physical_key.get("is_home", False)
 
-        # Logical keyboard
+        # Layout 
         self.key: str = logical_key["key"]
         self.mappings: dict = logical_key["mappings"]
         self.is_modifier: bool = logical_key.get("is_modifier", False)
+
+    def __repr__(self):
+        return f"Key {self.key}, at ({self.x}, {self.y}), {self.finger} finger, {self.row} row"
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return self.key == other.key
 
     def get_mapping(self, layer: int):
         if layer > 0:
@@ -50,7 +58,6 @@ class Keyboard():
                     self.keyboard[physical_key["key"]] = Key(self, physical_key, logical_key)
                     break
 
-        # Ensure that layout mapped properly
         self.check_unique_keys()
 
     @classmethod
@@ -149,3 +156,9 @@ class Keyboard():
             mappings.update(key.mappings.values())
 
         return mappings
+
+    def key_for(self, key):
+        for physical_key in self.keys:
+            if key in physical_key.mappings.values():
+                return physical_key 
+        return None

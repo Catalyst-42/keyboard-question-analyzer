@@ -1,49 +1,26 @@
-from keyboard import Key, Keyboard
-from setup import *
-
-
-class Finger():
-    def __init__(self, x: int = 0, y: int = 0):
-        self.x = x
-        self.y = y
-
-    def goto(self, key: Key):
-        new_x = key.x
-        new_y = key.y
-
-        distance = ((new_x - self.x)**2 + (new_y - self.y)**2) ** 0.5
-
-        self.x = new_x
-        self.y = new_y
-
-        return distance
-
-    def __repr__(self):
-        return f"({self.x}, {self.y})"
-
-class Fingers():
-    def __init__(self):
-        self.fingers = {
-            1: Finger(),
-            2: Finger(),
-            3: Finger(),
-            4: Finger(),
-            5: Finger(),
-            6: Finger(),
-            7: Finger(),
-            8: Finger(),
-            9: Finger(),
-            10: Finger()
-        }
-
-    def goto_homerow(self, keyboard: Keyboard):
-        for key in keyboard.keys:
-            if key.is_home:
-                self.fingers[key.finger].x = key.x
-                self.fingers[key.finger].y = key.y
+from internal.keyboard import Keyboard
+from internal.corpus import Corpus
+from internal.hands import Hands
+from internal.setup import *
 
 ARGS = setup("display")
-fingers = Fingers()
-keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequency"])
 
-fingers.goto_homerow(keyboard)
+keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequency"])
+collector = Corpus.load(ARGS["corpus"])
+
+hands = Hands()
+hands.goto_homerow(keyboard)
+
+travel_distance = 0
+for i, key in enumerate(collector.corpus_text):
+    physical_key = keyboard.key_for(key)
+
+    if physical_key:
+        travel_distance += hands.goto(physical_key.finger, physical_key)
+
+    print(f"\rProgress: {i/len(collector.corpus_text):.2%} ", end="")
+
+else:
+    print()  # Get rid of empty end stat output
+
+print(f"Total travel distance: {int(travel_distance):,}")

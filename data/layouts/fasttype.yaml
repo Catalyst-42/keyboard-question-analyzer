@@ -57,7 +57,7 @@ layout:
     is_modifier: true
     mappings:
       1: "⌫"
-      
+
   # Top layer
   - key: "Tab"
     is_modifier: true

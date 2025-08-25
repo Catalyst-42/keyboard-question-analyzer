@@ -3,8 +3,8 @@ import matplotlib.patches as ptc
 import matplotlib.patheffects as pe
 from matplotlib import colormaps
 
-from keyboard import Keyboard
-from setup import setup
+from internal.keyboard import Keyboard
+from internal.setup import setup
 
 ARGS = setup("display")
 keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequency"])
@@ -129,7 +129,7 @@ def draw_keyboard(layer: int, keyboard: Keyboard):
 
         return (
             f"{key.key} \"{key.get_mapping(layer)}\", finger {key.finger}, row {key.row}\n"
-            f"Frequency: {key.get_frequency(layer):.2%} on mapping, total: {key.get_total_frequency():.2%}"
+            f"Frequency: {key.get_frequency(layer):.2%} on mapping, total: {key.get_total_frequency():.2%} (x, y) = ({key.x}, {key.y})"
         )
 
     axs[f"layer{layer}"].format_coord = format_coord
