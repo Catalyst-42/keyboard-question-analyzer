@@ -1,0 +1,222 @@
+info: "Layout mockup with one layer"
+layout:
+  # Digit layer
+  - key: "Backquote"
+    mappings:
+      1: "Backquote"
+  - key: "Digit1"
+    mappings:
+      1: "Digit1"
+  - key: "Digit2"
+    mappings:
+      1: "Digit2"
+  - key: "Digit3"
+    mappings:
+      1: "Digit3"
+  - key: "Digit4"
+    mappings:
+      1: "Digit4"
+  - key: "Digit5"
+    mappings:
+      1: "Digit5"
+  - key: "Digit6"
+    mappings:
+      1: "Digit6"
+  - key: "Digit7"
+    mappings:
+      1: "Digit7"
+  - key: "Digit8"
+    mappings:
+      1: "Digit8"
+  - key: "Digit9"
+    mappings:
+      1: "Digit9"
+  - key: "Digit0"
+    mappings:
+      1: "Digit0"
+  - key: "Minus"
+    mappings:
+      1: "Minus"
+  - key: "Equal"
+    mappings:
+      1: "Equal"
+  - key: "Backspace"
+    is_modifier: true
+    mappings:
+      1: "Backspace"
+
+  # Top layer
+  - key: "Tab"
+    is_modifier: true
+    mappings:
+      1: "Tab"
+  - key: "KeyQ"
+    mappings:
+      1: "KeyQ"
+  - key: "KeyW"
+    mappings:
+      1: "KeyW"
+  - key: "KeyE"
+    mappings:
+      1: "KeyE"
+  - key: "KeyR"
+    mappings:
+      1: "KeyR"
+  - key: "KeyT"
+    mappings:
+      1: "KeyT"
+  - key: "KeyY"
+    mappings:
+      1: "KeyY"
+  - key: "KeyU"
+    mappings:
+      1: "KeyU"
+  - key: "KeyI"
+    mappings:
+      1: "KeyI"
+  - key: "KeyO"
+    mappings:
+      1: "KeyO"
+  - key: "KeyP"
+    mappings:
+      1: "KeyP"
+  - key: "BracketLeft"
+    mappings:
+      1: "BracketLeft"
+  - key: "BracketRight"
+    mappings:
+      1: "BracketRight"
+  - key: "Backslash"
+    mappings:
+      1: "Backslash"
+  
+  # Home layer
+  - key: "CapsLock"
+    is_modifier: true
+    mappings:
+      1: "CapsLock"
+  - key: "KeyA"
+    mappings:
+      1: "KeyA"
+  - key: "KeyS"
+    mappings:
+      1: "KeyS"
+  - key: "KeyD"
+    mappings:
+      1: "KeyD"
+  - key: "KeyF"
+    is_home: true
+    mappings:
+      1: "KeyF"
+  - key: "KeyG"
+    mappings:
+      1: "KeyG"
+  - key: "KeyH"
+    mappings:
+      1: "KeyH"
+  - key: "KeyJ"
+    is_home: true
+    mappings:
+      1: "KeyJ"
+  - key: "KeyK"
+    mappings:
+      1: "KeyK"
+  - key: "KeyL"
+    mappings:
+      1: "KeyL"
+  - key: "Semicolon"
+    mappings:
+      1: "Semicolon"
+  - key: "Quote"
+    mappings:
+      1: "Quote"
+  - key: "Enter"
+    is_modifier: true
+    mappings:
+      1: "Enter"
+
+  # Bottom layer
+  - key: "ShiftLeft"
+    is_modifier: true
+    mappings:
+      1: "ShiftLeft"
+  - key: "KeyZ"
+    mappings:
+      1: "KeyZ"
+  - key: "KeyX"
+    mappings:
+      1: "KeyX"
+  - key: "KeyC"
+    mappings:
+      1: "KeyC"
+  - key: "KeyV"
+    mappings:
+      1: "KeyV"
+  - key: "KeyB"
+    mappings:
+      1: "KeyB"
+  - key: "KeyN"
+    mappings:
+      1: "KeyN"
+  - key: "KeyM"
+    mappings:
+      1: "KeyM"
+  - key: "Comma"
+    mappings:
+      1: "Comma"
+  - key: "Period"
+    mappings:
+      1: "Period"
+  - key: "Slash"
+    mappings:
+      1: "Slash"
+  - key: "ShiftRight"
+    is_modifier: true
+    mappings:
+      1: "ShiftRight"
+
+  # Control keys
+  - key: "Function"
+    is_modifier: true
+    mappings:
+      1: "Function"
+  - key: "ControlLeft"
+    is_modifier: true
+    mappings:
+      1: "ControlLeft"
+  - key: "AltLeft"
+    is_modifier: true
+    mappings:
+      1: "AltLeft"
+  - key: "MetaLeft"
+    is_modifier: true
+    mappings:
+      1: "MetaLeft"
+  - key: "Space"
+    is_modifier: true
+    mappings:
+      1: "Space"
+  - key: "MetaRight"
+    is_modifier: true
+    mappings:
+      1: "MetaRight"
+  - key: "AltRight"
+    is_modifier: true
+    mappings:
+      1: "AltRight"
+  - key: "ArrowLeft"
+    is_modifier: true
+    mappings:
+      1: "ArrowLeft"
+  - key: "ArrowUp"
+    is_modifier: true
+    mappings:
+      1: "ArrowUp"
+  - key: "ArrowDown"
+    is_modifier: true
+    mappings:
+      1: "ArrowDown"
+  - key: "ArrowRight"
+    is_modifier: true
+    mappings:
+      1: "ArrowRight"
