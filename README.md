@@ -1,14 +1,16 @@
 # KeyboardQuestion
 Analysis of keyboard effectivenes.
 
-Stages of editing:
+Stages of getting metrics:
 - Create physical keyboard
   - Define physical keys, it's position on free canvas
 - Create layout
   - Create mapping for physical keys
-  - Also test it with input
-- Watch statistics
-  - From frequency file color layout
+- Get bigramms list
+  - Define corpus
+  - Find large amount of test text
+  - Calculate bigramms
+- Compute metrics
 
 ### Data hierarchy
 - Keyboard
@@ -106,3 +108,33 @@ each layer of keyboard layout
   1 1 1 1 1 1 1 1 1 1 1
   1 1 1 1 1 1 1 1 1 1
 ```
+
+# TODO
+
+- Metrics
+  - Travel distance (u)
+    - Total
+    - By finger
+  - Hand usage (%)
+    - Left hand
+    - Right hand
+  - Finger usage (%)
+    - All by fingers
+  - Row usage (%)
+    - From top to bottom (1-5)
+  - Same finger bigrams (%)
+    - Left hand
+    - Right hand
+  - Alternating finger bigrams (%)
+    - Left hand
+    - Right hand
+  - Rolling (%)
+    - Inrolls (%)
+    - Outrolls (%)
+
+- Info
+  - Corpus type
+  - Keyboard type
+  - Layout type
+  - Metrics
+  - 
