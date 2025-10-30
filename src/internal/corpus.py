@@ -1,31 +1,38 @@
 import pathlib
 
 class Corpus():
-    def __init__(self, corpus_text):
-        self.corpus_text = corpus_text
+    def __init__(self, name, text):
+        self.name = name
+        self.text = text
 
     @classmethod 
     def load(self, corpus_folder):
-        corpus_text = ""
+        text = ''
         files_to_process = set()
 
         # Gather all text from source directory
         path = pathlib.Path(corpus_folder)
+        name = path.name
 
         if path.is_dir():
-            files_to_process.update(path.glob("**/*"))
+            files_to_process.update(path.glob('**/*'))
         else:
-            print(f"Error: corpus {corpus_folder} is not found!")
+            print(f'Error: corpus {path} is not found!')
             exit()
 
         for file in files_to_process:
-            with open(file, encoding="utf-8", errors="ignore") as file:
-                corpus_text += file.read()
+            with open(file, encoding='utf-8', errors='ignore') as file:
+                text += file.read()
 
-        return Corpus(corpus_text)
+        return Corpus(name, text)
 
-    def get_unique_keys(self):
-        return set(self.corpus_text)
+    @property
+    def unique_keys(self):
+        return ''.join(sorted(set(self.text)))
 
-    def count_key_occuraence(self, key):
-        return self.corpus_text.count(key)
+    @property
+    def size(self):
+        return len(self.text)
+
+    def key_occurances(self, key):
+        return self.text.count(key)

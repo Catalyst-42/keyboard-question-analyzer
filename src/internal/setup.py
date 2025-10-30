@@ -1,4 +1,5 @@
 import argparse
+import pathlib
 
 import yaml
 
@@ -133,13 +134,13 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
             )
 
 
-def setup(script_name):
-    settings = yaml.safe_load(open("settings.yaml", encoding="utf-8"))
-    ARGS = settings["global"] | settings[script_name]
+def setup(script_name=''):
+    settings: dict = yaml.safe_load(open('settings.yaml', encoding='utf-8'))
+    ARGS = settings['global'] | settings.get(script_name, {})
 
     options = {}
-    if "options" in ARGS:
-        options = ARGS.pop("options")
+    if 'options' in ARGS:
+        options = ARGS.pop('options')
         ARGS |= options
 
     # Parse arguments
@@ -151,10 +152,16 @@ def setup(script_name):
     ARGS.update(dict(parser.parse_args()._get_kwargs()))
 
     # Full paths for global settings
-    ARGS["keyboard"] = f"./data/keyboards/{ARGS["keyboard"]}.yaml"
-    ARGS["layout"] = f"./data/layouts/{ARGS["layout"]}.yaml"
-    ARGS["frequency"] = f"./data/frequencies/{ARGS["frequency"]}.yaml"
-    ARGS["corpus"] = f"./data/corpus/{ARGS["corpus"]}"
+    data_folder = pathlib.Path() / 'data'
+
+    ARGS['keyboard'] = data_folder / 'keyboards' / f'{ARGS['keyboard']}.yaml'
+    ARGS['layout'] = data_folder / 'layouts' / f'{ARGS['layout']}.yaml'
+    ARGS['frequency'] = data_folder / 'frequencies' / f'{ARGS['frequency']}.yaml'
+
+    if script_name == 'clean_corpus':
+        ARGS['corpus'] = data_folder / 'corpora' / 'raw' / f'{ARGS['corpus']}'
+    else:
+        ARGS['corpus'] = data_folder / 'corpora' / 'clean' / f'{ARGS['corpus']}'
 
     # print(ARGS)
     return ARGS

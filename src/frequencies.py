@@ -14,10 +14,10 @@ if ARGS["only_layout_mappings"]:
     keyboard = Keyboard.load(ARGS["keyboard"], ARGS["layout"], ARGS["frequency"])
     keys = keyboard.mappings
 else:
-    keys = collector.get_unique_keys()
+    keys = collector.unique_keys()
 
 for key in keys:
-    frequencies[key] = collector.count_key_occuraence(key)
+    frequencies[key] = collector.key_occurances(key)
 
 # Output result
 frequencies = dict(sorted(frequencies.items(), key=lambda v: -v[1]))

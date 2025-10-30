@@ -109,32 +109,107 @@ each layer of keyboard layout
   1 1 1 1 1 1 1 1 1 1
 ```
 
-# TODO
+# Database
 
-- Metrics
-  - Travel distance (u)
-    - Total
-    - By finger
+- Corpus
+  - Name (s)
+  - Number of unique symbols (n)
+  - Size (n)
+  - Bigramms (f)
+
+- Keyboard
+  - Name (s)
+  - Form factor (s)
+  - Keys (n)
+  - Rows (n)
+  - Keyboard model (yaml)
+
+- Layout
+  - Name (s)
+  - Language (s)
+  - Layout model (yaml)
+
+- Metric
+  - Corpus (f)
+  - Keyboard (f)
+  - Layout (f)
+  - Travel dictance (n)
+    - Total (n)
+    - Finger 1 (n)
+    - Finger 2 (n)
+    - Finger 3 (n)
+    - Finger 4 (n)
+    - Finger 5 (n)
+    - Finger 6 (n)
+    - Finger 7 (n)
+    - Finger 8 (n)
+    - Finger 9 (n)
+    - Finger 10 (n)
   - Hand usage (%)
-    - Left hand
-    - Right hand
+    - Left hand (%)
+    - Right hand (%)
   - Finger usage (%)
-    - All by fingers
+    - Finger 1 (%)
+    - Finger 2 (%)
+    - Finger 3 (%)
+    - Finger 4 (%)
+    - Finger 5 (%)
+    - Finger 6 (%)
+    - Finger 7 (%)
+    - Finger 8 (%)
+    - Finger 9 (%)
+    - Finger 10 (%)
   - Row usage (%)
-    - From top to bottom (1-5)
+    - Row 1 (%)
+    - Row 2 top (%)
+    - Row 3 home (%)
+    - Row 4 bottom (%)
+    - Row 5 (%)
+    - ...
+  - Scissors (%)
+    - Left hand (%)
+    - Right hand (%)
   - Same finger bigrams (%)
-    - Left hand
-    - Right hand
+    - Left hand (%)
+    - Right hand (%)
   - Alternating finger bigrams (%)
-    - Left hand
-    - Right hand
+    - Left hand (%)
+    - Right hand (%)
   - Rolling (%)
     - Inrolls (%)
     - Outrolls (%)
+  - Redirects [triads]
+    - Left hand (%)
+    - Right hand (%)
 
-- Info
-  - Corpus type
-  - Keyboard type
-  - Layout type
-  - Metrics
-  - 
+- Frequency
+  - Corpus (f)
+  - Key (s)
+  - Entrances (n)
+
+- Bigramm
+  - Corpus (id)
+  - Pair (s)
+  - Entrances (n)
+
+# Web application
+
+- Main
+  - Total keyboards
+  - Total layouts
+  - Total corpuses
+- Desctiption of metrics
+  - All in one page?
+- List of layouts
+  - All information in list (order by key?)
+    - Compact view or giant table with sorters
+  - Comparsion in table
+- Layout page
+  - All info from metrics
+  - Images of layout
+  - Images of frequency
+  - Maps for metrics, ae graph for finger usage
+- Additional info about
+  - Corpuses
+  - Keyboards
+  - Bigrams

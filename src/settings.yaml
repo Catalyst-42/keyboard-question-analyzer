@@ -1,8 +1,8 @@
 global:
   keyboard: ansi_60          # --keyboard <keyboard>
-  layout: mockup             # --layout <layout>
-  frequency: keylogger        # --language <frequency>
-  corpus: russian            # --corpus <corpus>
+  layout: qwerty             # --layout <layout>
+  frequency: english        # --language <frequency>
+  corpus: code            # --corpus <corpus>
 
 display:
   show_modifiers: true     # -m
