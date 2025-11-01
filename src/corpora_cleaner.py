@@ -6,7 +6,7 @@ from internal.setup import *
 ARGS = setup('clean_corpus')
 corpus = Corpus.load(ARGS['corpus'])
 
-ALLOWED_KEYS = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ '
+ALLOWED_KEYS = '!"%()+,-./0123456789:;=?[]_ЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяё№ '
 LIMIT_KEYS = 10_000_000 
 
 # Filter text and limit

@@ -1,12 +1,15 @@
 import pathlib
 
-CONTENT_OUTPUT_PATH = pathlib.Path() / 'data' / 'corpora' / 'raw' / 'code' / 'code.txt'
+CONTENT_OUTPUT_PATH = pathlib.Path() / 'data' / 'corpora' / 'raw' / 'diaries' / 'diary_8.txt'
 CONTENT_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 SCAN_FOLDERS = [
     # pathlib.Path('/Users/catalyst/Desktop/Extension'),
-    # pathlib.Path('/Users/catalyst/Desktop/Учёба'),
     pathlib.Path('/Volumes/MVME/Catalyst/Код'),
+    # pathlib.Path('/Users/catalyst/Desktop/Учёба'),
+    # pathlib.Path('/Users/catalyst/Desktop/OpenSource'),
+    # pathlib.Path('/Users/catalyst/9 блокнот'),
+    # pathlib.Path('/Users/catalyst/Desktop/Extension/OneNote++/markdown'),
 ]
 ALLOWED_FILES = {
     '.py',
@@ -15,7 +18,8 @@ ALLOWED_FILES = {
     '.rs',
     '.html', '.js', '.css', '.tsx', '.jsx',
     '.yaml', '.toml',
-    '.sh', '.zsh'
+    '.sh', '.zsh',
+    '.md'
 }
 IGNORE_FOLDERS = {
     'venv', '__pycache__', 'static',

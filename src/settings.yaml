@@ -2,7 +2,7 @@ global:
   keyboard: ansi_60          # --keyboard <keyboard>
   layout: qwerty             # --layout <layout>
   frequency: english        # --language <frequency>
-  corpus: code            # --corpus <corpus>
+  corpus: diary            # --corpus <corpus>
 
 display:
   show_modifiers: true     # -m
