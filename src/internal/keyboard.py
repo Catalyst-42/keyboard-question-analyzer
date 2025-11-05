@@ -52,10 +52,18 @@ class Keyboard():
         self.total = sum(keys_frequencies["frequencies"].values())
 
         self.keyboard: dict[str, Key] = {}
+        self._mapping_to_key: dict[str, Key] = {}
+
         for physical_key in physical_layout["keyboard"]:
             for logical_key in logical_layout["layout"]:
                 if physical_key["key"] == logical_key["key"]:
-                    self.keyboard[physical_key["key"]] = Key(self, physical_key, logical_key)
+                    key_obj = Key(self, physical_key, logical_key)
+                    self.keyboard[physical_key["key"]] = key_obj
+
+                    # Map for key_for function to speedup
+                    for mapping_value in logical_key["mappings"].values():
+                        self._mapping_to_key[mapping_value] = key_obj
+
                     break
 
         self.check_unique_keys()
@@ -157,8 +165,5 @@ class Keyboard():
 
         return mappings
 
-    def key_for(self, key):
-        for physical_key in self.keys:
-            if key in physical_key.mappings.values():
-                return physical_key 
-        return None
+    def key_for(self, mapping):
+        return self._mapping_to_key.get(mapping, None)

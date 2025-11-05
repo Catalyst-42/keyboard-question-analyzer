@@ -31,11 +31,12 @@ with open(file_path, 'w') as file:
     file.write(clean_text)
 
 print(
-    f'Cleaned {corpus.name} corpus\n'
-    f'\nWas:\n'
-    f' - {corpus.size:,} chars\n'
-    f' - {len(corpus.unique_keys)} unique keys\n'
-    f'\nNow:\n'
-    f' - {len(clean_text):,} chars\n'
-    f' - {len(set(clean_text))} unique keys'
+    f'Cleaned {corpus.name} corpus',
+    '\nWas:',
+    f' - {corpus.size:,} chars',
+    f' - {len(corpus.unique_keys)} unique keys',
+    '\nNow:',
+    f' - {len(clean_text):,} chars',
+    f' - {len(set(clean_text))} unique keys',
+    sep='\n'
 )

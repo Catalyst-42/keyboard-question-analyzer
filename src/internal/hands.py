@@ -1,12 +1,12 @@
 from internal.keyboard import Key, Keyboard
 
-class Finger():
+class Finger:
     def __init__(self, x: int = 0, y: int = 0):
         self.x = x
         self.y = y
-        self.active_key = None
+        self.travel_distance = 0.0
 
-    def goto(self, key: Key) -> int:
+    def move_to(self, key: Key) -> float:
         new_x = key.x
         new_y = key.y
 
@@ -14,44 +14,46 @@ class Finger():
 
         self.x = new_x
         self.y = new_y
-        self.active_key = key
+        self.travel_distance += distance
 
         return distance
 
     def __repr__(self):
         return f"({self.x}, {self.y})"
 
-
-class Hands():
-    def __init__(self):
+class Hands:
+    def __init__(self, keyboard: Keyboard):
         self.fingers = {
-            1: Finger(),
-            2: Finger(),
-            3: Finger(),
-            4: Finger(),
-            5: Finger(),
-            6: Finger(),
-            7: Finger(),
-            8: Finger(),
-            9: Finger(),
-            10: Finger()
+            i: Finger() for i in range(1, 11)
         }
 
-    def goto_homerow(self, keyboard: Keyboard):
+        # Set position of keys on homerow
         for key in keyboard.keys:
             if key.is_home:
                 self.fingers[key.finger].x = key.x
                 self.fingers[key.finger].y = key.y
 
-    def goto(self, finger, key) -> int:
-        return self.fingers[finger].goto(key);
+    def move_to(self, finger, key) -> float:
+        return self.fingers[finger].move_to(key)
+    
+    def get_travel_distance(self, start_finger: int, end_finger: int) -> float:
+        total = 0.0
+        for finger_num in range(start_finger, end_finger + 1):
+            total += self.fingers[finger_num].travel_distance
+        return total
 
-    def get_active_keys(self) -> list[Key]:
-        return [self.fingers[finger].active_key for finger in self.fingers]
+    def get_left_hand_travel_distance(self) -> float:
+        return self.get_travel_distance(1, 5)
+
+    def get_right_hand_travel_distance(self) -> float:
+        return self.get_travel_distance(6, 10)
+
+    def get_total_travel_distance(self) -> float:
+        return (self.get_left_hand_travel_distance()
+                + self.get_right_hand_travel_distance())
 
     def __repr__(self):
         finger_reprs = []
         for finger in self.fingers:
-            finger_reprs.append(f"{finger}: {self.fingers[finger].__repr__()}")
-
+            finger_reprs.append(f"{finger}: {self.fingers[finger]}")
         return "\n".join(finger_reprs)

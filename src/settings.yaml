@@ -1,8 +1,8 @@
 global:
   keyboard: ansi_60          # --keyboard <keyboard>
-  layout: qwerty             # --layout <layout>
-  frequency: english        # --language <frequency>
-  corpus: diary            # --corpus <corpus>
+  layout: ru/vestnik             # --layout <layout>
+  frequency: obsidian        # --language <frequency>
+  corpus: russian            # --corpus <corpus>
 
 display:
   show_modifiers: true     # -m
