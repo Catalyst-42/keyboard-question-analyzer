@@ -1,5 +1,6 @@
 import pathlib
 
+
 class Corpus():
     def __init__(self, name, text):
         self.name = name

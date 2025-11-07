@@ -1,5 +1,6 @@
 from internal.keyboard import Key, Keyboard
 
+
 class Finger:
     def __init__(self, x: int = 0, y: int = 0):
         self.x = x
@@ -35,7 +36,7 @@ class Hands:
 
     def move_to(self, finger, key) -> float:
         return self.fingers[finger].move_to(key)
-    
+
     def get_travel_distance(self, start_finger: int, end_finger: int) -> float:
         total = 0.0
         for finger_num in range(start_finger, end_finger + 1):

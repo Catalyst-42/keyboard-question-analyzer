@@ -113,6 +113,16 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
                 dest="show_home_keys",
             )
 
+        case "show_row_numbers":
+            parser.add_argument(
+                "-r",
+                help="",
+                action="store_const",
+                const=not ARGS["show_row_numbers"],
+                default=ARGS["show_row_numbers"],
+                dest="show_row_numbers",
+            )
+
         case "color_by":
             parser.add_argument(
                 "-c",

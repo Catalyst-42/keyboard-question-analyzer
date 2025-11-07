@@ -1,10 +1,13 @@
 global:
   keyboard: ansi_60          # --keyboard <keyboard>
-  layout: ru/vestnik             # --layout <layout>
+  layout: ru/jcuken  # --layout <layout>
   frequency: obsidian        # --language <frequency>
-  corpus: russian            # --corpus <corpus>
+  corpus: obsidian            # --corpus <corpus>
 
 display:
+  layers: 2
+  combined_2: false
+
   show_modifiers: true     # -m
   show_layout: true        # -l
   show_key_codes: false    # -k
