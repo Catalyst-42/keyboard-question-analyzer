@@ -17,4 +17,5 @@ anchors:
 
 # Global settings
 <<: *default
-<<: *jcuken
+<<: *qwerty
+keyboard: matrix_60

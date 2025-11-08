@@ -6,6 +6,7 @@ ARGS = setup('layout_display')
 
 # Constraint for combiner
 if ARGS['combined_2']:
+    ARGS['show_layout'] = False 
     ARGS['layers'] = 1
 
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], ARGS['frequency'])

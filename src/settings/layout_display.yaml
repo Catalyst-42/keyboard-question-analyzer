@@ -13,11 +13,19 @@ anchors:
       show_frequencies: true   # -p
       show_home_keys: true     # -hk
 
-      color_by: freq  # -c <"frequency" | "row" | "hand" | "finger" | "none">
+      color_by: freq  # -c <'frequency' | 'row' | 'hand' | 'finger' | 'home' | 'none'>
 
     combined: &combined
       layers: 1
       combined_2: true
+
+    preview: &preview
+      layers: 1
+      combined_2: true
+      
+      show_frequencies: false
+
+      color_by: home
 
     debug: &debug
       show_layout: false
@@ -30,4 +38,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *combined
+<<: *preview

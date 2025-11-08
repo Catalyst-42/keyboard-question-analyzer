@@ -18,6 +18,13 @@ class Key():
         self.finger: int = physical_key.get("finger", 0)
         self.is_home: bool = physical_key.get("is_home", False)
 
+        self.notch = False
+        if notch := physical_key.get('notch'):
+            self.notch = True
+            self.notch_place = notch['place']
+            self.notch_w = notch['w']
+            self.notch_h = notch['h']
+
         # Layout 
         self.key: str = logical_key["key"]
         self.mappings: dict = logical_key["mappings"]
@@ -31,9 +38,10 @@ class Key():
             return False
         return self.key == other.key
 
-    def get_mapping(self, layer: int):
+    def get_mapping(self, layer: int) -> str:
         if layer > 0:
             return self.mappings.get(layer, self.mappings.get(layer - 1))
+
         raise ValueError(f"Layout mapping not found for {layer} layer")
 
     def get_frequency(self, layer: int):
@@ -45,6 +53,15 @@ class Key():
     def get_usage(self, layer):
         return self.keyboard.get_usage(self.get_mapping(layer))
 
+    def center(self):
+        center_x = self.x + self.w/2
+        center_y = -self.y - self.h/2
+
+        if self.notch:
+            center_x = self.x + self.w/2
+            center_y = -self.y - self.notch_h/2
+
+        return (center_x, center_y)
 
 class Keyboard():
     def __init__(self, physical_layout: dict, logical_layout: dict, keys_frequencies: dict):
@@ -59,6 +76,8 @@ class Keyboard():
                 if physical_key["key"] == logical_key["key"]:
                     key_obj = Key(self, physical_key, logical_key)
                     self.keyboard[physical_key["key"]] = key_obj
+
+                    # TODO: если intlbacklkj; не назнчаен то должна быть клавиша с маппингом под key
 
                     # Map for key_for function to speedup
                     for mapping_value in logical_key["mappings"].values():

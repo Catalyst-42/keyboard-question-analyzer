@@ -2,8 +2,11 @@ import matplotlib.patches as ptc
 import matplotlib.patheffects as pe
 import matplotlib.pyplot as plt
 from matplotlib import colormaps
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from internal.keyboard import Key, Keyboard
+from internal.rounded_polygon import RoundedPolygon
 
 
 class Visualizer():
@@ -11,8 +14,8 @@ class Visualizer():
         self.keyboard = keyboard
         self.config = config
 
-        self.axs = None
-        self.fig = None
+        self.axs: dict[str, Axes]
+        self.fig: Figure
 
         self.bboxes = {}
 
@@ -46,9 +49,15 @@ class Visualizer():
         if self.config['color_by'] in 'hand':
             return colormaps['Set3'](key.finger > 5)
 
+        if self.config['color_by'] in 'home':
+            return colormaps['Set3'](key.is_home + 2)
+
         return (0, 0, 0, 0)
 
     def _draw_key_patch(self, key: Key, patch_color):
+        if key.notch:
+            return self._draw_return_key_patch(key, patch_color)
+
         return ptc.FancyBboxPatch(
             (key.x, -key.y - key.h),
             key.w,
@@ -59,11 +68,34 @@ class Visualizer():
             edgecolor='black',
         )
 
-    def _draw_key_layout(self, layer: int, key: Key):
+    def _draw_return_key_patch(self, key: Key, patch_color):
+        # Notch place is bottom left
+        xy = [
+            (key.x + key.notch_w, -key.y - key.h),
+            (key.x + key.w, -key.y - key.h),
+            (key.x + key.w, -key.y),
+            (key.x, -key.y),
+            (key.x, -key.y - key.notch_h),
+            (key.x + key.notch_w , -key.y - key.notch_h)
+        ]
+
+        return RoundedPolygon(
+            xy=xy,
+            pad=2.75,
+            facecolor=patch_color,
+            edgecolor='black',
+            linewidth=1
+        )
+
+    def _draw_key_layout(self, layer: int, key: Key, upper=False):
+        mapping = key.get_mapping(layer)
+
+        if upper and len(mapping) == 1:
+            mapping = mapping.upper()
+
         self.axs[f'layer{layer}'].text(
-            key.x + key.w/2,
-            -key.y - key.h/2 + 0.5,
-            key.get_mapping(layer),
+            *key.center(),
+            mapping,
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
             va='center_baseline',
@@ -71,25 +103,38 @@ class Visualizer():
             fontsize=14
         )
 
-    def _draw_key_shift_code(self, layer: int, key: Key):
-        if key.is_modifier:
+    def _draw_key_layout_combined(self, layer: int, key: Key):
+        if key.is_modifier or key.get_mapping(layer).upper() == key.get_mapping(layer + 1):
+            self._draw_key_layout(layer, key, True)
             return
 
-        self.axs[f'layer{layer - 1}'].text(
-            key.x + key.w * 3/4,
-            -key.y - key.h/4 + 0.5,
+        # First layer
+        self.axs[f'layer{layer}'].text(
+            key.x + key.w * 2/4,
+            -key.y - key.h * 3/4 + 0.5,
             key.get_mapping(layer),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
             va='center_baseline',
             ha='center',
-            fontsize=7
+            fontsize=12
+        )
+
+        # Second layer
+        self.axs[f'layer{layer}'].text(
+            key.x + key.w * 2/4,
+            -key.y - key.h * 1/4 + 0.5,
+            key.get_mapping(layer + 1),
+            color='white',
+            path_effects=[pe.withStroke(linewidth=2, foreground='black')],
+            va='center_baseline',
+            ha='center',
+            fontsize=12
         )
 
     def _draw_key_code(self, layer: int, key: Key):
         self.axs[f'layer{layer}'].text(
-            key.x + key.w/2,
-            -key.y - key.h/2 + (0.5 if key.h >= 34 else 0),
+            *key.center(),
             key.key,
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -155,8 +200,8 @@ class Visualizer():
             if self.config['show_layout']:
                 self._draw_key_layout(layer, key)
 
-                if self.config['combined_2']:
-                    self._draw_key_shift_code(layer + 1, key)
+            if self.config['combined_2']:
+                self._draw_key_layout_combined(layer, key)
 
             if self.config['show_key_codes']:
                 self._draw_key_code(layer, key)

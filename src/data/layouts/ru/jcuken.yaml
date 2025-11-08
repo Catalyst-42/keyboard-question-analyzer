@@ -1,6 +1,10 @@
 info: "macOS JCUCKEN keyboard layout"
 layout:
   # Digit layer
+  - key: "IntlBackslash"
+    mappings:
+      1: ">"
+      2: "<"
   - key: "Backquote"
     mappings:
       1: "]"

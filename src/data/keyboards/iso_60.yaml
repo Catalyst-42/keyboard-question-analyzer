@@ -1,7 +1,7 @@
-name: "Ansi 60% macOS"
+name: "Iso 60% macOS"
 keyboard:
   # Digit layer
-  - key: "Backquote"
+  - key: "IntlBackslash"
     x: 0
     y: 0
     w: 34
@@ -192,11 +192,16 @@ keyboard:
     h: 34
     row: 2
     finger: 10
-  - key: "Backslash"
+  - key: "Enter"
+    notch:
+      place: bottom left
+      h: 34
+      w: 12
+
     x: 536
     y: 40
     w: 34
-    h: 34
+    h: 74 
     row: 2
     finger: 10
 
@@ -293,10 +298,10 @@ keyboard:
     h: 34
     row: 3
     finger: 10
-  - key: "Enter"
+  - key: "Backslash"
     x: 508
     y: 80
-    w: 62
+    w: 34
     h: 34
     row: 3
     finger: 10
@@ -305,7 +310,14 @@ keyboard:
   - key: "ShiftLeft"
     x: 0
     y: 120
-    w: 82
+    w: 42
+    h: 34
+    row: 4
+    finger: 1
+  - key: "Backquote"
+    x: 48
+    y: 120
+    w: 34
     h: 34
     row: 4
     finger: 1
@@ -436,7 +448,7 @@ keyboard:
     y: 160
     w: 34
     h: 34
-    row: 6
+    row: 5
     finger: 6 
   - key: "ArrowLeft"
     x: 456
