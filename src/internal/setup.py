@@ -145,13 +145,24 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
 
 
 def setup(script_name=''):
-    settings: dict = yaml.safe_load(open('settings.yaml', encoding='utf-8'))
-    ARGS = settings['global'] | settings.get(script_name, {})
+    settings_folder = pathlib.Path() / 'settings'
+    global_settings_path = settings_folder / 'settings.yaml'
+    script_settings_path = settings_folder / f'{script_name}.yaml'
 
-    options = {}
-    if 'options' in ARGS:
-        options = ARGS.pop('options')
-        ARGS |= options
+    script_settings = {}
+    global_settings = {}
+
+    global_settings: dict = yaml.safe_load(
+        open(global_settings_path , encoding='utf-8')
+    )
+
+    if script_settings_path.is_file:
+        script_settings: dict = yaml.safe_load(
+            open(script_settings_path, encoding='utf-8')
+        )
+
+    ARGS = global_settings | script_settings
+    ARGS.pop('aliases', None)
 
     # Parse arguments
     parser = argparse.ArgumentParser(prog=script_name)
@@ -164,14 +175,24 @@ def setup(script_name=''):
     # Full paths for global settings
     data_folder = pathlib.Path() / 'data'
 
-    ARGS['keyboard'] = data_folder / 'keyboards' / f'{ARGS['keyboard']}.yaml'
-    ARGS['layout'] = data_folder / 'layouts' / f'{ARGS['layout']}.yaml'
-    ARGS['frequency'] = data_folder / 'frequencies' / f'{ARGS['frequency']}.yaml'
+    keyboards = data_folder / 'keyboards'
+    layouts = data_folder / 'layouts'
+    frequencies = data_folder / 'frequencies'
+    corpora = data_folder / 'corpora'
 
-    if script_name == 'clean_corpus':
-        ARGS['corpus'] = data_folder / 'corpora' / 'raw' / f'{ARGS['corpus']}'
+    ARGS['keyboard'] = keyboards / f'{ARGS['keyboard']}.yaml'
+    ARGS['layout'] = layouts / f'{ARGS['layout']}.yaml'
+    ARGS['frequency'] = frequencies / f'{ARGS['frequency']}.yaml'
+
+    if script_name == 'corpora_cleaner':
+        ARGS['corpus'] = corpora / 'raw' / ARGS['corpus']
     else:
-        ARGS['corpus'] = data_folder / 'corpora' / 'clean' / f'{ARGS['corpus']}'
+        ARGS['corpus'] = corpora / 'clean' / ARGS['corpus']
 
-    # print(ARGS)
+    if script_name == 'corpora_scrapper':
+        ARGS['scan_folders'] = [pathlib.Path(file) for file in ARGS['scan_folders']]
+        ARGS['content_output_path'] = corpora / 'raw' / f'{ARGS['content_output_path']}.txt'
+
+    # from pprint import pprint
+    # pprint(ARGS)
     return ARGS

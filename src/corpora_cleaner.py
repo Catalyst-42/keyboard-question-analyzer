@@ -3,22 +3,19 @@ import pathlib
 from internal.corpus import Corpus
 from internal.setup import *
 
-ARGS = setup('clean_corpus')
+ARGS = setup('corpora_cleaner')
 corpus = Corpus.load(ARGS['corpus'])
-
-ALLOWED_KEYS = '!"%()+,-./0123456789:;=?[]_ЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяё№ '
-LIMIT_KEYS = 10_000_000 
 
 # Filter text and limit
 clean_text = corpus.text.translate(
     str.maketrans('\t\n', '  ')
 )
 clean_text = ''.join(
-    [key for key in clean_text if key in ALLOWED_KEYS]
+    [key for key in clean_text if key in ARGS['allowed_keys']]
 )
 
-if LIMIT_KEYS:
-    clean_text = clean_text[:LIMIT_KEYS]
+if ARGS['limit_keys']:
+    clean_text = clean_text[:ARGS['limit_keys']]
 
 # Save
 file_path: pathlib.Path = (

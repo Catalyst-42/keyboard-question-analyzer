@@ -1,0 +1,100 @@
+anchors:
+  presets:
+    diary8: &diary8
+      scan_folders: [/Users/catalyst/Desktop/Extension/OneNote++/markdown]
+      content_output_path: diaries/diary_8
+
+    diary9: &diary9
+      scan_folders: [/Users/catalyst/9 блокнот]
+      content_output_path: diaries/diary_9
+
+    extension: &extension
+      scan_folders: [/Volumes/MVME/Catalyst/Код]
+      content_output_path: code/extension
+    
+    open_source: &open_source
+      scan_folders: [/Users/catalyst/Desktop/OpenSource]
+      content_output_path: code/open_source
+
+    study: &study
+      scan_folders: [/Users/catalyst/Desktop/Учёба]
+      content_output_path: code/study
+
+# Script settings
+allowed_files:
+  # Python
+    - .py
+  # Java
+    - .java   
+  # C
+    - .c
+    - .h
+    - .cpp
+    - .c++
+    - .cs
+    - .m
+  # Rust
+    - .rs
+  # Web
+    - .html
+    - .js
+    - .css
+    - .tsx
+    - .jsx
+  # Config
+    - .yaml
+    - .toml
+  # Shell
+    - .sh
+    - .zsh
+    - .bash
+  # Docs
+    - .md
+    - .rst
+
+ignore_folders:
+  # Python
+    - venv
+    - __pycache__
+  # Node
+    - node_modules
+    - .next
+  # Java
+    - target
+  # Build
+    - build
+    - dist
+    - bin
+  # Dot
+    - .git
+    - .obsidian
+  # Data
+    - etc
+    - dumps
+    - data
+    - img
+    - images
+    - pages
+    - library
+    - imported
+    - static
+    - public
+  # Tests
+    - tests
+  # Projects
+    - mi-create
+    - pointsminer
+    - pointsminerv2
+
+ignore_files:
+  # Saves
+    - '*save.py'
+    - '*save.toml'
+  # Mins
+    - '*.min.css'
+    - '*.min.js'
+  # Other
+    - '._*'
+    - лог с цветами
+
+<<: *diary9

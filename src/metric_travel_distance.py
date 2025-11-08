@@ -3,21 +3,20 @@ from internal.corpus import Corpus
 from internal.hands import Hands
 from internal.setup import *
 
-ARGS = setup('display')
+ARGS = setup('metric_travel_distance')
 
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], ARGS['frequency'])
-collector = Corpus.load(ARGS['corpus'])
-
+corpus = Corpus.load(ARGS['corpus'])
 hands = Hands(keyboard)
 
-for i, char in enumerate(collector.text):
-    physical_key = keyboard.key_for(char)
+for i, char in enumerate(corpus.text):
+    key = keyboard.key_for(char)
 
-    if not physical_key:
+    if not key:
         continue
 
-    hands.move_to(physical_key.finger, physical_key)
-    print(f'\rProgress: {i/len(collector.text):.2%} ', end='')
+    hands.move_to(key.finger, key)
+    print(f'\rProgress: {i/len(corpus.text):.2%} ', end='')
 
 else:
     print('\n')  # Get rid of empty end stat output

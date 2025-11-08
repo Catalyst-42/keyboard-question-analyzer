@@ -1,0 +1,33 @@
+anchors:
+  presets:
+    default: &default
+      layers: 2
+      combined_2: false
+
+      show_modifiers: true   # -m
+      show_layout: true      # -l
+      show_key_codes: false  # -k
+
+      show_row_numbers: false  # -r
+      show_fingers: false      # -f
+      show_frequencies: true   # -p
+      show_home_keys: true     # -hk
+
+      color_by: freq  # -c <"frequency" | "row" | "hand" | "finger" | "none">
+
+    combined: &combined
+      layers: 1
+      combined_2: true
+
+    debug: &debug
+      show_layout: false
+      show_key_codes: true
+      show_row_numbers: true
+      show_fingers: true
+      show_frequencies: false
+
+      color_by: finger
+
+# Script settings
+<<: *default
+<<: *combined
