@@ -1,0 +1,273 @@
+info: "macOS Dvorak keyboard layout"
+layout:
+  # Digit layer
+  IntlBackslash:
+    mappings:
+      1: "§"
+      2: "±"
+  Backquote:
+    mappings:
+      1: "`"
+      2: "~"
+  Digit1:
+    mappings:
+      1: "1"
+      2: "!"
+  Digit2:
+    mappings:
+      1: "2"
+      2: "@"
+  Digit3:
+    mappings:
+      1: "3"
+      2: "#"
+  Digit4:
+    mappings:
+      1: "4"
+      2: "$"
+  Digit5:
+    mappings:
+      1: "5"
+      2: "%"
+  Digit6:
+    mappings:
+      1: "6"
+      2: "^"
+  Digit7:
+    mappings:
+      1: "7"
+      2: "&"
+  Digit8:
+    mappings:
+      1: "8"
+      2: "*"
+  Digit9:
+    mappings:
+      1: "9"
+      2: "("
+  Digit0:
+    mappings:
+      1: "0"
+      2: ")"
+  Minus:
+    mappings:
+      1: "["
+      2: "{"
+  Equal:
+    mappings:
+      1: "]"
+      2: "}"
+  Backspace:
+    is_modifier: true
+    mappings:
+      1: "⌫"
+      
+  # Top layer
+  Tab:
+    is_modifier: true
+    mappings:
+      1: "⇥"
+  KeyQ:
+    mappings:
+      1: "'"
+      2: "\""
+  KeyW:
+    mappings:
+      1: ","
+      2: "<"
+  KeyE:
+    mappings:
+      1: "."
+      2: ">"
+  KeyR:
+    mappings:
+      1: "p"
+      2: "P"
+  KeyT:
+    mappings:
+      1: "y"
+      2: "Y"
+  KeyY:
+    mappings:
+      1: "f"
+      2: "F"
+  KeyU:
+    mappings:
+      1: "g"
+      2: "G"
+  KeyI:
+    mappings:
+      1: "c"
+      2: "C"
+  KeyO:
+    mappings:
+      1: "r"
+      2: "R"
+  KeyP:
+    mappings:
+      1: "l"
+      2: "L"
+  BracketLeft:
+    mappings:
+      1: "/"
+      2: "?"
+  BracketRight:
+    mappings:
+      1: "="
+      2: "+"
+  Backslash:
+    mappings:
+      1: "\\"
+      2: "|"
+  
+  # Home layer
+  CapsLock:
+    is_modifier: true
+    mappings:
+      1: "⇪"
+  KeyA:
+    mappings:
+      1: "a"
+      2: "A"
+  KeyS:
+    mappings:
+      1: "o"
+      2: "O"
+  KeyD:
+    mappings:
+      1: "e"
+      2: "E"
+  KeyF:
+    is_home: true
+    mappings:
+      1: "u"
+      2: "U"
+  KeyG:
+    mappings:
+      1: "i"
+      2: "I"
+  KeyH:
+    mappings:
+      1: "d"
+      2: "D"
+  KeyJ:
+    is_home: true
+    mappings:
+      1: "h"
+      2: "H"
+  KeyK:
+    mappings:
+      1: "t"
+      2: "T"
+  KeyL:
+    mappings:
+      1: "n"
+      2: "N"
+  Semicolon:
+    mappings:
+      1: "s"
+      2: "S"
+  Quote:
+    mappings:
+      1: "-"
+      2: "_"
+  Enter:
+    is_modifier: true
+    mappings:
+      1: "⏎"
+
+  # Bottom layer
+  ShiftLeft:
+    is_modifier: true
+    mappings:
+      1: "⇧"
+  KeyZ:
+    mappings:
+      1: ";"
+      2: ":"
+  KeyX:
+    mappings:
+      1: "q"
+      2: "Q"
+  KeyC:
+    mappings:
+      1: "j"
+      2: "J"
+  KeyV:
+    mappings:
+      1: "k"
+      2: "K"
+  KeyB:
+    mappings:
+      1: "x"
+      2: "X"
+  KeyN:
+    mappings:
+      1: "b"
+      2: "B"
+  KeyM:
+    mappings:
+      1: "m"
+      2: "M"
+  Comma:
+    mappings:
+      1: "w"
+      2: "W"
+  Period:
+    mappings:
+      1: "v"
+      2: "V"
+  Slash:
+    mappings:
+      1: "z"
+      2: "Z"
+  ShiftRight:
+    is_modifier: true
+    mappings:
+      1: "⇧"
+
+  # Control keys (остаются без изменений)
+  Function:
+    is_modifier: true
+    mappings:
+      1: "fn"
+  ControlLeft:
+    is_modifier: true
+    mappings:
+      1: "⌃"
+  AltLeft:
+    is_modifier: true
+    mappings:
+      1: "⌥"
+  MetaLeft:
+    is_modifier: true
+    mappings:
+      1: "⌘"
+  Space:
+    is_modifier: true
+    mappings:
+      1: " "
+  MetaRight:
+    is_modifier: true
+    mappings:
+      1: "⌘"
+  AltRight:
+    is_modifier: true
+    mappings:
+      1: "⌥"
+  ArrowLeft:
+    is_modifier: true
+    mappings:
+      1: "←"
+  ArrowUp:
+    is_modifier: true
+    mappings:
+      1: "↑"
+  ArrowDown:
+    is_modifier: true
+    mappings:
+      1: "↓"
+  ArrowRight:
+    is_modifier: true
+    mappings:
+      1: "→"
