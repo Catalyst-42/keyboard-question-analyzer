@@ -1,269 +1,273 @@
 info: "macOS Colemak keyboard layout"
 layout:
   # Digit layer
-  - key: "Backquote"
+  IntlBackslash:
+    mappings:
+      1: "§"
+      2: "±"
+  Backquote:
     mappings:
       1: "`"
       2: "~"
-  - key: "Digit1"
+  Digit1:
     mappings:
       1: "1"
       2: "!"
-  - key: "Digit2"
+  Digit2:
     mappings:
       1: "2"
       2: "@"
-  - key: "Digit3"
+  Digit3:
     mappings:
       1: "3"
       2: "#"
-  - key: "Digit4"
+  Digit4:
     mappings:
       1: "4"
       2: "$"
-  - key: "Digit5"
+  Digit5:
     mappings:
       1: "5"
       2: "%"
-  - key: "Digit6"
+  Digit6:
     mappings:
       1: "6"
       2: "^"
-  - key: "Digit7"
+  Digit7:
     mappings:
       1: "7"
       2: "&"
-  - key: "Digit8"
+  Digit8:
     mappings:
       1: "8"
       2: "*"
-  - key: "Digit9"
+  Digit9:
     mappings:
       1: "9"
       2: "("
-  - key: "Digit0"
+  Digit0:
     mappings:
       1: "0"
       2: ")"
-  - key: "Minus"
+  Minus:
     mappings:
       1: "-"
       2: "_"
-  - key: "Equal"
+  Equal:
     mappings:
       1: "="
       2: "+"
-  - key: "Backspace"
+  Backspace:
     is_modifier: true
     mappings:
       1: "⌫"
 
   # Top layer
-  - key: "Tab"
+  Tab:
     is_modifier: true
     mappings:
       1: "⇥"
-  - key: "KeyQ"
+  KeyQ:
     mappings:
       1: "q"
       2: "Q"
-  - key: "KeyW"
+  KeyW:
     mappings:
       1: "w"
       2: "W"
-  - key: "KeyE"
+  KeyE:
     mappings:
       1: "f"
       2: "F"
-  - key: "KeyR"
+  KeyR:
     mappings:
       1: "p"
       2: "P"
-  - key: "KeyT"
+  KeyT:
     mappings:
       1: "g"
       2: "G"
-  - key: "KeyY"
+  KeyY:
     mappings:
       1: "j"
       2: "J"
-  - key: "KeyU"
+  KeyU:
     mappings:
       1: "l"
       2: "L"
-  - key: "KeyI"
+  KeyI:
     mappings:
       1: "u"
       2: "U"
-  - key: "KeyO"
+  KeyO:
     mappings:
       1: "y"
       2: "Y"
-  - key: "KeyP"
+  KeyP:
     mappings:
       1: ";"
       2: ":"
-  - key: "BracketLeft"
+  BracketLeft:
     mappings:
       1: "["
       2: "{"
-  - key: "BracketRight"
+  BracketRight:
     mappings:
       1: "]"
       2: "}"
-  - key: "Backslash"
+  Backslash:
     mappings:
       1: "\\"
       2: "|"
   
   # Home layer (изменено согласно Colemak)
-  - key: "CapsLock"
+  CapsLock:
     is_modifier: true
     mappings:
       1: "⇪"
-  - key: "KeyA"
+  KeyA:
     mappings:
       1: "a"
       2: "A"
-  - key: "KeyS"
+  KeyS:
     mappings:
       1: "r"
       2: "R"
-  - key: "KeyD"
+  KeyD:
     mappings:
       1: "s"
       2: "S"
-  - key: "KeyF"
+  KeyF:
     is_home: true
     mappings:
       1: "t"
       2: "T"
-  - key: "KeyG"
+  KeyG:
     mappings:
       1: "d"
       2: "D"
-  - key: "KeyH"
+  KeyH:
     mappings:
       1: "h"
       2: "H"
-  - key: "KeyJ"
+  KeyJ:
     is_home: true
     mappings:
       1: "n"
       2: "N"
-  - key: "KeyK"
+  KeyK:
     mappings:
       1: "e"
       2: "E"
-  - key: "KeyL"
+  KeyL:
     mappings:
       1: "i"
       2: "I"
-  - key: "Semicolon"
+  Semicolon:
     mappings:
       1: "o"
       2: "O"
-  - key: "Quote"
+  Quote:
     mappings:
       1: "'"
       2: "\""
-  - key: "Enter"
+  Enter:
     is_modifier: true
     mappings:
       1: "⏎"
 
   # Bottom layer
-  - key: "ShiftLeft"
+  ShiftLeft:
     is_modifier: true
     mappings:
       1: "⇧"
-  - key: "KeyZ"
+  KeyZ:
     mappings:
       1: "z"
       2: "Z"
-  - key: "KeyX"
+  KeyX:
     mappings:
       1: "x"
       2: "X"
-  - key: "KeyC"
+  KeyC:
     mappings:
       1: "c"
       2: "C"
-  - key: "KeyV"
+  KeyV:
     mappings:
       1: "v"
       2: "V"
-  - key: "KeyB"
+  KeyB:
     mappings:
       1: "b"
       2: "B"
-  - key: "KeyN"
+  KeyN:
     mappings:
       1: "k"
       2: "K"
-  - key: "KeyM"
+  KeyM:
     mappings:
       1: "m"
       2: "M"
-  - key: "Comma"
+  Comma:
     mappings:
       1: ","
       2: "<"
-  - key: "Period"
+  Period:
     mappings:
       1: "."
       2: ">"
-  - key: "Slash"
+  Slash:
     mappings:
       1: "/"
       2: "?"
-  - key: "ShiftRight"
+  ShiftRight:
     is_modifier: true
     mappings:
       1: "⇧"
 
   # Control keys
-  - key: "Function"
+  Function:
     is_modifier: true
     mappings:
       1: "fn"
-  - key: "ControlLeft"
+  ControlLeft:
     is_modifier: true
     mappings:
       1: "⌃"
-  - key: "AltLeft"
+  AltLeft:
     is_modifier: true
     mappings:
       1: "⌥"
-  - key: "MetaLeft"
+  MetaLeft:
     is_modifier: true
     mappings:
       1: "⌘"
-  - key: "Space"
+  Space:
     is_modifier: true
     mappings:
       1: " "
-  - key: "MetaRight"
+  MetaRight:
     is_modifier: true
     mappings:
       1: "⌘"
-  - key: "AltRight"
+  AltRight:
     is_modifier: true
     mappings:
       1: "⌥"
-  - key: "ArrowLeft"
+  ArrowLeft:
     is_modifier: true
     mappings:
       1: "←"
-  - key: "ArrowUp"
+  ArrowUp:
     is_modifier: true
     mappings:
       1: "↑"
-  - key: "ArrowDown"
+  ArrowDown:
     is_modifier: true
     mappings:
       1: "↓"
-  - key: "ArrowRight"
+  ArrowRight:
     is_modifier: true
     mappings:
       1: "→"

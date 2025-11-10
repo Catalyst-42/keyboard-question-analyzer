@@ -213,3 +213,13 @@ each layer of keyboard layout
   - Corpuses
   - Keyboards
   - Bigrams
+
+# Images
+
+- Images
+  - Layout
+    - preview
+    - freqency
+
+  - Keyboard
+    - debug

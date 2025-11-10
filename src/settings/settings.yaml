@@ -1,6 +1,6 @@
 anchors:
   presets: &default
-    keyboard: ansi_60   # --keyboard <keyboard>
+    keyboard: iso_60    # --keyboard <keyboard>
     layout: en/qwerty   # --layout <layout>
     frequency: english  # --language <frequency>
     corpus: english     # --corpus <corpus>
@@ -18,4 +18,9 @@ anchors:
 # Global settings
 <<: *default
 <<: *qwerty
+
+keyboard: ansi_60
+keyboard: iso_60
 keyboard: matrix_60
+
+layout: en/ant

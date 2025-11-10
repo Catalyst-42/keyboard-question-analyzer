@@ -1,267 +1,271 @@
 info: "Russian Windows JCUKEN keyboard layout for PC"
 layout:
   # Digit layer
-  - key: "Backquote"
+  IntlBackslash:
+    mappings:
+      1: ">"
+      2: "<"
+  Backquote:
     mappings:
       1: "ё"
       2: "Ё"
-  - key: "Digit1"
+  Digit1:
     mappings:
       1: "1"
       2: "!"
-  - key: "Digit2"
+  Digit2:
     mappings:
       1: "2"
       2: "\""
-  - key: "Digit3"
+  Digit3:
     mappings:
       1: "3"
       2: "№"
-  - key: "Digit4"
+  Digit4:
     mappings:
       1: "4"
       2: ";"
-  - key: "Digit5"
+  Digit5:
     mappings:
       1: "5"
       2: "%"
-  - key: "Digit6"
+  Digit6:
     mappings:
       1: "6"
       2: ":"
-  - key: "Digit7"
+  Digit7:
     mappings:
       1: "7"
       2: "?"
-  - key: "Digit8"
+  Digit8:
     mappings:
       1: "8"
       2: "*"
-  - key: "Digit9"
+  Digit9:
     mappings:
       1: "9"
       2: "("
-  - key: "Digit0"
+  Digit0:
     mappings:
       1: "0"
       2: ")"
-  - key: "Minus"
+  Minus:
     mappings:
       1: "-"
       2: "_"
-  - key: "Equal"
+  Equal:
     mappings:
       1: "="
       2: "+"
-  - key: "Backspace"
+  Backspace:
     is_modifier: true
     mappings:
       1: "⌫"
 
   # Top layer
-  - key: "Tab"
+  Tab:
     is_modifier: true
     mappings:
       1: "⇥"
-  - key: "KeyQ"
+  KeyQ:
     mappings:
       1: "й"
       2: "Й"
-  - key: "KeyW"
+  KeyW:
     mappings:
       1: "ц"
       2: "Ц"
-  - key: "KeyE"
+  KeyE:
     mappings:
       1: "у"
       2: "У"
-  - key: "KeyR"
+  KeyR:
     mappings:
       1: "к"
       2: "К"
-  - key: "KeyT"
+  KeyT:
     mappings:
       1: "е"
       2: "Е"
-  - key: "KeyY"
+  KeyY:
     mappings:
       1: "н"
       2: "Н"
-  - key: "KeyU"
+  KeyU:
     mappings:
       1: "г"
       2: "Г"
-  - key: "KeyI"
+  KeyI:
     mappings:
       1: "ш"
       2: "Ш"
-  - key: "KeyO"
+  KeyO:
     mappings:
       1: "щ"
       2: "Щ"
-  - key: "KeyP"
+  KeyP:
     mappings:
       1: "з"
       2: "З"
-  - key: "BracketLeft"
+  BracketLeft:
     mappings:
       1: "х"
       2: "Х"
-  - key: "BracketRight"
+  BracketRight:
     mappings:
       1: "ъ"
       2: "Ъ"
-  - key: "Backslash"
+  Backslash:
     mappings:
       1: "\\"
       2: "/"
   
   # Home layer
-  - key: "CapsLock"
+  CapsLock:
     is_modifier: true
     mappings:
       1: "⇪"
-  - key: "KeyA"
+  KeyA:
     mappings:
       1: "ф"
       2: "Ф"
-  - key: "KeyS"
+  KeyS:
     mappings:
       1: "ы"
       2: "Ы"
-  - key: "KeyD"
+  KeyD:
     mappings:
       1: "в"
       2: "В"
-  - key: "KeyF"
+  KeyF:
     mappings:
       1: "а"
       2: "А"
-  - key: "KeyG"
+  KeyG:
     mappings:
       1: "п"
       2: "П"
-  - key: "KeyH"
+  KeyH:
     mappings:
       1: "р"
       2: "Р"
-  - key: "KeyJ"
+  KeyJ:
     mappings:
       1: "о"
       2: "О"
-  - key: "KeyK"
+  KeyK:
     mappings:
       1: "л"
       2: "Л"
-  - key: "KeyL"
+  KeyL:
     mappings:
       1: "д"
       2: "Д"
-  - key: "Semicolon"
+  Semicolon:
     mappings:
       1: "ж"
       2: "Ж"
-  - key: "Quote"
+  Quote:
     mappings:
       1: "э"
       2: "Э"
-  - key: "Enter"
+  Enter:
     is_modifier: true
     mappings:
       1: "⏎"
 
   # Bottom layer
-  - key: "ShiftLeft"
+  ShiftLeft:
     is_modifier: true
     mappings:
       1: "⇧"
-  - key: "KeyZ"
+  KeyZ:
     mappings:
       1: "я"
       2: "Я"
-  - key: "KeyX"
+  KeyX:
     mappings:
       1: "ч"
       2: "Ч"
-  - key: "KeyC"
+  KeyC:
     mappings:
       1: "с"
       2: "С"
-  - key: "KeyV"
+  KeyV:
     mappings:
       1: "м"
       2: "М"
-  - key: "KeyB"
+  KeyB:
     mappings:
       1: "и"
       2: "И"
-  - key: "KeyN"
+  KeyN:
     mappings:
       1: "т"
       2: "Т"
-  - key: "KeyM"
+  KeyM:
     mappings:
       1: "ь"
       2: "Ь"
-  - key: "Comma"
+  Comma:
     mappings:
       1: "б"
       2: "Б"
-  - key: "Period"
+  Period:
     mappings:
       1: "ю"
       2: "Ю"
-  - key: "Slash"
+  Slash:
     mappings:
       1: "."
       2: ","
-  - key: "ShiftRight"
+  ShiftRight:
     is_modifier: true
     mappings:
       1: "⇧"
 
   # Control keys
-  - key: "Function"
+  Function:
     is_modifier: true
     mappings:
       1: "fn"
-  - key: "ControlLeft"
+  ControlLeft:
     is_modifier: true
     mappings:
       1: "⌃"
-  - key: "AltLeft"
+  AltLeft:
     is_modifier: true
     mappings:
       1: "⌥"
-  - key: "MetaLeft"
+  MetaLeft:
     is_modifier: true
     mappings:
       1: "⌘"
-  - key: "Space"
+  Space:
     is_modifier: true
     mappings:
       1: " "
-  - key: "MetaRight"
+  MetaRight:
     is_modifier: true
     mappings:
       1: "⌘"
-  - key: "AltRight"
+  AltRight:
     is_modifier: true
     mappings:
       1: "⌥"
-  - key: "ArrowLeft"
+  ArrowLeft:
     is_modifier: true
     mappings:
       1: "←"
-  - key: "ArrowUp"
+  ArrowUp:
     is_modifier: true
     mappings:
       1: "↑"
-  - key: "ArrowDown"
+  ArrowDown:
     is_modifier: true
     mappings:
       1: "↓"
-  - key: "ArrowRight"
+  ArrowRight:
     is_modifier: true
     mappings:
       1: "→"

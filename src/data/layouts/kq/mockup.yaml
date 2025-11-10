@@ -1,222 +1,222 @@
 info: "Layout mockup with one layer"
 layout:
   # Digit layer
-  - key: "Backquote"
+  Backquote:
     mappings:
       1: "Backquote"
-  - key: "Digit1"
+  Digit1:
     mappings:
       1: "Digit1"
-  - key: "Digit2"
+  Digit2:
     mappings:
       1: "Digit2"
-  - key: "Digit3"
+  Digit3:
     mappings:
       1: "Digit3"
-  - key: "Digit4"
+  Digit4:
     mappings:
       1: "Digit4"
-  - key: "Digit5"
+  Digit5:
     mappings:
       1: "Digit5"
-  - key: "Digit6"
+  Digit6:
     mappings:
       1: "Digit6"
-  - key: "Digit7"
+  Digit7:
     mappings:
       1: "Digit7"
-  - key: "Digit8"
+  Digit8:
     mappings:
       1: "Digit8"
-  - key: "Digit9"
+  Digit9:
     mappings:
       1: "Digit9"
-  - key: "Digit0"
+  Digit0:
     mappings:
       1: "Digit0"
-  - key: "Minus"
+  Minus:
     mappings:
       1: "Minus"
-  - key: "Equal"
+  Equal:
     mappings:
       1: "Equal"
-  - key: "Backspace"
+  Backspace:
     is_modifier: true
     mappings:
       1: "Backspace"
 
   # Top layer
-  - key: "Tab"
+  Tab:
     is_modifier: true
     mappings:
       1: "Tab"
-  - key: "KeyQ"
+  KeyQ:
     mappings:
       1: "KeyQ"
-  - key: "KeyW"
+  KeyW:
     mappings:
       1: "KeyW"
-  - key: "KeyE"
+  KeyE:
     mappings:
       1: "KeyE"
-  - key: "KeyR"
+  KeyR:
     mappings:
       1: "KeyR"
-  - key: "KeyT"
+  KeyT:
     mappings:
       1: "KeyT"
-  - key: "KeyY"
+  KeyY:
     mappings:
       1: "KeyY"
-  - key: "KeyU"
+  KeyU:
     mappings:
       1: "KeyU"
-  - key: "KeyI"
+  KeyI:
     mappings:
       1: "KeyI"
-  - key: "KeyO"
+  KeyO:
     mappings:
       1: "KeyO"
-  - key: "KeyP"
+  KeyP:
     mappings:
       1: "KeyP"
-  - key: "BracketLeft"
+  BracketLeft:
     mappings:
       1: "BracketLeft"
-  - key: "BracketRight"
+  BracketRight:
     mappings:
       1: "BracketRight"
-  - key: "Backslash"
+  Backslash:
     mappings:
       1: "Backslash"
   
   # Home layer
-  - key: "CapsLock"
+  CapsLock:
     is_modifier: true
     mappings:
       1: "CapsLock"
-  - key: "KeyA"
+  KeyA:
     mappings:
       1: "KeyA"
-  - key: "KeyS"
+  KeyS:
     mappings:
       1: "KeyS"
-  - key: "KeyD"
+  KeyD:
     mappings:
       1: "KeyD"
-  - key: "KeyF"
+  KeyF:
     is_home: true
     mappings:
       1: "KeyF"
-  - key: "KeyG"
+  KeyG:
     mappings:
       1: "KeyG"
-  - key: "KeyH"
+  KeyH:
     mappings:
       1: "KeyH"
-  - key: "KeyJ"
+  KeyJ:
     is_home: true
     mappings:
       1: "KeyJ"
-  - key: "KeyK"
+  KeyK:
     mappings:
       1: "KeyK"
-  - key: "KeyL"
+  KeyL:
     mappings:
       1: "KeyL"
-  - key: "Semicolon"
+  Semicolon:
     mappings:
       1: "Semicolon"
-  - key: "Quote"
+  Quote:
     mappings:
       1: "Quote"
-  - key: "Enter"
+  Enter:
     is_modifier: true
     mappings:
       1: "Enter"
 
   # Bottom layer
-  - key: "ShiftLeft"
+  ShiftLeft:
     is_modifier: true
     mappings:
       1: "ShiftLeft"
-  - key: "KeyZ"
+  KeyZ:
     mappings:
       1: "KeyZ"
-  - key: "KeyX"
+  KeyX:
     mappings:
       1: "KeyX"
-  - key: "KeyC"
+  KeyC:
     mappings:
       1: "KeyC"
-  - key: "KeyV"
+  KeyV:
     mappings:
       1: "KeyV"
-  - key: "KeyB"
+  KeyB:
     mappings:
       1: "KeyB"
-  - key: "KeyN"
+  KeyN:
     mappings:
       1: "KeyN"
-  - key: "KeyM"
+  KeyM:
     mappings:
       1: "KeyM"
-  - key: "Comma"
+  Comma:
     mappings:
       1: "Comma"
-  - key: "Period"
+  Period:
     mappings:
       1: "Period"
-  - key: "Slash"
+  Slash:
     mappings:
       1: "Slash"
-  - key: "ShiftRight"
+  ShiftRight:
     is_modifier: true
     mappings:
       1: "ShiftRight"
 
   # Control keys
-  - key: "Function"
+  Function:
     is_modifier: true
     mappings:
       1: "Function"
-  - key: "ControlLeft"
+  ControlLeft:
     is_modifier: true
     mappings:
       1: "ControlLeft"
-  - key: "AltLeft"
+  AltLeft:
     is_modifier: true
     mappings:
       1: "AltLeft"
-  - key: "MetaLeft"
+  MetaLeft:
     is_modifier: true
     mappings:
       1: "MetaLeft"
-  - key: "Space"
+  Space:
     is_modifier: true
     mappings:
       1: "Space"
-  - key: "MetaRight"
+  MetaRight:
     is_modifier: true
     mappings:
       1: "MetaRight"
-  - key: "AltRight"
+  AltRight:
     is_modifier: true
     mappings:
       1: "AltRight"
-  - key: "ArrowLeft"
+  ArrowLeft:
     is_modifier: true
     mappings:
       1: "ArrowLeft"
-  - key: "ArrowUp"
+  ArrowUp:
     is_modifier: true
     mappings:
       1: "ArrowUp"
-  - key: "ArrowDown"
+  ArrowDown:
     is_modifier: true
     mappings:
       1: "ArrowDown"
-  - key: "ArrowRight"
+  ArrowRight:
     is_modifier: true
     mappings:
       1: "ArrowRight"

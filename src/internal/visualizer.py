@@ -35,6 +35,9 @@ class Visualizer():
             self.set_layout(layer)
 
     def _get_key_color(self, layer: int, key: Key):
+        if key.get_mapping(layer) == '∅':
+            return 'red'
+
         if self.config['color_by'] in 'frequency':
             return colormaps['Purples'](
                 (key.get_usage(layer) / self.keyboard.get_max_usage()) ** 0.5
@@ -136,9 +139,10 @@ class Visualizer():
         self.axs[f'layer{layer}'].text(
             *key.center(),
             key.key,
+            rotation=28 if key.h <= 15 or (len(key.key) > 8 and key.w <= 40) else 0,
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
-            va='top',
+            va='center',
             ha='center',
             fontsize=7
         )

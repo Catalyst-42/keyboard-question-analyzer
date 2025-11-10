@@ -1,84 +1,84 @@
 name: "Matrix 60% macOS"
 keyboard:
   # Digit layer
-  - key: "Backquote"
+  Backquote:
     x: 0
     y: 0
     w: 51
     h: 34
     row: 1
     finger: 1
-  - key: "Digit1"
+  Digit1:
     x: 57
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 1
-  - key: "Digit2"
+  Digit2:
     x: 97
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 2
-  - key: "Digit3"
+  Digit3:
     x: 137
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 3
-  - key: "Digit4"
+  Digit4:
     x: 177
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 4
-  - key: "Digit5"
+  Digit5:
     x: 217
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 4
-  - key: "Digit6"
+  Digit6:
     x: 297
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 7
-  - key: "Digit7"
+  Digit7:
     x: 337
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 7
-  - key: "Digit8"
+  Digit8:
     x: 377
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 8
-  - key: "Digit9"
+  Digit9:
     x: 417
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 9
-  - key: "Digit0"
+  Digit0:
     x: 457
     y: 0
     w: 34
     h: 34
     row: 1
     finger: 10
-  - key: "Equal"
+  Equal:
     x: 497
     y: 0
     w: 51
@@ -87,84 +87,84 @@ keyboard:
     finger: 10
 
   # Top layer
-  - key: "Tab"
+  Tab:
     x: 0
     y: 40
     w: 51
     h: 34
     row: 2
     finger: 1
-  - key: "KeyQ"
+  KeyQ:
     x: 57
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 1
-  - key: "KeyW"
+  KeyW:
     x: 97
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 2
-  - key: "KeyE"
+  KeyE:
     x: 137
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 3
-  - key: "KeyR"
+  KeyR:
     x: 177
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 4
-  - key: "KeyT"
+  KeyT:
     x: 217
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 4
-  - key: "KeyY"
+  KeyY:
     x: 297
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 7
-  - key: "KeyU"
+  KeyU:
     x: 337
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 7
-  - key: "KeyI"
+  KeyI:
     x: 377
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 8
-  - key: "KeyO"
+  KeyO:
     x: 417
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 9
-  - key: "KeyP"
+  KeyP:
     x: 457
     y: 40
     w: 34
     h: 34
     row: 2
     finger: 10
-  - key: "Minus"
+  Minus:
     x: 497
     y: 40
     w: 51 
@@ -173,14 +173,14 @@ keyboard:
     finger: 10
 
   # Home layer
-  - key: "ControlLeft"
+  ControlLeft:
     x: 0
     y: 80
     w: 51
     h: 34
     row: 3
     finger: 1
-  - key: "KeyA"
+  KeyA:
     x: 57
     y: 80
     w: 34
@@ -188,7 +188,7 @@ keyboard:
     row: 3
     finger: 1
     is_home: true
-  - key: "KeyS"
+  KeyS:
     x: 97
     y: 80
     w: 34
@@ -196,7 +196,7 @@ keyboard:
     row: 3
     finger: 2
     is_home: true
-  - key: "KeyD"
+  KeyD:
     x: 137
     y: 80
     w: 34
@@ -204,7 +204,7 @@ keyboard:
     row: 3
     finger: 3
     is_home: true
-  - key: "KeyF"
+  KeyF:
     x: 177
     y: 80
     w: 34
@@ -212,21 +212,21 @@ keyboard:
     row: 3
     finger: 4
     is_home: true
-  - key: "KeyG"
+  KeyG:
     x: 217
     y: 80
     w: 34
     h: 34
     row: 3
     finger: 4
-  - key: "KeyH"
+  KeyH:
     x: 297
     y: 80
     w: 34
     h: 34
     row: 3
     finger: 7
-  - key: "KeyJ"
+  KeyJ:
     x: 337
     y: 80
     w: 34
@@ -234,7 +234,7 @@ keyboard:
     row: 3
     finger: 7
     is_home: true
-  - key: "KeyK"
+  KeyK:
     x: 377
     y: 80
     w: 34
@@ -242,7 +242,7 @@ keyboard:
     row: 3
     finger: 8
     is_home: true
-  - key: "KeyL"
+  KeyL:
     x: 417
     y: 80
     w: 34
@@ -250,7 +250,7 @@ keyboard:
     row: 3
     finger: 9
     is_home: true
-  - key: "Semicolon"
+  Semicolon:
     x: 457
     y: 80
     w: 34
@@ -258,7 +258,7 @@ keyboard:
     row: 3
     finger: 10
     is_home: true
-  - key: "Quote"
+  Quote:
     x: 497
     y: 80
     w: 51
@@ -267,84 +267,84 @@ keyboard:
     finger: 10
 
   # Bottom layer
-  - key: "Backslash"
+  Backslash:
     x: 0
     y: 120
     w: 51
     h: 34
     row: 4
     finger: 1
-  - key: "KeyZ"
+  KeyZ:
     x: 57
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 1
-  - key: "KeyX"
+  KeyX:
     x: 97
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 2
-  - key: "KeyC"
+  KeyC:
     x: 137
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 3
-  - key: "KeyV"
+  KeyV:
     x: 177
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 4
-  - key: "KeyB"
+  KeyB:
     x: 217
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 4
-  - key: "KeyN"
+  KeyN:
     x: 297
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 7
-  - key: "KeyM"
+  KeyM:
     x: 337
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 7
-  - key: "Comma"
+  Comma:
     x: 377
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 8
-  - key: "Period"
+  Period:
     x: 417
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 9
-  - key: "Slash"
+  Slash:
     x: 457
     y: 120
     w: 34
     h: 34
     row: 4
     finger: 10
-  - key: "Enter"
+  Enter:
     x: 497
     y: 120
     w: 51
@@ -353,14 +353,14 @@ keyboard:
     finger: 10
 
   # Control layer
-  - key: "ShiftLeft"
+  ShiftLeft:
     x: 177
     y: 160
     w: 34
     h: 34
     row: 5
     finger: 5
-  - key: "MetaLeft"
+  MetaLeft:
     x: 217
     y: 160
     w: 34
@@ -368,7 +368,7 @@ keyboard:
     row: 5
     finger: 5
     is_home: true
-  - key: "Space"
+  Space:
     x: 297
     y: 160
     w: 34
@@ -376,7 +376,7 @@ keyboard:
     row: 5
     finger: 6
     is_home: true
-  - key: "Backspace"
+  Backspace:
     x: 337
     y: 160
     w: 34

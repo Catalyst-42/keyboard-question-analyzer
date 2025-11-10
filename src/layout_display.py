@@ -15,5 +15,5 @@ keyboard.print_keyboard_usage()
 # Show keyboard layout
 visualizer = Visualizer(keyboard, ARGS)
 visualizer.render(ARGS['layers'])
-# visualizer.savefig('keyboard.png', dpi=300)
+# visualizer.savefig('layout.png', dpi=300)
 visualizer.show()

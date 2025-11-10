@@ -10,29 +10,27 @@ anchors:
 
       show_row_numbers: false  # -r
       show_fingers: false      # -f
-      show_frequencies: true   # -p
+      show_frequencies: false  # -p
       show_home_keys: true     # -hk
 
-      color_by: freq  # -c <'frequency' | 'row' | 'hand' | 'finger' | 'home' | 'none'>
+      color_by: none  # -c <'frequency' | 'row' | 'hand' | 'finger' | 'home' | 'none'>
 
-    combined: &combined
-      layers: 1
-      combined_2: true
+    frequency: &frequency
+      show_frequencies: true
+      color_by: frequency
 
     preview: &preview
       layers: 1
       combined_2: true
-      
-      show_frequencies: false
 
       color_by: home
 
     debug: &debug
+      layers: 1
       show_layout: false
       show_key_codes: true
       show_row_numbers: true
       show_fingers: true
-      show_frequencies: false
 
       color_by: finger
 

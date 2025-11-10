@@ -5,11 +5,10 @@ from yaml import safe_load
 
 
 class Key():
-    def __init__(self, keyboard: Keyboard, physical_key: dict, logical_key: dict):
+    def __init__(self, keyboard: Keyboard, key_code: str, physical_key: dict, logical_key: dict):
         self.keyboard: Keyboard = keyboard
 
         # Keyboard
-        self.key = physical_key["key"]
         self.x: int = physical_key["x"]
         self.y: int = physical_key["y"]
         self.w: int = physical_key["w"]
@@ -25,9 +24,9 @@ class Key():
             self.notch_w = notch['w']
             self.notch_h = notch['h']
 
-        # Layout 
-        self.key: str = logical_key["key"]
-        self.mappings: dict = logical_key["mappings"]
+        # Layout
+        self.key: str = key_code
+        self.mappings: dict = logical_key.get("mappings", {1: '∅'})
         self.is_modifier: bool = logical_key.get("is_modifier", False)
 
     def __repr__(self):
@@ -71,19 +70,15 @@ class Keyboard():
         self.keyboard: dict[str, Key] = {}
         self._mapping_to_key: dict[str, Key] = {}
 
-        for physical_key in physical_layout["keyboard"]:
-            for logical_key in logical_layout["layout"]:
-                if physical_key["key"] == logical_key["key"]:
-                    key_obj = Key(self, physical_key, logical_key)
-                    self.keyboard[physical_key["key"]] = key_obj
+        for physical_key_name in physical_layout["keyboard"]:
+            physical_key = physical_layout['keyboard'][physical_key_name]
 
-                    # TODO: если intlbacklkj; не назнчаен то должна быть клавиша с маппингом под key
+            logical_key = logical_layout["layout"].get(physical_key_name, {})
+            key_obj = Key(self, physical_key_name, physical_key, logical_key)
+            self.keyboard[physical_key_name] = key_obj
 
-                    # Map for key_for function to speedup
-                    for mapping_value in logical_key["mappings"].values():
-                        self._mapping_to_key[mapping_value] = key_obj
-
-                    break
+            for mapping_value in logical_key.get("mappings", {}).values():
+                self._mapping_to_key[mapping_value] = key_obj
 
         self.check_unique_keys()
 
