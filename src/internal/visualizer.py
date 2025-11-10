@@ -97,7 +97,7 @@ class Visualizer():
             mapping = mapping.upper()
 
         self.axs[f'layer{layer}'].text(
-            *key.center(),
+            *key.visual_center(),
             mapping,
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -137,7 +137,7 @@ class Visualizer():
 
     def _draw_key_code(self, layer: int, key: Key):
         self.axs[f'layer{layer}'].text(
-            *key.center(),
+            *key.visual_center(),
             key.key,
             rotation=28 if key.h <= 15 or (len(key.key) > 8 and key.w <= 40) else 0,
             color='white',

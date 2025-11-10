@@ -184,7 +184,7 @@ def setup(script_name=''):
     ARGS['layout'] = layouts / f'{ARGS['layout']}.yaml'
     ARGS['frequency'] = frequencies / f'{ARGS['frequency']}.yaml'
 
-    if script_name == 'corpora_cleaner':
+    if script_name == 'corpus_cleaner':
         ARGS['corpus'] = corpora / 'raw' / ARGS['corpus']
     else:
         ARGS['corpus'] = corpora / 'clean' / ARGS['corpus']

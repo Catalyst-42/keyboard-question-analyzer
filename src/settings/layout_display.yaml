@@ -1,3 +1,15 @@
+# Settings
+# layers: int 
+# combined_2: bool
+# show_modifiers: bool    # -m
+# show_layout: bool       # -l
+# show_key_codes: bool    # -k
+# show_row_numbers: bool  # -r
+# show_fingers: bool      # -f
+# show_frequencies: bool  # -p
+# show_home_keys: bool    # -hk
+# color_by: str           # -c <'frequency' | 'row' | 'hand' | 'finger' | 'home' | 'none'>
+
 anchors:
   presets:
     default: &default
@@ -36,4 +48,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *preview
+<<: *frequency

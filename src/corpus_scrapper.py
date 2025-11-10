@@ -2,7 +2,7 @@ import pathlib
 
 from internal.setup import setup
 
-ARGS = setup('corpora_scrapper')
+ARGS = setup('corpus_scrapper')
 ARGS['content_output_path'].parent.mkdir(parents=True, exist_ok=True)
 
 # Get code from all files

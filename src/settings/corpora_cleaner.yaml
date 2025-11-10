@@ -1,9 +1,0 @@
-anchors:
-  allowed_keys:
-    english: &en '!"#$%&''()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ '
-    russian: &ru '!"%()+,-./0123456789:;=?[]_ЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяё№ '
-
-# Script settings
-limit_keys: 10_000_000
-allowed_keys: *ru
-

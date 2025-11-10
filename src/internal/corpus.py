@@ -18,8 +18,7 @@ class Corpus():
         if path.is_dir():
             files_to_process.update(path.glob('**/*'))
         else:
-            print(f'Error: corpus {path} is not found!')
-            exit()
+            raise FileNotFoundError(f'Corpus on path {path} is not found')
 
         for file in files_to_process:
             with open(file, encoding='utf-8', errors='ignore') as file:
@@ -28,12 +27,24 @@ class Corpus():
         return Corpus(name, text)
 
     @property
-    def unique_keys(self):
+    def chars(self) -> str:
         return ''.join(sorted(set(self.text)))
 
     @property
-    def size(self):
+    def length(self) -> int:
         return len(self.text)
 
-    def key_occurances(self, key):
-        return self.text.count(key)
+    def clean(self, filter_string):
+        self.text = self.text.translate(
+            str.maketrans('\t\n', '  ')
+        )
+        self.text = ''.join(
+            [key for key in self.text if key in filter_string]
+        )
+
+    def limit(self, length):
+        self.text = self.text[:length]
+
+    def char_usage(self, char: str) -> int:
+        return self.text.count(char)
+

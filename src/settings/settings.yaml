@@ -1,15 +1,21 @@
+# Settings
+# keyboard: str   # --keyboard <keyboard> 
+# layout: str     # --layout <layout>  
+# frequency: str  # --language <frequency>
+# corpus: str     # --corpus <corpus> 
+
 anchors:
   presets: &default
-    keyboard: iso_60    # --keyboard <keyboard>
-    layout: en/qwerty   # --layout <layout>
-    frequency: english  # --language <frequency>
-    corpus: english     # --corpus <corpus>
+    keyboard: ansi_60    
+    layout: en/qwerty   
+    frequency: english  
+    corpus: english     
 
   qwerty: &qwerty
     layout: en/qwerty
     frequency: english
     corpus: english
-  
+
   jcuken: &jcuken
     layout: ru/jcuken
     frequency: obsidian
@@ -17,10 +23,4 @@ anchors:
 
 # Global settings
 <<: *default
-<<: *qwerty
-
-keyboard: ansi_60
-keyboard: iso_60
-keyboard: matrix_60
-
-layout: en/ant
+<<: *jcuken
