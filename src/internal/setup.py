@@ -31,14 +31,14 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
                 dest="layout",
             )
 
-        case "frequency":
-            parser.add_argument(
-                "--frequency",
-                help="File which contain information about key usage frequency. File must be placed in data/frequencies folder",
-                default=ARGS["frequency"],
-                type=str,
-                dest="frequency",
-            )
+        # case "frequency":
+        #     parser.add_argument(
+        #         "--frequency",
+        #         help="File which contain information about key usage frequency. File must be placed in data/frequencies folder",
+        #         default=ARGS["frequency"],
+        #         type=str,
+        #         dest="frequency",
+        #     )
 
         # Display
         case "show_modifiers":
@@ -156,7 +156,7 @@ def setup(script_name=''):
         open(global_settings_path , encoding='utf-8')
     )
 
-    if script_settings_path.is_file:
+    if script_settings_path.is_file():
         script_settings: dict = yaml.safe_load(
             open(script_settings_path, encoding='utf-8')
         )
@@ -177,12 +177,10 @@ def setup(script_name=''):
 
     keyboards = data_folder / 'keyboards'
     layouts = data_folder / 'layouts'
-    frequencies = data_folder / 'frequencies'
     corpora = data_folder / 'corpora'
 
     ARGS['keyboard'] = keyboards / f'{ARGS['keyboard']}.yaml'
     ARGS['layout'] = layouts / f'{ARGS['layout']}.yaml'
-    ARGS['frequency'] = frequencies / f'{ARGS['frequency']}.yaml'
 
     if script_name == 'corpus_cleaner':
         ARGS['corpus'] = corpora / 'raw' / ARGS['corpus']

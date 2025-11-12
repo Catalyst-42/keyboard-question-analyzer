@@ -1,4 +1,4 @@
-info: "macOS JCUCKEN keyboard layout"
+name: jcuken
 layout:
   # Digit layer
   IntlBackslash:

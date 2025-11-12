@@ -10,7 +10,14 @@ from internal.rounded_polygon import RoundedPolygon
 
 
 class Visualizer():
+    """Keyboard layout visualizer with statistics.
+    
+    Creates matplotlib visualizations of keyboard layouts with various
+    coloring schemes and information overlays.
+    """
+    
     def __init__(self, keyboard: Keyboard, config: dict):
+        """Load keyboard object to visualise them."""
         self.keyboard = keyboard
         self.config = config
 
@@ -20,6 +27,7 @@ class Visualizer():
         self.bboxes = {}
 
     def render(self, number_of_layers: int):
+        """Create keyboard visualisation for all layers."""
         layers = [[f'layer{i}'] for i in range(1, number_of_layers + 1)]
 
         self.fig, self.axs = plt.subplot_mosaic(
@@ -31,16 +39,17 @@ class Visualizer():
         for layer in range(1, number_of_layers + 1):
             self.draw_keyboard(layer)
             self.set_format_coord(layer)
-            self.set_styles(layer)
-            self.set_layout(layer)
+            self.set_view_box(layer)
+            self.set_plot_styles(layer)
 
     def _get_key_color(self, layer: int, key: Key):
-        if key.get_mapping(layer) == '∅':
+        """Return color for key by config color_by value."""
+        if key.mapping(layer) == '∅':
             return 'red'
 
         if self.config['color_by'] in 'frequency':
             return colormaps['Purples'](
-                (key.get_usage(layer) / self.keyboard.get_max_usage()) ** 0.5
+                (key.layer_usage(layer) / self.keyboard.key_max_usage()) ** 0.5
             )
 
         if self.config['color_by'] in 'row':
@@ -58,8 +67,9 @@ class Visualizer():
         return (0, 0, 0, 0)
 
     def _draw_key_patch(self, key: Key, patch_color):
+        """Draw key patch rectangle on plot."""
         if key.notch:
-            return self._draw_return_key_patch(key, patch_color)
+            return self._draw_polygon_key_patch(key, patch_color)
 
         return ptc.FancyBboxPatch(
             (key.x, -key.y - key.h),
@@ -71,7 +81,8 @@ class Visualizer():
             edgecolor='black',
         )
 
-    def _draw_return_key_patch(self, key: Key, patch_color):
+    def _draw_polygon_key_patch(self, key: Key, patch_color):
+        """Draw notched key polygon."""
         # Notch place is bottom left
         xy = [
             (key.x + key.notch_w, -key.y - key.h),
@@ -91,7 +102,8 @@ class Visualizer():
         )
 
     def _draw_key_layout(self, layer: int, key: Key, upper=False):
-        mapping = key.get_mapping(layer)
+        """Show key mapping for selected layout."""
+        mapping = key.mapping(layer)
 
         if upper and len(mapping) == 1:
             mapping = mapping.upper()
@@ -107,7 +119,8 @@ class Visualizer():
         )
 
     def _draw_key_layout_combined(self, layer: int, key: Key):
-        if key.is_modifier or key.get_mapping(layer).upper() == key.get_mapping(layer + 1):
+        """Draw mappings for both layers of key."""
+        if key.is_modifier or key.mapping(layer).upper() == key.mapping(layer + 1):
             self._draw_key_layout(layer, key, True)
             return
 
@@ -115,7 +128,7 @@ class Visualizer():
         self.axs[f'layer{layer}'].text(
             key.x + key.w * 2/4,
             -key.y - key.h * 3/4 + 0.5,
-            key.get_mapping(layer),
+            key.mapping(layer),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
             va='center_baseline',
@@ -127,7 +140,7 @@ class Visualizer():
         self.axs[f'layer{layer}'].text(
             key.x + key.w * 2/4,
             -key.y - key.h * 1/4 + 0.5,
-            key.get_mapping(layer + 1),
+            key.mapping(layer + 1),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
             va='center_baseline',
@@ -136,6 +149,7 @@ class Visualizer():
         )
 
     def _draw_key_code(self, layer: int, key: Key):
+        """Display code of key on them."""
         self.axs[f'layer{layer}'].text(
             *key.visual_center(),
             key.key,
@@ -148,6 +162,7 @@ class Visualizer():
         )
 
     def _draw_key_home_icon(self, layer: int, key: Key):
+        """Draw dot on top right corner for key."""
         self.axs[f'layer{layer}'].text(
             key.x + key.w - 1.5,
             -key.y - 0.5,
@@ -160,14 +175,15 @@ class Visualizer():
         )
 
     def _draw_key_freqency(self, layer: int, key: Key):
-        if key.get_frequency(layer) == 0:
+        """Draw key usage frequency for layer."""
+        if key.layer_frequency(layer) == 0:
             return
 
-        frequency = key.get_frequency(layer) 
+        frequency = key.layer_frequency(layer) 
 
         # Account second layer
         if self.config['combined_2']:
-           frequency += key.get_frequency(layer + 1)
+           frequency += key.layer_frequency(layer + 1)
 
         self.axs[f'layer{layer}'].text(
             key.x + key.w/2,
@@ -181,6 +197,7 @@ class Visualizer():
         )
 
     def draw_keyboard(self, layer: int):
+        """Display all keys of selected keyboard layer on plot."""
         keyboard_bbox = [0, 0, 0, 0]
 
         for key in self.keyboard.keys:
@@ -238,6 +255,7 @@ class Visualizer():
                 self._draw_key_freqency(layer, key)
 
     def set_format_coord(self, layer: int):
+        """Set format coord for plot."""
         def format_coord(x, y):
             # Get current key by cords
             for key in self.keyboard.keys:
@@ -251,22 +269,25 @@ class Visualizer():
             if not key:
                 return ''
 
-            mapping = key.get_mapping(layer)
+            code = key.key
+            mapping = key.mapping(layer)
             finger = key.finger
             row = key.row
-            frequency = key.get_frequency(layer)
-            total_frequency = key.get_total_frequency()
+            layer_usage = key.layer_usage(layer)
+            usage = key.usage
+            layer_frequency = key.layer_frequency(layer)
+            frequency = key.frequency
 
-            return (
-                f'{key.key} "{mapping}", finger {finger}, row {row} '
-                f'frequency: {frequency:.2%} on mapping, '
-                f'total: {total_frequency:.2%}\n'
-                f'(x, y) = ({key.x}, {key.y})'
-            )
+            info = f'{code}: "{mapping}", row: {row}, finger: {finger}, '
+            info += f'usage: {layer_usage} ({usage}), '
+            info += f'frequency: {layer_frequency:.2%} ({frequency:.2%})'
+
+            return info
 
         self.axs[f'layer{layer}'].format_coord = format_coord
 
-    def set_styles(self, layer: int):
+    def set_view_box(self, layer: int):
+        """Set plot view box."""
         keyboard_padding = 1
         keyboard_bbox = self.bboxes[layer]
 
@@ -281,8 +302,12 @@ class Visualizer():
         self.axs[f'layer{layer}'].set_xlim(limits['x_min'], limits['x_max'])
         self.axs[f'layer{layer}'].set_ylim(limits['y_min'], limits['y_max'])
 
-    def set_layout(self, layer: int):
-        self.fig.canvas.manager.set_window_title('Keyboard')
+    def set_plot_styles(self, layer: int):
+        """Set canvas title and axis aspect."""
+        keyboard = self.keyboard.name
+        layout = self.keyboard.layout_name
+        self.fig.canvas.manager.set_window_title(
+            f'Display of {keyboard} keyboard with {layout} layout')
 
         self.axs[f'layer{layer}'].axis('off')
         self.axs[f'layer{layer}'].set_aspect('equal')

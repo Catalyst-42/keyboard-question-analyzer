@@ -1,4 +1,4 @@
-info: "Russian Zubachyov keyboard layout"
+name: zubachev
 layout:
   # Digit layer
   IntlBackslash:

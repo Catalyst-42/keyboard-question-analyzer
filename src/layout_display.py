@@ -1,4 +1,5 @@
 from internal.keyboard import Keyboard
+from internal.corpus import Corpus
 from internal.setup import setup
 from internal.visualizer import Visualizer
 
@@ -9,8 +10,8 @@ if ARGS['combined_2']:
     ARGS['show_layout'] = False 
     ARGS['layers'] = 1
 
-keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], ARGS['frequency'])
-keyboard.print_keyboard_usage()
+corpus = Corpus.load(ARGS['corpus'])
+keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 
 # Show keyboard layout
 visualizer = Visualizer(keyboard, ARGS)

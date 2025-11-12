@@ -1,4 +1,4 @@
-info: "Russian Phonetic keyboard layout for PC"
+name: phonetic
 layout:
   # Digit layer
   IntlBackslash:

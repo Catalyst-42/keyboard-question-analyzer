@@ -4,7 +4,10 @@ from matplotlib.transforms import Bbox
 
 
 class RoundedPolygon(patches.PathPatch):
+    """Polygon with FancyBbox rounded style."""
+
     def __init__(self, xy, pad=0.3, **kwargs):
+        """Create polygon object and calculate paths."""
         self.xy = np.array(xy)
         self.pad = pad
 
@@ -12,6 +15,7 @@ class RoundedPolygon(patches.PathPatch):
         super().__init__(path=p, **kwargs)
 
     def __round(self, xy, pad):
+        """Round corners."""
         n = len(xy)
 
         for i in range(0, n):
@@ -35,6 +39,7 @@ class RoundedPolygon(patches.PathPatch):
         return np.atleast_1d(verts, codes)
 
     def get_bbox(self):
+        """Get's figure box, that contains all of it."""
         x_coords = self.xy[:, 0]
         y_coords = self.xy[:, 1]
         x0, x1 = np.min(x_coords), np.max(x_coords)

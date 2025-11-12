@@ -1,24 +1,20 @@
 # Settings
 # keyboard: str   # --keyboard <keyboard> 
 # layout: str     # --layout <layout>  
-# frequency: str  # --language <frequency>
 # corpus: str     # --corpus <corpus> 
 
 anchors:
   presets: &default
     keyboard: ansi_60    
     layout: en/qwerty   
-    frequency: english  
     corpus: english     
 
   qwerty: &qwerty
     layout: en/qwerty
-    frequency: english
     corpus: english
 
   jcuken: &jcuken
     layout: ru/jcuken
-    frequency: obsidian
     corpus: russian
 
 # Global settings

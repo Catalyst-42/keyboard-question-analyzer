@@ -1,4 +1,4 @@
-info: "Russian qPhyx keyboard layout"
+name: qphyx
 layout:
   # Digit layer
   IntlBackslash:

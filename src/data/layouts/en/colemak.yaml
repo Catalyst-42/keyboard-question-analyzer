@@ -1,4 +1,4 @@
-info: "macOS Colemak keyboard layout"
+name: colemak
 layout:
   # Digit layer
   IntlBackslash:

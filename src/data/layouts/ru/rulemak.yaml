@@ -1,4 +1,4 @@
-info: "Russian Rolemak JCUKEN keyboard layout for PC"
+name: rulemak
 layout:
   # Digit layer
   IntlBackslash:

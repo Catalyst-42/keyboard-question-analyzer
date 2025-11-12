@@ -1,4 +1,4 @@
-info: "macOS QWERTY keyboard layout"
+name: "qwerty"
 layout:
   # Digit layer
   IntlBackslash:

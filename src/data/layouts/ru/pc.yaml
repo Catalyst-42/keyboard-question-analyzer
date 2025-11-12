@@ -1,4 +1,4 @@
-info: "Russian Windows JCUKEN keyboard layout for PC"
+name: pc
 layout:
   # Digit layer
   IntlBackslash:

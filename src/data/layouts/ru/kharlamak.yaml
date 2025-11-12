@@ -1,4 +1,4 @@
-info: "Russian kharlamak keyboard layout"
+name: kharlamak
 layout:
   # Digit layer
   IntlBackslash:

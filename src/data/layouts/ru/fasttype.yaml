@@ -1,4 +1,4 @@
-info: "Fasttype (Скоропись) keyboard layout"
+name: fasttype
 layout:
   # Digit layer
   IntlBackslash:

@@ -1,4 +1,4 @@
-info: "macOS Dvorak keyboard layout"
+name: dvorak
 layout:
   # Digit layer
   IntlBackslash:

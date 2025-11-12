@@ -1,4 +1,4 @@
-info: "Workman keyboard layout"
+name: workman
 layout:
   # Digit layer
   IntlBackslash:

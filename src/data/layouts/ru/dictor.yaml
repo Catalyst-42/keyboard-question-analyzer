@@ -1,4 +1,4 @@
-info: "Russian Dictor keyboard layout"
+name: dictor
 layout:
   # Digit layer
   IntlBackslash:
