@@ -11,11 +11,13 @@ from internal.rounded_polygon import RoundedPolygon
 
 class Visualizer():
     """Keyboard layout visualizer with statistics.
-    
+
     Creates matplotlib visualizations of keyboard layouts with various
     coloring schemes and information overlays.
     """
-    
+
+    EMPTY_MAPPING = '∅'
+
     def __init__(self, keyboard: Keyboard, config: dict):
         """Load keyboard object to visualise them."""
         self.keyboard = keyboard
@@ -44,7 +46,7 @@ class Visualizer():
 
     def _get_key_color(self, layer: int, key: Key):
         """Return color for key by config color_by value."""
-        if key.mapping(layer) == '∅':
+        if key.mapping(layer) == Visualizer.EMPTY_MAPPING:
             return 'red'
 
         if self.config['color_by'] in 'frequency':
@@ -315,7 +317,9 @@ class Visualizer():
         plt.tight_layout()
 
     def show(self):
+        """Wrapper of plt.show(), displays the plot."""
         plt.show()
 
     def savefig(self, name: str, *args, **kwargs):
+        """Wrapper of plt.savefig(), saves plot image."""
         plt.savefig(name, *args, **kwargs)

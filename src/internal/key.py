@@ -6,7 +6,7 @@ if TYPE_CHECKING:
 
 class Key():
     """Model of keyboard key.
-    
+
     Contains physical information and layout one.
     """
 

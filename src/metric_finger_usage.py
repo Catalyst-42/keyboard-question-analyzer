@@ -10,43 +10,28 @@ keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 hands = Hands(keyboard)
 
 print(keyboard.info(), '\n')
+print(keyboard.keyboard_usage())
 
 report = {
-    'Keyboard': keyboard.name,
-    'Corpus': corpus.name,
-    'Layout': keyboard.layout_name,
-    'Frequency heatmap': '',  # TODO
-    'Hand usage left hand': keyboard.hand_usage_frequency(1),
-    'Hand usage right hand': keyboard.hand_usage_frequency(2),
-    'Finger usage 1': keyboard.finger_usage_percent(1),
-    'Finger usage 2': keyboard.finger_usage_percent(2),
-    'Finger usage 3': keyboard.finger_usage_percent(3),
-    'Finger usage 4': keyboard.finger_usage_percent(4),
-    'Finger usage 5': keyboard.finger_usage_percent(5),
-    'Finger usage 6': keyboard.finger_usage_percent(6),
-    'Finger usage 7': keyboard.finger_usage_percent(7),
-    'Finger usage 8': keyboard.finger_usage_percent(8),
-    'Finger usage 9': keyboard.finger_usage_percent(9),
-    'Finger usage 10': keyboard.finger_usage_percent(10),
-    'Row usage top': keyboard.row_usage_frequency('top'),
-    'Row usage home': keyboard.row_usage_frequency('home'),
-    'Row usage bottom': keyboard.row_usage_frequency('bottom'),
-    'Scissor bigrams left hand': 0,  # TODO
-    'Scissor bigrams right hand': 0,  # TODO
-    'Same finger bigrams left hand': 0,  # TODO
-    'Same finger bigrams right hand': 0,  # TODO
-    'Alternating finger bigrams left hand': 0,  # TODO
-    'Alternating finger bigrams right hand': 0,  # TODO
-    'Inrolls': 0,  # TODO
-    'Outrolls': 0,  # TODO
+    'finger_usage_1': keyboard.finger_usage_frequency(1),
+    'finger_usage_2': keyboard.finger_usage_frequency(2),
+    'finger_usage_3': keyboard.finger_usage_frequency(3),
+    'finger_usage_4': keyboard.finger_usage_frequency(4),
+    'finger_usage_5': keyboard.finger_usage_frequency(5),
+    'finger_usage_6': keyboard.finger_usage_frequency(6),
+    'finger_usage_7': keyboard.finger_usage_frequency(7),
+    'finger_usage_8': keyboard.finger_usage_frequency(8),
+    'finger_usage_9': keyboard.finger_usage_frequency(9),
+    'finger_usage_10': keyboard.finger_usage_frequency(10),
+    # TODO: ПЕРЕПИСАТЬ РУКИ НА ЛЕВУЮ И ПРАВУЮ И СЛОИ КЛАВИАТУРЫ НА W3C СТАНДАРТ
+    'row_usage_top': keyboard.row_usage_frequency(2),
+    'row_usage_home': keyboard.row_usage_frequency(3),
+    'row_usage_bottom': keyboard.row_usage_frequency(4),
 }
 
 print(
-   'Hand usage:',
-   f' - Left hand: {keyboard.hand_usage_frequency(1):.2%}',
-   f' - Right hand: {keyboard.hand_usage_frequency(2):.2%}',
    'Finger usage:',
-   *(f' - Finger {finger.index}: {keyboard.finger_usage_percent(finger.index):.2%}' for finger in hands.fingers),
+   *(f' - Finger {finger.index}: {keyboard.finger_usage_frequency(finger.index):.2%}' for finger in hands.fingers),
    'Row usage:',
    *(f' - Row {row}: {keyboard.row_usage_frequency(row):.2%}' for row in range(1, 5)),
    sep='\n'

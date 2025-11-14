@@ -2,7 +2,7 @@ from internal.keyboard import Key
 
 class Finger:
     """Model if finger that types text.
-    
+
     Used in travel distance evaluation.
     """
 

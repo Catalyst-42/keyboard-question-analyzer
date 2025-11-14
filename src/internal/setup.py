@@ -31,15 +31,6 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
                 dest="layout",
             )
 
-        # case "frequency":
-        #     parser.add_argument(
-        #         "--frequency",
-        #         help="File which contain information about key usage frequency. File must be placed in data/frequencies folder",
-        #         default=ARGS["frequency"],
-        #         type=str,
-        #         dest="frequency",
-        #     )
-
         # Display
         case "show_modifiers":
             parser.add_argument(

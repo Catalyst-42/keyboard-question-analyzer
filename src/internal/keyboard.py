@@ -106,52 +106,38 @@ class Keyboard():
         for dublicate in dublicates:
             print(f'Warning: mapping "{dublicate}" repeats on layout')
 
-    def print_keyboard_usage(self):
-        format_map = {"fingers": "Usage of fingers", "rows": "Usage of rows", "total": 0}
+    def keyboard_usage(self):
+        """Returns filled template with keyboard usage stats."""
+        format_map = {
+            "fingers": "Usage of fingers",
+            "rows": "Usage of rows", "total": 0
+        }
+
         hands_frequency = """\
         \r{fingers:^32}{rows:^19}
         \r
-        \r ╭╴{l1:<6.2%}              {r10:>6.2%}╶╮      {o1}
-        \r │ ╭╴{l2:<6.2%}          {r9:>6.2%}╶╮ │      {o2}
-        \r 1 2 3 4                7 8 9 10     {o3}
-        \r     │ ╰╴{l4:<6.2%}  {r7:>6.2%}╶╯ │          {o4}
-        \r     ╰╴{l3:<6.2%}      {r8:>6.2%}╶╯          {o5}
+        \r ╭╴{f1:<6.2%}              {f10:>6.2%}╶╮      {o1:.2%}
+        \r │ ╭╴{f2:<6.2%}          {f9:>6.2%}╶╮ │      {o2:.2%}
+        \r 1 2 3 4                7 8 9 10     {o3:.2%}
+        \r     │ ╰╴{f4:<6.2%}  {f7:>6.2%}╶╯ │          {o4:.2%}
+        \r     ╰╴{f3:<6.2%}      {f8:>6.2%}╶╯          {o5:.2%}
         \r
-        \r Left - {l:<6.2%}    {r:>6.2%} - Right     ∑ {total:.1%}
+        \r Left - {l:<6.2%}    {r:>6.2%} - Right
         \r"""
 
-        def calculate_hand_uage(hand: Literal["left", "right"]):
-            hand_frequency = 0
-            fingers = range(1, 6, 1)
+        for i in range(1, 11):
+            format_map[f'f{i}'] = self.finger_usage_frequency(i)
 
-            finger_direction = 1 if hand == "left" else -1
-            finger_offset = 1 if hand == "left" else 6
+        for i in range(1, 7):
+            format_map[f'o{i}'] = self.row_usage_frequency(i)
 
-            for finger_index, _ in enumerate(fingers[::finger_direction], finger_offset):
-                finger_frequency = sum([key.get_total_frequency() for key in self._mapping_to_key.values() if key.finger == finger_index])
-                hand_frequency += finger_frequency
+        format_map['l'] = self.hand_usage_frequency(1)
+        format_map['r'] = self.hand_usage_frequency(2)
 
-                format_map[f"{"l" if hand == "left" else "r"}{finger_index}"] = finger_frequency
-            format_map["l" if hand == "left" else "r"] = hand_frequency
-
-        calculate_hand_uage("left")
-        calculate_hand_uage("right")
-
-        def calculate_row_usage(row):
-            row_usage = sum([
-                key.get_total_frequency() for key in self.keyboard.values() if key.row == row
-            ])
-
-            format_map["total"] += row_usage
-            format_map[f"o{row}"] = f"{row} {row_usage:.2%}" if row_usage != 0 else ""
-
-        # Can display only first 6 rows
-        for row in range(1, 6):
-            calculate_row_usage(row)
-
-        print(hands_frequency.format_map(format_map))
+        return hands_frequency.format_map(format_map)
 
     def key_max_usage(self) -> int:
+        """Finds key, that used rather than all other ones."""
         if self._key_max_usage is None:
             self.prepare()
 
@@ -175,10 +161,11 @@ class Keyboard():
 
         return usage
 
-    def finger_usage_percent(self, finger: int) -> int:
+    def finger_usage_frequency(self, finger: int) -> float:
+        """Returns finger usage float value."""
         return self.finger_usage(finger) / self.usage
 
-    def hand_usage(self, hand: int):
+    def hand_usage(self, hand: Literal[1, 2]) -> int:
         """Calculate hand usage by it's fingers."""
         usage = 0
 
@@ -191,11 +178,12 @@ class Keyboard():
 
         return usage
 
-    def hand_usage_frequency(self, hand: int) -> int:
+    def hand_usage_frequency(self, hand: int) -> float:
+        """Returns hand usage float value."""
         return self.hand_usage(hand) / self.usage
 
     def row_usage(self, row: int) -> int:
-        """Calculate row usage by keys."""
+        """Returns row usage by keys."""
         usage = 0
 
         for key in self.keys:
@@ -204,7 +192,8 @@ class Keyboard():
 
         return usage
 
-    def row_usage_frequency(self, row: int) -> int:
+    def row_usage_frequency(self, row: int) -> float:
+        """Returns selected row usage frequency."""
         return self.row_usage(row) / self.usage
 
     @property

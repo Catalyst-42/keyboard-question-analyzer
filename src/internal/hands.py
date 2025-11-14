@@ -4,7 +4,7 @@ from internal.keyboard import Keyboard
 
 class Hands:
     """Model of hands that type text.
-    
+
     Used in evaluation of finger travel distance.
     """
 

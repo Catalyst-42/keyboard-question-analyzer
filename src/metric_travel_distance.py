@@ -34,6 +34,10 @@ td_eq_fingers = td == sum(finger.travel_distance for finger in hands.fingers),
 assert td_eq_hands, "Hand td don't coverage with total"
 assert td_eq_fingers, "Finger td don't coverage"
 
+report = {
+    
+}
+
 print(
     'Travel distance:',
     ' - Left hand:',
