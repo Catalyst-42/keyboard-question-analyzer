@@ -48,4 +48,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *debug
+<<: *frequency

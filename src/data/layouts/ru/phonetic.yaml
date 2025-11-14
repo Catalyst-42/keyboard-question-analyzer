@@ -1,4 +1,4 @@
-name: phonetic
+name: "Фонетическая"
 layout:
   # Digit layer
   IntlBackslash:

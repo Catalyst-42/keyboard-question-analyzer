@@ -265,10 +265,8 @@ class Visualizer():
                 in_key_y = key.y <= -y <= key.y + key.h
 
                 if in_key_x and in_key_y:
-                    key = key
                     break
-
-            if not key:
+            else:
                 return ''
 
             code = key.key

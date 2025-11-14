@@ -1,4 +1,4 @@
-name: dvorak
+name: "Dvorak"
 layout:
   # Digit layer
   IntlBackslash:

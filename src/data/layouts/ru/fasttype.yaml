@@ -1,4 +1,4 @@
-name: fasttype
+name: "Скоропись"
 layout:
   # Digit layer
   IntlBackslash:

@@ -1,14 +1,13 @@
 from internal.keyboard import Keyboard
 from internal.corpus import Corpus
-from internal.hands import Hands
 from internal.setup import *
 
-ARGS = setup('metric_finger_usage')
+ARGS = setup('metric_usage_frequency')
 
 corpus = Corpus.load(ARGS['corpus'])
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
-hands = Hands(keyboard)
 
+# Emulated by loading
 print(keyboard.info(), '\n')
 print(keyboard.keyboard_usage())
 
@@ -23,16 +22,13 @@ report = {
     'finger_usage_8': keyboard.finger_usage_frequency(8),
     'finger_usage_9': keyboard.finger_usage_frequency(9),
     'finger_usage_10': keyboard.finger_usage_frequency(10),
-    # TODO: ПЕРЕПИСАТЬ РУКИ НА ЛЕВУЮ И ПРАВУЮ И СЛОИ КЛАВИАТУРЫ НА W3C СТАНДАРТ
-    'row_usage_top': keyboard.row_usage_frequency(2),
-    'row_usage_home': keyboard.row_usage_frequency(3),
-    'row_usage_bottom': keyboard.row_usage_frequency(4),
+    'row_usage_a': keyboard.row_usage_frequency('A'),
+    'row_usage_b': keyboard.row_usage_frequency('B'),
+    'row_usage_c': keyboard.row_usage_frequency('C'),
+    'row_usage_d': keyboard.row_usage_frequency('D'),
+    'row_usage_e': keyboard.row_usage_frequency('E'),
+    'row_usage_k': keyboard.row_usage_frequency('K'),
 }
 
-print(
-   'Finger usage:',
-   *(f' - Finger {finger.index}: {keyboard.finger_usage_frequency(finger.index):.2%}' for finger in hands.fingers),
-   'Row usage:',
-   *(f' - Row {row}: {keyboard.row_usage_frequency(row):.2%}' for row in range(1, 5)),
-   sep='\n'
-)
+for feature in report:
+    print(f'{feature}: {report[feature]:.2%}')

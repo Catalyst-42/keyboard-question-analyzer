@@ -1,4 +1,5 @@
-from internal.keyboard import Key
+from internal.key import Key
+from internal.keyboard import Keyboard
 
 class Finger:
     """Model if finger that types text.
@@ -6,7 +7,7 @@ class Finger:
     Used in travel distance evaluation.
     """
 
-    def __init__(self, index: int = 0, x: int = 0, y: int = 0):
+    def __init__(self, index: Keyboard.Finger, x: int = 0, y: int = 0) -> None:
         """Initialize finger."""
         self.index = index
         self.x = x
@@ -14,19 +15,15 @@ class Finger:
 
         self.travel_distance = 0.0
 
-    def move_to(self, key: Key) -> float:
+    def move_to(self, key: Key) -> None:
         """Move finger to selected position."""
-        new_x = key.x
-        new_y = key.y
+        self.travel_distance += (
+            ((key.x - self.x)**2 + (key.y - self.y)**2) ** 0.5 
+        )
 
-        distance = ((new_x - self.x)**2 + (new_y - self.y)**2) ** 0.5
-        self.travel_distance += distance
+        self.x = key.x
+        self.y = key.y
 
-        self.x = new_x
-        self.y = new_y
-
-        return distance
-
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Display finger position."""
         return f'({self.x}, {self.y})'

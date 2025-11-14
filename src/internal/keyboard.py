@@ -1,9 +1,12 @@
 from __future__ import annotations
-from typing import Literal
+
+from enum import IntEnum, StrEnum
+
 from yaml import safe_load
 
-from internal.key import Key
 from internal.corpus import Corpus
+from internal.key import Key
+
 
 class Keyboard():
     """Model of keyboard.
@@ -11,6 +14,32 @@ class Keyboard():
     Contain all information about keyboard and current layout.
     Can calculate information about keys using selected corpus.
     """
+
+    class Row(StrEnum):
+        """Enumeration for row index according to W3C standard."""
+        K = 'K'
+        E = 'E'
+        D = 'D'
+        C = 'C'
+        B = 'B' 
+        A = 'A'
+
+    class Finger(IntEnum):
+        """Enumeration for keyboard fingers."""
+        LEFT_PINKY = 1
+        LEFT_RING = 2
+        LEFT_MIDDLE = 3
+        LEFT_INDEX = 4
+        LEFT_THUMB = 5
+        RIGHT_THUMB = 6 
+        RIGHT_INDEX = 7
+        RIGHT_MIDDLE = 8
+        RIGHT_RING = 9
+        RIGHT_PINKY = 10
+
+    class Hand(StrEnum):
+        LEFT = 'left'
+        RIGHT = 'right'
 
     def __init__(self, keyboard_model: dict, layout_model: dict, corpus: Corpus):
         """Init keyboard. Uses corpus to calculate usages."""
@@ -116,23 +145,23 @@ class Keyboard():
         hands_frequency = """\
         \r{fingers:^32}{rows:^19}
         \r
-        \r ╭╴{f1:<6.2%}              {f10:>6.2%}╶╮      {o1:.2%}
-        \r │ ╭╴{f2:<6.2%}          {f9:>6.2%}╶╮ │      {o2:.2%}
-        \r 1 2 3 4                7 8 9 10     {o3:.2%}
-        \r     │ ╰╴{f4:<6.2%}  {f7:>6.2%}╶╯ │          {o4:.2%}
-        \r     ╰╴{f3:<6.2%}      {f8:>6.2%}╶╯          {o5:.2%}
+        \r ╭╴{f1:<6.2%}              {f10:>6.2%}╶╮      {rE:.2%}
+        \r │ ╭╴{f2:<6.2%}          {f9:>6.2%}╶╮ │      {rD:.2%}
+        \r 1 2 3 4                7 8 9 10     {rC:.2%}
+        \r     │ ╰╴{f4:<6.2%}  {f7:>6.2%}╶╯ │          {rB:.2%}
+        \r     ╰╴{f3:<6.2%}      {f8:>6.2%}╶╯          {rA:.2%}
         \r
         \r Left - {l:<6.2%}    {r:>6.2%} - Right
         \r"""
 
-        for i in range(1, 11):
-            format_map[f'f{i}'] = self.finger_usage_frequency(i)
+        for finger in Keyboard.Finger:
+            format_map[f'f{finger}'] = self.finger_usage_frequency(finger)
 
-        for i in range(1, 7):
-            format_map[f'o{i}'] = self.row_usage_frequency(i)
+        for row in Keyboard.Row:
+            format_map[f'r{row}'] = self.row_usage_frequency(row)
 
-        format_map['l'] = self.hand_usage_frequency(1)
-        format_map['r'] = self.hand_usage_frequency(2)
+        format_map['l'] = self.hand_usage_frequency('left')
+        format_map['r'] = self.hand_usage_frequency('right')
 
         return hands_frequency.format_map(format_map)
 
@@ -151,7 +180,7 @@ class Keyboard():
 
         return self._usage
 
-    def finger_usage(self, finger: int):
+    def finger_usage(self, finger: Finger):
         """Calculates finger usage by mappings."""
         usage = 0
 
@@ -161,28 +190,28 @@ class Keyboard():
 
         return usage
 
-    def finger_usage_frequency(self, finger: int) -> float:
+    def finger_usage_frequency(self, finger: Finger) -> float:
         """Returns finger usage float value."""
         return self.finger_usage(finger) / self.usage
 
-    def hand_usage(self, hand: Literal[1, 2]) -> int:
+    def hand_usage(self, hand: Hand) -> int:
         """Calculate hand usage by it's fingers."""
         usage = 0
 
         for finger in range(1, 11):
-            if hand == 1 and finger <= 5:
+            if hand == 'left' and finger <= 5:
                 usage += self.finger_usage(finger)
 
-            elif hand == 2 and finger > 5:
+            elif hand == 'right' and finger > 5:
                 usage += self.finger_usage(finger)
 
         return usage
 
-    def hand_usage_frequency(self, hand: int) -> float:
+    def hand_usage_frequency(self, hand: Hand) -> float:
         """Returns hand usage float value."""
         return self.hand_usage(hand) / self.usage
 
-    def row_usage(self, row: int) -> int:
+    def row_usage(self, row: Row) -> int:
         """Returns row usage by keys."""
         usage = 0
 
@@ -192,7 +221,7 @@ class Keyboard():
 
         return usage
 
-    def row_usage_frequency(self, row: int) -> float:
+    def row_usage_frequency(self, row: Row) -> float:
         """Returns selected row usage frequency."""
         return self.row_usage(row) / self.usage
 

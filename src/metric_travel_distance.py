@@ -9,44 +9,23 @@ keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], ARGS['corpus'])
 corpus = Corpus.load(ARGS['corpus'])
 hands = Hands(keyboard)
 
+# Emulate
 print(keyboard.info(), '\n')
-
-for i, char in enumerate(corpus.text):
-    key = keyboard.key_by_mapping(char)
-
-    if not key:
-        continue
-
-    hands.move_to(key.finger, key)
-    print(f'\rProgress: {i/len(corpus.text):.2%} ', end='')
-
-else:
-    print('\n')  # Get rid of empty end stat output
-
-td = hands.travel_distance
-td_left_hand = hands.travel_distance_left_hand
-td_right_hand = hands.travel_distance_right_hand
-
-# Assets obvious things
-td_eq_hands = td == td_left_hand + td_right_hand,
-td_eq_fingers = td == sum(finger.travel_distance for finger in hands.fingers),
-
-assert td_eq_hands, "Hand td don't coverage with total"
-assert td_eq_fingers, "Finger td don't coverage"
+hands.simulate_typing(keyboard, corpus)
 
 report = {
-    
+    'travel_distance': hands.travel_distance,
+    'travel_distance_finger_1': hands.fingers[1].travel_distance,
+    'travel_distance_finger_2': hands.fingers[2].travel_distance,
+    'travel_distance_finger_3': hands.fingers[3].travel_distance,
+    'travel_distance_finger_4': hands.fingers[4].travel_distance,
+    'travel_distance_finger_5': hands.fingers[5].travel_distance,
+    'travel_distance_finger_6': hands.fingers[6].travel_distance,
+    'travel_distance_finger_7': hands.fingers[7].travel_distance,
+    'travel_distance_finger_8': hands.fingers[8].travel_distance,
+    'travel_distance_finger_9': hands.fingers[9].travel_distance,
+    'travel_distance_finger_10': hands.fingers[10].travel_distance,
 }
 
-print(
-    'Travel distance:',
-    ' - Left hand:',
-    *(f'  - {finger.index}: {int(finger.travel_distance)}' for finger in hands.fingers[:5]),
-    ' - Right hand:',
-    *(f'  - {finger.index}: {int(finger.travel_distance)}' for finger in hands.fingers[5:]),
-    '\nTotal:',
-    f' - Left hand: {int(td_left_hand)}',
-    f' - Right hand: {int(td_right_hand)}',
-    f' - Both: {int(td)}',
-    sep='\n'
-)
+for feature in report:
+    print(f'{feature}: {int(report[feature]):,}')

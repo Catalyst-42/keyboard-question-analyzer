@@ -1,4 +1,4 @@
-name: "matrix_60"
+name: "Matrix 60%"
 keyboard:
   # Digit layer
   Backquote:
@@ -6,84 +6,84 @@ keyboard:
     y: 0
     w: 51
     h: 34
-    row: 1
+    row: E
     finger: 1
   Digit1:
     x: 57
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 1
   Digit2:
     x: 97
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 2
   Digit3:
     x: 137
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 3
   Digit4:
     x: 177
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 4
   Digit5:
     x: 217
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 4
   Digit6:
     x: 297
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 7
   Digit7:
     x: 337
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 7
   Digit8:
     x: 377
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 8
   Digit9:
     x: 417
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 9
   Digit0:
     x: 457
     y: 0
     w: 34
     h: 34
-    row: 1
+    row: E
     finger: 10
   Equal:
     x: 497
     y: 0
     w: 51
     h: 34
-    row: 1
+    row: E
     finger: 10
 
   # Top layer
@@ -92,84 +92,84 @@ keyboard:
     y: 40
     w: 51
     h: 34
-    row: 2
+    row: D
     finger: 1
   KeyQ:
     x: 57
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 1
   KeyW:
     x: 97
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 2
   KeyE:
     x: 137
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 3
   KeyR:
     x: 177
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 4
   KeyT:
     x: 217
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 4
   KeyY:
     x: 297
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 7
   KeyU:
     x: 337
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 7
   KeyI:
     x: 377
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 8
   KeyO:
     x: 417
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 9
   KeyP:
     x: 457
     y: 40
     w: 34
     h: 34
-    row: 2
+    row: D
     finger: 10
   Minus:
     x: 497
     y: 40
     w: 51 
     h: 34
-    row: 2
+    row: D
     finger: 10
 
   # Home layer
@@ -178,14 +178,14 @@ keyboard:
     y: 80
     w: 51
     h: 34
-    row: 3
+    row: C
     finger: 1
   KeyA:
     x: 57
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 1
     is_home: true
   KeyS:
@@ -193,7 +193,7 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 2
     is_home: true
   KeyD:
@@ -201,7 +201,7 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 3
     is_home: true
   KeyF:
@@ -209,7 +209,7 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 4
     is_home: true
   KeyG:
@@ -217,21 +217,21 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 4
   KeyH:
     x: 297
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 7
   KeyJ:
     x: 337
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 7
     is_home: true
   KeyK:
@@ -239,7 +239,7 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 8
     is_home: true
   KeyL:
@@ -247,7 +247,7 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 9
     is_home: true
   Semicolon:
@@ -255,7 +255,7 @@ keyboard:
     y: 80
     w: 34
     h: 34
-    row: 3
+    row: C
     finger: 10
     is_home: true
   Quote:
@@ -263,7 +263,7 @@ keyboard:
     y: 80
     w: 51
     h: 34
-    row: 3
+    row: C
     finger: 10
 
   # Bottom layer
@@ -272,84 +272,84 @@ keyboard:
     y: 120
     w: 51
     h: 34
-    row: 4
+    row: B
     finger: 1
   KeyZ:
     x: 57
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 1
   KeyX:
     x: 97
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 2
   KeyC:
     x: 137
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 3
   KeyV:
     x: 177
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 4
   KeyB:
     x: 217
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 4
   KeyN:
     x: 297
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 7
   KeyM:
     x: 337
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 7
   Comma:
     x: 377
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 8
   Period:
     x: 417
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 9
   Slash:
     x: 457
     y: 120
     w: 34
     h: 34
-    row: 4
+    row: B
     finger: 10
   Enter:
     x: 497
     y: 120
     w: 51
     h: 34
-    row: 4
+    row: B
     finger: 10
 
   # Control layer
@@ -358,14 +358,14 @@ keyboard:
     y: 160
     w: 34
     h: 34
-    row: 5
+    row: A
     finger: 5
   MetaLeft:
     x: 217
     y: 160
     w: 34
     h: 34
-    row: 5
+    row: A
     finger: 5
     is_home: true
   Space:
@@ -373,7 +373,7 @@ keyboard:
     y: 160
     w: 34
     h: 34
-    row: 5
+    row: A
     finger: 6
     is_home: true
   Backspace:
@@ -381,5 +381,5 @@ keyboard:
     y: 160
     w: 34
     h: 34
-    row: 5
+    row: A
     finger: 6
