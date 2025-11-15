@@ -21,8 +21,9 @@ class Hands:
 
         # Set position of keys on homerow
         for key in keyboard.keys_is_home:
-            self._fingers[key.finger].x = key.x
-            self._fingers[key.finger].y = key.y
+            cx, cy = key.center()
+            self._fingers[key.finger].x = cx
+            self._fingers[key.finger].y = cy
 
     def __repr__(self) -> str:
         """Return positions of all fingers of both hands."""

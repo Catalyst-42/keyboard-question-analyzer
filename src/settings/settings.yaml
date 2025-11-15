@@ -19,4 +19,4 @@ anchors:
 
 # Global settings
 <<: *default
-<<: *jcuken
+<<: *qwerty

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from enum import IntEnum, StrEnum
+from functools import cached_property
+from math import hypot
 
 from yaml import safe_load
 
@@ -45,11 +47,13 @@ class Keyboard():
         """Init keyboard. Uses corpus to calculate usages."""
         self.corpus = corpus
 
+        self.one_unit: int = keyboard_model['one_unit']
+
         self.name = keyboard_model['name']
         self.layout_name = layout_model['name']
 
-        self._code_to_key: dict[str, Key] = {}
-        self._mapping_to_key: dict[str, Key] = {}
+        self.code_to_key: dict[str, Key] = {}
+        self.mapping_to_key: dict[str, Key] = {}
 
         keys: dict = keyboard_model.get('keyboard')
         layouts: dict = layout_model.get('layout')
@@ -61,27 +65,11 @@ class Keyboard():
             key = Key(self, key_code, key_data, key_layout)
 
             # Map by code and chars on layout
-            self._code_to_key[key_code] = key
+            self.code_to_key[key_code] = key
             for char in key_chars:
-                self._mapping_to_key[char] = key
-
-        # Cached values
-        self._usage: int | None = None
-        self._key_max_usage: int | None = None 
+                self.mapping_to_key[char] = key
 
         self.check_dublicate_mappings()
-
-    def prepare(self):
-        """Calculate keyboard stats."""
-        self._key_max_usage = max(key.usage for key in self.keys)
-        self._usage = 0
-
-        for key in self.keys:
-            self._usage += key.usage
-
-    def _drop_cache(self):
-        """Drops cached properties."""
-        self._key_max_usage = None
 
     @classmethod
     def load(self, keyboard_model_path, layout_model_path, corpus: Corpus):
@@ -97,12 +85,12 @@ class Keyboard():
 
     def key_by_mapping(self, mapping: str) -> Key:
         """Returns keyboard key that contain selected mapping."""
-        return self._mapping_to_key.get(mapping)
+        return self.mapping_to_key.get(mapping)
 
     @property
     def keys(self) -> list[Key]:
         """Returns list of keys on keyboard."""
-        return list(self._code_to_key.values())
+        return list(self.code_to_key.values())
 
     @property
     def keys_is_home(self) -> list[Key]:
@@ -165,18 +153,18 @@ class Keyboard():
 
         return hands_frequency.format_map(format_map)
 
+    @cached_property
     def key_max_usage(self) -> int:
         """Finds key, that used rather than all other ones."""
-        if self._key_max_usage is None:
-            self.prepare()
-
+        self._key_max_usage = max(key.usage for key in self.keys)
         return self._key_max_usage
 
-    @property
+    @cached_property
     def usage(self) -> int:
         """Calculates total keyboard usage."""
-        if self._usage is None:
-            self.prepare()
+        self._usage = 0
+        for key in self.keys:
+            self._usage += key.usage
 
         return self._usage
 
@@ -226,8 +214,8 @@ class Keyboard():
         return self.row_usage(row) / self.usage
 
     @property
-    def chars(self):
-        """Returns list if chars, used in layout. Ignores modifiers."""
+    def chars(self) -> set:
+        """Returns set if chars, used in layout. Ignores modifiers."""
         mappings = set()
 
         for key in self.keys:
@@ -237,3 +225,157 @@ class Keyboard():
             mappings.update(key.mappings.values())
 
         return mappings
+
+    def is_sfb(self, bigram: str) -> bool:
+        """True if bigram are same-finger one.
+
+        Consider bigram as SFB if:
+        - Characters pressed with same finger
+        - Characters not equal (a.e. `ee` non an SFB)
+        """
+        assert len(bigram) == 2, 'bigram length must be 2'
+
+        left_key = self.mapping_to_key.get(bigram[0])
+        right_key = self.mapping_to_key.get(bigram[1])
+
+        # Same characters
+        if bigram[0] == bigram[1]:
+            return False
+
+        # No fingers found
+        if not left_key or not right_key:
+            return False
+
+        return left_key.finger == right_key.finger
+
+    @cached_property
+    def sfb_frequency(self) -> float:
+        """Calculated same-finger bigram occurance frequency."""
+        sfb = 0
+        bigrams = self.corpus.bigrams
+
+        for bigram, usage in bigrams.items():
+            if self.is_sfb(bigram):
+                sfb += usage
+
+        return sfb / bigrams.total()
+
+    @cached_property
+    def sfb_mean_distance(self) -> float:
+        """Returns mean distance between same-finger bigrams in units."""
+        total_distance = 0
+        total_weight = 0
+
+        for bigram, weight in self.corpus.bigrams.items():
+            if self.is_sfb(bigram):
+                left_key = self.mapping_to_key[bigram[0]]
+                right_key = self.mapping_to_key[bigram[1]]
+
+                distance = left_key.distance_to(right_key) * weight
+
+                total_distance += distance
+                total_weight += weight
+
+        return total_distance / total_weight / self.one_unit
+
+    def is_fsb(self, bigram: str) -> bool:
+        """True if bigram are full scissor one.
+
+        Consider bigram as full scissor if:
+        - Vertical separation between keys is 2 or more units
+        - Bigram printed with one hand
+        - The finger that prefers being higher are not
+            - Prefered order (from top to bottom) are:
+                - Middle
+                - Ring
+                - Pinky
+                - Index
+                - Thumb
+        """
+        assert len(bigram) == 2, 'bigram length must be 2'
+        top_key = self.mapping_to_key[bigram[0]]
+        bottom_key = self.mapping_to_key[bigram[1]]
+
+        # Keys not found
+        if not top_key or not bottom_key:
+            return False
+
+        # Must be different fingers
+        if top_key.finger == bottom_key.finger:
+            return False
+
+        # Must be one hand fingers
+        if top_key.hand != bottom_key.hand:
+            return False
+
+        # Must be around 2u of distance
+        if abs(top_key.y - bottom_key.y) / self.one_unit < 2:
+            return False
+
+        # Lower index means the higher must be finger
+        order = {
+            Keyboard.Finger.RIGHT_MIDDLE: 0, 
+            Keyboard.Finger.RIGHT_RING: 1,
+            Keyboard.Finger.RIGHT_PINKY: 2,
+            Keyboard.Finger.RIGHT_INDEX: 3,
+            Keyboard.Finger.RIGHT_THUMB: 4,
+
+            Keyboard.Finger.LEFT_MIDDLE: 0,
+            Keyboard.Finger.LEFT_RING: 1,
+            Keyboard.Finger.LEFT_PINKY: 2,
+            Keyboard.Finger.LEFT_INDEX: 3,
+            Keyboard.Finger.LEFT_THUMB: 4,
+        }
+
+        # Determine which key finger must be higher
+        if order[top_key.finger] > order[bottom_key.finger]:
+            top_key, bottom_key = bottom_key, top_key
+
+        return not (top_key.y < bottom_key.y)
+
+    @cached_property
+    def fsb_frequency(self) -> float:
+        """Calculates full scissor bigrams occurance frequency."""
+        fsb = 0
+        bigrams = self.corpus.bigrams
+
+        for bigram, usage in bigrams.items():
+            if self.is_fsb(bigram):
+                fsb += usage
+
+        return fsb / bigrams.total()
+
+    def is_sfs(self, trigram: str) -> bool:
+        """True if trigram are same-finger 1-skipgram.
+
+        Consider trigram as same-finger 1-skipgramm if:
+        - First and last characters are pressed by same finger
+        - First and last charactes are not the same (a.e. `e_e` not an SFS)
+        - Middle characted doesn't matters
+        """
+        assert len(trigram) == 3, 'trigram length must be 3'
+
+        left_key = self.mapping_to_key.get(trigram[0])
+        right_key = self.mapping_to_key.get(trigram[2])
+
+        # Same characters
+        if trigram[0] == trigram[2]:
+            return False
+
+        # No fingers found
+        if not left_key or not right_key:
+            return False
+
+        return left_key.finger == right_key.finger
+
+    @cached_property
+    def sfs_frequency(self) -> float:
+        """Returns same-finger 1-skipgram occurance frequency."""
+        sfs = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            if self.is_sfs(trigram):
+                sfs += usage
+
+        return sfs / trigrams.total()

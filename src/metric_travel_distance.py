@@ -5,8 +5,8 @@ from internal.setup import *
 
 ARGS = setup('metric_travel_distance')
 
-keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], ARGS['corpus'])
 corpus = Corpus.load(ARGS['corpus'])
+keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 hands = Hands(keyboard)
 
 # Emulate
@@ -28,4 +28,4 @@ report = {
 }
 
 for feature in report:
-    print(f'{feature}: {int(report[feature]):,}')
+    print(f'{feature}: {round(report[feature]):,}')

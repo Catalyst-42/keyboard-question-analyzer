@@ -8,6 +8,7 @@
 # show_fingers: bool      # -f
 # show_frequencies: bool  # -p
 # show_home_keys: bool    # -hk
+# show_keys_centers: bool
 # color_by: str           # -c <'frequency' | 'row' | 'hand' | 'finger' | 'home' | 'none'>
 
 anchors:
@@ -16,16 +17,17 @@ anchors:
       layers: 2
       combined_2: false
 
-      show_modifiers: true   # -m
-      show_layout: true      # -l
-      show_key_codes: false  # -k
+      show_modifiers: true
+      show_layout: true
+      show_key_codes: false
 
-      show_row_numbers: false  # -r
-      show_fingers: false      # -f
-      show_frequencies: false  # -p
-      show_home_keys: true     # -hk
+      show_row_numbers: false
+      show_fingers: false
+      show_frequencies: false
+      show_home_keys: true
+      show_keys_centers: false
 
-      color_by: none  # -c <'frequency' | 'row' | 'hand' | 'finger' | 'home' | 'none'>
+      color_by: none
 
     frequency: &frequency
       show_frequencies: true
@@ -46,6 +48,15 @@ anchors:
 
       color_by: finger
 
+    coordinates: &coordinates
+      layers: 1
+      show_layout: false
+      show_home_keys: false
+      show_keys_centers: true
+
+      color_by: home
+
 # Script settings
 <<: *default
-<<: *frequency
+<<: *preview
+color_by: finger

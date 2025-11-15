@@ -5,16 +5,28 @@ from internal.setup import *
 
 ARGS = setup('metric_ngramms')
 
-keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], ARGS['corpus'])
-corpus = Corpus('custom', 'Hello world')
-# corpus = Corpus.load(ARGS['corpus'])
+corpus = Corpus.load(ARGS['corpus'])
+# corpus = Corpus('custom', '')
+keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 hands = Hands(keyboard)
 
-print(corpus.bigrams)
-print(corpus.trigrams)
+print(keyboard.info(), '\n')
 
-total_bigrams = 0
-total_trigrams = 0
+report = {
+    '%_sfb_frequcency': keyboard.sfb_frequency,
+    'u_sfb_mean_distance': keyboard.sfb_mean_distance,
+    '%_sfs_frequency': keyboard.sfs_frequency,
+    '%_fsb_frequency': keyboard.fsb_frequency,
+}
 
-print('Tri:', corpus.bigrams.total(), corpus.length)
-print('Bri:', corpus.trigrams.total(), corpus.length)
+for feature in report:
+    name = feature
+    prefix = feature[0]
+    feature = feature[2:]
+
+    if prefix == '%':
+        print(f'{feature}: {report[name]:.2%}')
+    elif prefix == 'u':
+        print(f'{feature}: {report[name]:.3}u')
+    elif prefix == 'i':
+        print(f'{feature}: {round(report[name]):.2}')

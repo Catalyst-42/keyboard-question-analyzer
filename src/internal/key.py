@@ -26,6 +26,7 @@ class Key():
         self.h: int = key_data.get('h', 40)
         self.row: int = key_data.get('row', 'A')
         self.finger: Keyboard.Finger = key_data.get('finger', 1)
+        self.hand: Keyboard.Hand = 'left' if self.finger < 6 else 'right'
         self.is_home: bool = key_data.get('is_home', False)
 
         # Notch params for curve enter key

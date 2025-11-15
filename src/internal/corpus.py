@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pathlib
 from collections import Counter
+from functools import cached_property
 
 
 class Corpus():
@@ -16,38 +17,12 @@ class Corpus():
         self.name = name
         self.text = text
 
-        # Cached values
-        self._usage: int | None = None 
-        self._char_usage: Counter | None = None
-        self._bigrams: Counter | None = None
-        self._trigrams: Counter | None = None
-
-    def prepare(self) -> None:
-        """Calculate corpus stats."""
-        # Full
-        letters = self.text
-
-        # Canonical
-        # letters = ''.join(filter(lambda v: v.isalpha(), self.text))
-        # letters = letters.lower()
-
-        # Usage
-        self._char_usage = Counter(letters)
-
-        # Bigramms
-        bigrams = (letters[i:i+2] for i in range(len(letters) - 1))
-        self._bigrams = Counter(bigrams) 
-
-        # Trigrams
-        trigrams = (letters[i:i+3] for i in range(len(letters) - 2))
-        self._trigrams = Counter(trigrams) 
-
     def _drop_cache(self) -> None:
         """Drops cached values."""
-        self._usage = None
-        self._char_usage = None
-        self._bigrams = None
-        self._trigrams = None
+        del self.length
+        del self.unigrams
+        del self.bigrams
+        del self.trigrams
 
     @classmethod 
     def load(self, corpus_folder) -> Corpus:
@@ -75,46 +50,45 @@ class Corpus():
         """Return sorted string of corpus unique chars."""
         return ''.join(sorted(set(self.text)))
 
-    @property
+    @cached_property
     def length(self) -> int:
         """Return length of all corpus content."""
-        if self._usage is None:
-            self.prepare()
+        return len(self.text)
 
-        return self._usage
-
-    @property
+    @cached_property
     def unigrams(self) -> Counter:
-        """Returns dict of unigrams with usage."""
-        if self.char_usage is None:
-            self.prepare()
+        """Returns counter dict of corpus unigrams."""
+        unigrams = Counter(self.text)
+        return unigrams
 
-        return self._char_usage
-
-    @property
+    @cached_property
     def bigrams(self) -> Counter:
-        """Returns list of corpus bigrams."""
-        if self._bigrams is None:
-            self.prepare()
+        """Returns counter dict of corpus bigrams."""
+        groups = (self.text[i:i+2] for i in range(len(self.text) - 1))
+        bigrams = Counter(groups) 
 
-        return self._bigrams
+        return bigrams
 
-    @property
+    @cached_property
     def trigrams(self) -> Counter:
-        """Returns list of corpus trigrams."""
-        if self._trigrams is None:
-            self.prepare()
+        """Returns counter dict of corpus trigrams."""
+        groups = (self.text[i:i+3] for i in range(len(self.text) - 2))
+        trigrams = Counter(groups) 
 
-        return self._trigrams
+        return trigrams
 
-    def clean(self, allowed_chars: str | list) -> None:
-        """Filger current corpus text by filter string."""
-        self.text = self.text.translate(
-            str.maketrans('\t\n', '  ')
-        )
-        self.text = ''.join(
-            [key for key in self.text if key in allowed_chars]
-        )
+    def clean(self, allowed_chars: str | set = None, filter_func: callable = None) -> None:
+        """Filger corpus text by given chars or function."""
+        if allowed_chars:
+            self.text = ''.join(
+                [key for key in self.text if key in allowed_chars]
+            )
+
+        if filter_func:
+            self.text = ''.join(
+                filter(filter_func, self.text)
+            )
+
         self._drop_cache()
 
     def limit(self, length) -> None:
@@ -125,8 +99,4 @@ class Corpus():
     def char_usage(self, char: str) -> int:
         """Get character usage in corpus."""
         assert len(char) == 1, 'Char must be length of one'
-
-        if self._char_usage is None:
-            self.prepare()
-
-        return self._char_usage.get(char, 0)
+        return self.unigrams.get(char, 0)
