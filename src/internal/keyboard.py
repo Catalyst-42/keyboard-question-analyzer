@@ -226,6 +226,25 @@ class Keyboard():
 
         return mappings
 
+    @cached_property
+    def bigram_mean_distance(self) -> float:
+        """Returns mean distance between bigram keys."""
+        bigrams = self.corpus.bigrams
+
+        total_distance = 0
+        total_weight = 0
+
+        for bigram, weight in bigrams.items():
+            left_key = self.mapping_to_key[bigram[0]]
+            right_key = self.mapping_to_key[bigram[1]]
+
+            distance = left_key.distance_to(right_key) * weight
+
+            total_distance += distance
+            total_weight += weight
+
+        return total_distance / total_weight / self.one_unit
+
     def is_sfb(self, bigram: str) -> bool:
         """True if bigram are same-finger one.
 
@@ -249,7 +268,7 @@ class Keyboard():
         return left_key.finger == right_key.finger
 
     @cached_property
-    def sfb_frequency(self) -> float:
+    def same_finger_bigram_frequency(self) -> float:
         """Calculated same-finger bigram occurance frequency."""
         sfb = 0
         bigrams = self.corpus.bigrams
@@ -261,29 +280,35 @@ class Keyboard():
         return sfb / bigrams.total()
 
     @cached_property
-    def sfb_mean_distance(self) -> float:
+    def same_finger_bigram_mean_distance(self) -> float:
         """Returns mean distance between same-finger bigrams in units."""
+        bigrams = self.corpus.bigrams
+
         total_distance = 0
         total_weight = 0
 
-        for bigram, weight in self.corpus.bigrams.items():
-            if self.is_sfb(bigram):
-                left_key = self.mapping_to_key[bigram[0]]
-                right_key = self.mapping_to_key[bigram[1]]
+        for bigram, weight in bigrams.items():
+            if not self.is_sfb(bigram):
+                continue
 
-                distance = left_key.distance_to(right_key) * weight
+            left_key = self.mapping_to_key[bigram[0]]
+            right_key = self.mapping_to_key[bigram[1]]
 
-                total_distance += distance
-                total_weight += weight
+            distance = left_key.distance_to(right_key) * weight
+
+            total_distance += distance
+            total_weight += weight
+
+        if total_weight == 0:
+            return 0.0
 
         return total_distance / total_weight / self.one_unit
 
-    def is_fsb(self, bigram: str) -> bool:
-        """True if bigram are full scissor one.
+    def _is_scissor_bigram(self, bigram: str, full: bool) -> bool:
+        """True if bigram are half or full scissor one.
 
-        Consider bigram as full scissor if:
-        - Vertical separation between keys is 2 or more units
-        - Bigram printed with one hand
+        Consider bigram as scissor if:
+        - Bigram typed with one hand
         - The finger that prefers being higher are not
             - Prefered order (from top to bottom) are:
                 - Middle
@@ -291,6 +316,12 @@ class Keyboard():
                 - Pinky
                 - Index
                 - Thumb
+
+        Consider bigram as half scissor if:
+        - Vertical separation between keys is less than 2 units
+
+        Consider bigram as full scissor if:
+        - Vertical separation between keys is 2 or more units
         """
         assert len(bigram) == 2, 'bigram length must be 2'
         top_key = self.mapping_to_key[bigram[0]]
@@ -308,9 +339,16 @@ class Keyboard():
         if top_key.hand != bottom_key.hand:
             return False
 
-        # Must be around 2u of distance
-        if abs(top_key.y - bottom_key.y) / self.one_unit < 2:
-            return False
+        # Must be around 2u of distance for full
+        distance = abs(top_key.y - bottom_key.y) / self.one_unit
+        if full:
+            if distance < 2:
+                return False
+
+        # Must be around 1u of distance for half
+        if not full:
+            if distance < 1 or distance >= 2:
+                return False
 
         # Lower index means the higher must be finger
         order = {
@@ -333,8 +371,16 @@ class Keyboard():
 
         return not (top_key.y < bottom_key.y)
 
+    def is_fsb(self, bigram: str) -> bool:
+        """True if bigram are full scissor one."""
+        return self._is_scissor_bigram(bigram, True)
+
+    def is_hsb(self, bigram: str) -> bool:
+        """True if bigram are half scissor one."""
+        return self._is_scissor_bigram(bigram, False)
+
     @cached_property
-    def fsb_frequency(self) -> float:
+    def full_scissor_bigram_frequency(self) -> float:
         """Calculates full scissor bigrams occurance frequency."""
         fsb = 0
         bigrams = self.corpus.bigrams
@@ -344,6 +390,18 @@ class Keyboard():
                 fsb += usage
 
         return fsb / bigrams.total()
+
+    @cached_property
+    def half_scissor_bigram_frequency(self) -> float:
+        """Calculates half scissor bigrams occurance frequency."""
+        hsb = 0
+        bigrams = self.corpus.bigrams
+
+        for bigram, usage in bigrams.items():
+            if self.is_hsb(bigram):
+                hsb += usage
+
+        return hsb / bigrams.total()
 
     def is_sfs(self, trigram: str) -> bool:
         """True if trigram are same-finger 1-skipgram.
@@ -369,7 +427,7 @@ class Keyboard():
         return left_key.finger == right_key.finger
 
     @cached_property
-    def sfs_frequency(self) -> float:
+    def same_finger_skipgram_frequency(self) -> float:
         """Returns same-finger 1-skipgram occurance frequency."""
         sfs = 0
         trigrams = self.corpus.trigrams
@@ -379,3 +437,54 @@ class Keyboard():
                 sfs += usage
 
         return sfs / trigrams.total()
+
+    @cached_property
+    def same_finger_skipgram_mean_distance(self) -> float:
+        """Returns mean distance between same-finger 1-skipgram in units."""
+        trigrams = self.corpus.trigrams
+
+        total_distance = 0
+        total_weight = 0
+
+        for trigram, weight in trigrams.items():
+            if not self.is_sfs(trigram):
+                continue
+
+            left_key = self.mapping_to_key[trigram[0]]
+            right_key = self.mapping_to_key[trigram[2]]
+
+            distance = left_key.distance_to(right_key) * weight
+
+            total_distance += distance
+            total_weight += weight
+
+        if total_weight == 0:
+            return 0.0
+
+        return total_distance / total_weight / self.one_unit
+
+    @cached_property
+    def full_scissor_skipgram_frequency(self) -> float:
+        """Calculates full scissor 1-skipgram occurance frequency."""
+        fss = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            bigram = trigram[0] + trigram[2]
+            if self.is_fsb(bigram):
+                fss += usage
+
+        return fss / trigrams.total()
+
+    @cached_property
+    def half_scissor_skipgram_frequency(self) -> float:
+        """Calculates half scissor 1-skipgram occurance frequency."""
+        hss = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            bigram = trigram[0] + trigram[2]
+            if self.is_hsb(bigram):
+                hss += usage
+
+        return hss / trigrams.total()

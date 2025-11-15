@@ -6,6 +6,7 @@ from internal.setup import *
 ARGS = setup('metric_travel_distance')
 
 corpus = Corpus.load(ARGS['corpus'])
+# corpus = Corpus('custom', 'hello')
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 hands = Hands(keyboard)
 
@@ -28,4 +29,9 @@ report = {
 }
 
 for feature in report:
-    print(f'{feature}: {round(report[feature]):,}')
+    print(f'{feature}: {round((report[feature] / keyboard.one_unit)):,}u')
+
+print()
+
+for feature in report:
+    print(f'mean_{feature}: {(report[feature] / keyboard.one_unit / corpus.length):.2}u')

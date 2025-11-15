@@ -97,7 +97,7 @@ class Key():
 
     def center(self) -> tuple[float, float]:
         """Calculates real key center (x, y)."""
-        return (self.x + self.w / 2, self.y + self.h / 2)
+        return (self.x + self.w/2, self.y + self.h/2)
 
     def distance_to(self, other: Key) -> float:
         """Calculated distance to other key."""

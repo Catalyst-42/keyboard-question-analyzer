@@ -6,17 +6,21 @@ from internal.setup import *
 ARGS = setup('metric_ngramms')
 
 corpus = Corpus.load(ARGS['corpus'])
-# corpus = Corpus('custom', '')
+# corpus = Corpus('custom', 'burn')
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 hands = Hands(keyboard)
 
 print(keyboard.info(), '\n')
 
 report = {
-    '%_sfb_frequcency': keyboard.sfb_frequency,
-    'u_sfb_mean_distance': keyboard.sfb_mean_distance,
-    '%_sfs_frequency': keyboard.sfs_frequency,
-    '%_fsb_frequency': keyboard.fsb_frequency,
+    '%_same_finger_bigram_frequcency': keyboard.same_finger_bigram_frequency,
+    'u_same_finger_bigram_mean_distance': keyboard.same_finger_bigram_mean_distance,
+    '%_half_scissor_bigram_frequency': keyboard.half_scissor_bigram_frequency,
+    '%_full_scissor_bigram_frequency': keyboard.full_scissor_bigram_frequency,
+    '%_same_finger_skipgram_frequency': keyboard.same_finger_skipgram_frequency,
+    'u_same_finger_skipgram_mean_distance': keyboard.same_finger_skipgram_mean_distance,
+    '%_half_scissor_skipgram_frequency': keyboard.half_scissor_skipgram_frequency,
+    '%_full_scissor_skipgram_frequency': keyboard.full_scissor_skipgram_frequency,
 }
 
 for feature in report:
