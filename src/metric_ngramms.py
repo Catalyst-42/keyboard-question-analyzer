@@ -26,6 +26,7 @@ report = {
     '%_roll_frequency': keyboard.roll_frequency,
     '%_alternate_frequency': keyboard.alternate_frequency,
     'f_roll:alternation': keyboard.roll_frequency / keyboard.alternate_frequency,
+    '%_onehand_frequency': keyboard.onehand_frequency,
 }
 
 for feature in report:

@@ -120,7 +120,7 @@ layout:
       1: "\\"
       2: "|"
 
-  # Home layer (изменено согласно Colemak)
+  # Home layer
   CapsLock:
     is_modifier: true
     mappings:

@@ -224,7 +224,7 @@ layout:
     mappings:
       1: "⇧"
 
-  # Control keys (остаются такими же)
+  # Control keys
   Function:
     is_modifier: true
     mappings:

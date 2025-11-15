@@ -71,7 +71,7 @@ class Hands:
         one_percent = corpus.length // 100 - 1
 
         for i, char in enumerate(corpus.text):
-            key = keyboard.key_by_mapping(char)
+            key = keyboard.mapping_to_key(char)
 
             if key: 
                 self.move_to(key.finger, key)

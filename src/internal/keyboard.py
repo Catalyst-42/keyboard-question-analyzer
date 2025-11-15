@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import IntEnum, StrEnum
 from functools import cached_property
-from math import hypot
+from collections import Counter
 
 from yaml import safe_load
 
@@ -52,8 +52,8 @@ class Keyboard():
         self.name = keyboard_model['name']
         self.layout_name = layout_model['name']
 
-        self.code_to_key: dict[str, Key] = {}
-        self.mapping_to_key: dict[str, Key] = {}
+        self._code_to_key: dict[str, Key] = {}
+        self._mapping_to_key: dict[str, Key] = {}
 
         keys: dict = keyboard_model.get('keyboard')
         layouts: dict = layout_model.get('layout')
@@ -65,9 +65,9 @@ class Keyboard():
             key = Key(self, key_code, key_data, key_layout)
 
             # Map by code and chars on layout
-            self.code_to_key[key_code] = key
+            self._code_to_key[key_code] = key
             for char in key_chars:
-                self.mapping_to_key[char] = key
+                self._mapping_to_key[char] = key
 
         self.check_dublicate_mappings()
 
@@ -83,14 +83,14 @@ class Keyboard():
 
         return Keyboard(keyboard_model, layout_model, corpus)
 
-    def key_by_mapping(self, mapping: str) -> Key | None:
-        """Return key that contain selected mapping or None."""
-        return self.mapping_to_key.get(mapping)
+    def mapping_to_key(self, mapping: str) -> Key | None:
+        """Return None or key that contain selected mapping."""
+        return self._mapping_to_key.get(mapping)
 
     @property
     def keys(self) -> list[Key]:
         """Return list of keys on keyboard."""
-        return list(self.code_to_key.values())
+        return list(self._code_to_key.values())
 
     @property
     def keys_is_home(self) -> list[Key]:
@@ -235,8 +235,8 @@ class Keyboard():
         total_weight = 0
 
         for bigram, weight in bigrams.items():
-            left_key = self.mapping_to_key.get(bigram[0])
-            right_key = self.mapping_to_key.get(bigram[1])
+            left_key = self.mapping_to_key(bigram[0])
+            right_key = self.mapping_to_key(bigram[1])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -254,8 +254,8 @@ class Keyboard():
         """
         assert len(bigram) == 2, 'bigram length must be 2'
 
-        left_key = self.mapping_to_key.get(bigram[0])
-        right_key = self.mapping_to_key.get(bigram[1])
+        left_key = self.mapping_to_key(bigram[0])
+        right_key = self.mapping_to_key(bigram[1])
 
         # Same characters
         if bigram[0] == bigram[1]:
@@ -267,9 +267,22 @@ class Keyboard():
 
         return left_key.finger == right_key.finger
 
+    def _ngram_frequency(self, ngrams: Counter, by: callable[str, bool]) -> float:
+        """Counts frequency by function filter for ngram counter."""
+        total_usage = 0
+
+        for ngram, usage in ngrams.items():
+            if by(ngram):
+                total_usage += usage
+
+        return total_usage / ngrams.total()
+
     @cached_property
     def same_finger_bigram_frequency(self) -> float:
         """Calculated same-finger bigram occurance frequency."""
+        bigrams = self.corpus.bigrams
+        return self._ngram_frequency(bigrams, self.is_sfb)
+
         sfb = 0
         bigrams = self.corpus.bigrams
 
@@ -291,8 +304,8 @@ class Keyboard():
             if not self.is_sfb(bigram):
                 continue
 
-            left_key = self.mapping_to_key.get(bigram[0])
-            right_key = self.mapping_to_key.get(bigram[1])
+            left_key = self.mapping_to_key(bigram[0])
+            right_key = self.mapping_to_key(bigram[1])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -324,8 +337,8 @@ class Keyboard():
         - Vertical separation between keys is 2 or more units
         """
         assert len(bigram) == 2, 'bigram length must be 2'
-        top_key = self.mapping_to_key.get(bigram[0])
-        bottom_key = self.mapping_to_key.get(bigram[1])
+        top_key = self.mapping_to_key(bigram[0])
+        bottom_key = self.mapping_to_key(bigram[1])
 
         # Keys not found
         if not top_key or not bottom_key:
@@ -388,8 +401,8 @@ class Keyboard():
         - Or semi-adjasent horisontal finger distance more than 3.5 units
         """
         assert len(bigram) == 2, 'bigram length must be 2'
-        left_key = self.mapping_to_key.get(bigram[0])
-        right_key = self.mapping_to_key.get(bigram[1])
+        left_key = self.mapping_to_key(bigram[0])
+        right_key = self.mapping_to_key(bigram[1])
 
         # Must be one hand fingers
         if left_key.hand != right_key.hand:
@@ -415,8 +428,9 @@ class Keyboard():
     @cached_property
     def full_scissor_bigram_frequency(self) -> float:
         """Calculates full scissor bigrams occurance frequency."""
-        fsb = 0
         bigrams = self.corpus.bigrams
+        return self._ngram_frequency(bigrams, self.is_fsb)
+        fsb = 0
 
         for bigram, usage in bigrams.items():
             if self.is_fsb(bigram):
@@ -471,8 +485,8 @@ class Keyboard():
         """
         assert len(trigram) == 3, 'trigram length must be 3'
 
-        left_key = self.mapping_to_key.get(trigram[0])
-        right_key = self.mapping_to_key.get(trigram[2])
+        left_key = self.mapping_to_key(trigram[0])
+        right_key = self.mapping_to_key(trigram[2])
 
         # Same characters
         if trigram[0] == trigram[2]:
@@ -493,9 +507,9 @@ class Keyboard():
         - Third characted typed again with one (first) hand
         """
         assert len(trigram) == 3, 'trigram length must be 3'
-        first_key = self.mapping_to_key.get(trigram[0])
-        second_key = self.mapping_to_key.get(trigram[1])
-        third_key = self.mapping_to_key.get(trigram[2])
+        first_key = self.mapping_to_key(trigram[0])
+        second_key = self.mapping_to_key(trigram[1])
+        third_key = self.mapping_to_key(trigram[2])
 
         # Keys not found
         if not all([first_key, second_key, third_key]):
@@ -514,9 +528,9 @@ class Keyboard():
         - Same pressed pair must be typed with different fingers
         """
         assert len(trigram) == 3, 'trigram length must be 3'
-        first_key = self.mapping_to_key.get(trigram[0])
-        second_key = self.mapping_to_key.get(trigram[1])
-        third_key = self.mapping_to_key.get(trigram[2])
+        first_key = self.mapping_to_key(trigram[0])
+        second_key = self.mapping_to_key(trigram[1])
+        third_key = self.mapping_to_key(trigram[2])
 
         # Keys not found
         if not all([first_key, second_key, third_key]):
@@ -535,6 +549,23 @@ class Keyboard():
             )
         )
 
+    def _is_shdf(self, f1: Key, f2: Key, f3: Key) -> bool:
+        """True if keys same hand and typed with different fingers."""
+        # Keys not found
+        if not all([f1, f2, f3]):
+            return False
+
+        # One hand
+        if not (f1.hand == f2.hand == f3.hand):
+            return False
+
+        # Equal fingers
+        return (
+            f1.finger != f2.finger
+            and f2.finger != f3.finger
+            and f1.finger != f3.finger
+        )
+
     def is_onehand(self, trigram: str) -> bool:
         """True if trigram are onehand rolled (3roll).
 
@@ -544,15 +575,42 @@ class Keyboard():
         - All keys goes in same direction
         """
         assert len(trigram) == 3, 'trigram length must be 3'
-        first_key = self.mapping_to_key.get(trigram[0])
-        second_key = self.mapping_to_key.get(trigram[1])
-        third_key = self.mapping_to_key.get(trigram[2])
+        first_key = self.mapping_to_key(trigram[0])
+        second_key = self.mapping_to_key(trigram[1])
+        third_key = self.mapping_to_key(trigram[2])
 
-        # Keys not found
-        if not all([first_key, second_key, third_key]):
+        if not self._is_shdf(first_key, second_key, third_key):
             return False
 
-        return ( False )
+        direction_12 = first_key.finger > second_key.finger
+        direction_23 = second_key.finger > third_key.finger
+
+        return (
+            direction_12 == direction_23
+        )
+
+    def is_redirect(self, trigram: str) -> bool:
+        """True if trigram are redirect one.
+
+        Consider trigram as redirect if:
+        - All characters typed with one hand
+        - All characters typed with different fingers
+        - Direction of typing first 2 characters don't match last 2
+        """
+        assert len(trigram) == 3, 'trigram length must be 3'
+        first_key = self.mapping_to_key(trigram[0])
+        second_key = self.mapping_to_key(trigram[1])
+        third_key = self.mapping_to_key(trigram[2])
+
+        if not self._is_shdf(first_key, second_key, third_key):
+            return False
+
+        direction_12 = first_key.finger > second_key.finger
+        direction_23 = second_key.finger > third_key.finger
+
+        return (
+            direction_12 != direction_23
+        )
 
     @cached_property
     def same_finger_skipgram_frequency(self) -> float:
@@ -578,8 +636,8 @@ class Keyboard():
             if not self.is_sfs(trigram):
                 continue
 
-            left_key = self.mapping_to_key.get(trigram[0])
-            right_key = self.mapping_to_key.get(trigram[2])
+            left_key = self.mapping_to_key(trigram[0])
+            right_key = self.mapping_to_key(trigram[2])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -632,7 +690,7 @@ class Keyboard():
 
     @cached_property
     def roll_frequency(self) -> float:
-        """Return roll trigram occurance frequency."""
+        """Return roll (2roll) trigram occurance frequency."""
         rolls = 0
         trigrams = self.corpus.trigrams
 
@@ -653,3 +711,15 @@ class Keyboard():
                 onehands += usage
 
         return onehands / trigrams.total()
+
+    @cached_property
+    def redirect_frequency(self) -> float:
+        """Return redirect trigram occurance frequency."""
+        redirects = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            if self.is_redirect(trigram):
+                redirects += usage
+
+        return redirects / trigrams.total()
