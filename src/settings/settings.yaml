@@ -20,3 +20,5 @@ anchors:
 # Global settings
 <<: *default
 <<: *qwerty
+
+layout: en/dhorf

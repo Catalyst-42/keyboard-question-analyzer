@@ -85,7 +85,7 @@ class Key():
         return self.usage / self.keyboard.usage
 
     def visual_center(self) -> tuple[float, float]:
-        """Return dot of square part of key. Balances for notch keys."""
+        """Return center of key in pixels (x, y). Balances for notch keys."""
         center_x = self.x + self.w/2
         center_y = self.y + self.h/2
 
@@ -96,11 +96,11 @@ class Key():
         return (center_x, center_y)
 
     def center(self) -> tuple[float, float]:
-        """Calculates real key center (x, y)."""
+        """Calculates real key center (x, y) in pixels."""
         return (self.x + self.w/2, self.y + self.h/2)
 
     def distance_to(self, other: Key) -> float:
-        """Calculated distance to other key."""
+        """Calculated distance to other key in pixels."""
         ax, ay = self.center()
         bx, by = other.center()
 

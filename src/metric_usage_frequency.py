@@ -22,12 +22,12 @@ report = {
     'finger_usage_8': keyboard.finger_usage_frequency(8),
     'finger_usage_9': keyboard.finger_usage_frequency(9),
     'finger_usage_10': keyboard.finger_usage_frequency(10),
-    'row_usage_a': keyboard.row_usage_frequency('A'),
-    'row_usage_b': keyboard.row_usage_frequency('B'),
-    'row_usage_c': keyboard.row_usage_frequency('C'),
-    'row_usage_d': keyboard.row_usage_frequency('D'),
-    'row_usage_e': keyboard.row_usage_frequency('E'),
     'row_usage_k': keyboard.row_usage_frequency('K'),
+    'row_usage_e': keyboard.row_usage_frequency('E'),
+    'row_usage_d': keyboard.row_usage_frequency('D'),
+    'row_usage_c': keyboard.row_usage_frequency('C'),
+    'row_usage_b': keyboard.row_usage_frequency('B'),
+    'row_usage_a': keyboard.row_usage_frequency('A'),
 }
 
 for feature in report:

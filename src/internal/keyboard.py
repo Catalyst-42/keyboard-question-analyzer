@@ -83,22 +83,22 @@ class Keyboard():
 
         return Keyboard(keyboard_model, layout_model, corpus)
 
-    def key_by_mapping(self, mapping: str) -> Key:
-        """Returns keyboard key that contain selected mapping."""
+    def key_by_mapping(self, mapping: str) -> Key | None:
+        """Return key that contain selected mapping or None."""
         return self.mapping_to_key.get(mapping)
 
     @property
     def keys(self) -> list[Key]:
-        """Returns list of keys on keyboard."""
+        """Return list of keys on keyboard."""
         return list(self.code_to_key.values())
 
     @property
     def keys_is_home(self) -> list[Key]:
-        """Returns list of keys that marked as homerow."""
+        """Return list of keys that marked as homerow."""
         return list(key for key in self.keys if key.is_home)
 
     def info(self) -> str:
-        """Returns names of keyboard, layout and corpus."""
+        """Return names of keyboard, layout and corpus."""
         return (
             f'Keyboard: {self.name}\n'
             f'Layout: {self.layout_name}\n'
@@ -124,7 +124,7 @@ class Keyboard():
             print(f'Warning: mapping "{dublicate}" repeats on layout')
 
     def keyboard_usage(self):
-        """Returns filled template with keyboard usage stats."""
+        """Return filled template with keyboard usage stats."""
         format_map = {
             "fingers": "Usage of fingers",
             "rows": "Usage of rows", "total": 0
@@ -179,7 +179,7 @@ class Keyboard():
         return usage
 
     def finger_usage_frequency(self, finger: Finger) -> float:
-        """Returns finger usage float value."""
+        """Return finger usage float value."""
         return self.finger_usage(finger) / self.usage
 
     def hand_usage(self, hand: Hand) -> int:
@@ -196,11 +196,11 @@ class Keyboard():
         return usage
 
     def hand_usage_frequency(self, hand: Hand) -> float:
-        """Returns hand usage float value."""
+        """Return hand usage float value."""
         return self.hand_usage(hand) / self.usage
 
     def row_usage(self, row: Row) -> int:
-        """Returns row usage by keys."""
+        """Return row usage by keys."""
         usage = 0
 
         for key in self.keys:
@@ -210,12 +210,12 @@ class Keyboard():
         return usage
 
     def row_usage_frequency(self, row: Row) -> float:
-        """Returns selected row usage frequency."""
+        """Return selected row usage frequency."""
         return self.row_usage(row) / self.usage
 
     @property
     def chars(self) -> set:
-        """Returns set if chars, used in layout. Ignores modifiers."""
+        """Return set if chars, used in layout. Ignores modifiers."""
         mappings = set()
 
         for key in self.keys:
@@ -228,15 +228,15 @@ class Keyboard():
 
     @cached_property
     def bigram_mean_distance(self) -> float:
-        """Returns mean distance between bigram keys."""
+        """Return mean distance between bigram keys."""
         bigrams = self.corpus.bigrams
 
         total_distance = 0
         total_weight = 0
 
         for bigram, weight in bigrams.items():
-            left_key = self.mapping_to_key[bigram[0]]
-            right_key = self.mapping_to_key[bigram[1]]
+            left_key = self.mapping_to_key.get(bigram[0])
+            right_key = self.mapping_to_key.get(bigram[1])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -281,7 +281,7 @@ class Keyboard():
 
     @cached_property
     def same_finger_bigram_mean_distance(self) -> float:
-        """Returns mean distance between same-finger bigrams in units."""
+        """Return mean distance between same-finger bigrams in units."""
         bigrams = self.corpus.bigrams
 
         total_distance = 0
@@ -291,8 +291,8 @@ class Keyboard():
             if not self.is_sfb(bigram):
                 continue
 
-            left_key = self.mapping_to_key[bigram[0]]
-            right_key = self.mapping_to_key[bigram[1]]
+            left_key = self.mapping_to_key.get(bigram[0])
+            right_key = self.mapping_to_key.get(bigram[1])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -324,8 +324,8 @@ class Keyboard():
         - Vertical separation between keys is 2 or more units
         """
         assert len(bigram) == 2, 'bigram length must be 2'
-        top_key = self.mapping_to_key[bigram[0]]
-        bottom_key = self.mapping_to_key[bigram[1]]
+        top_key = self.mapping_to_key.get(bigram[0])
+        bottom_key = self.mapping_to_key.get(bigram[1])
 
         # Keys not found
         if not top_key or not bottom_key:
@@ -379,6 +379,39 @@ class Keyboard():
         """True if bigram are half scissor one."""
         return self._is_scissor_bigram(bigram, False)
 
+    def is_lsb(self, bigram: str) -> bool:
+        """True if bigram are lateral stretch.
+
+        Consider bigram as lateral stretch if:
+        - Bigram typed with adjasent or semi-adjasent fingers
+        - Adjasent finger horisontal distance more than 2 units
+        - Or semi-adjasent horisontal finger distance more than 3.5 units
+        """
+        assert len(bigram) == 2, 'bigram length must be 2'
+        left_key = self.mapping_to_key.get(bigram[0])
+        right_key = self.mapping_to_key.get(bigram[1])
+
+        # Must be one hand fingers
+        if left_key.hand != right_key.hand:
+            return False
+
+        # Get adjasments
+        finger_distance = left_key.finger - right_key.finger
+
+        adjasent = True if finger_distance == 1 else False
+        semi_adjasent = True if finger_distance == 2 else False
+
+        # Get treshold by adjasment
+        if adjasent:
+            treshlod = 2
+        elif semi_adjasent:
+            treshlod = 3.5
+        else:
+            return False
+
+        distance = abs(left_key.x - right_key.x)
+        return distance / self.one_unit >= treshlod
+
     @cached_property
     def full_scissor_bigram_frequency(self) -> float:
         """Calculates full scissor bigrams occurance frequency."""
@@ -403,6 +436,31 @@ class Keyboard():
 
         return hsb / bigrams.total()
 
+    @cached_property
+    def lateral_stretch_bigram_frequency(self) -> float:
+        """Calculates lateral stretch bigram occurance frequency."""
+        lsb = 0
+        bigrams = self.corpus.bigrams
+
+        for bigram, usage in bigrams.items():
+            if self.is_lsb(bigram):
+                lsb += usage
+
+        return lsb / bigrams.total()
+
+    @cached_property
+    def lateral_stretch_skipgram_frequency(self) -> float:
+        """Calculates lateral stretch 1-skipgram occurance frequency."""
+        lsb = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            bigram = trigram[0] + trigram[2]
+            if self.is_lsb(bigram):
+                lsb += usage
+
+        return lsb / trigrams.total()
+
     def is_sfs(self, trigram: str) -> bool:
         """True if trigram are same-finger 1-skipgram.
 
@@ -426,9 +484,79 @@ class Keyboard():
 
         return left_key.finger == right_key.finger
 
+    def is_alternate(self, trigram: str) -> bool:
+        """True if trigram are alternate hand typed.
+
+        Consider trigram as alternate if:
+        - First characted typed with one hand
+        - Second characted typed with another hand
+        - Third characted typed again with one (first) hand
+        """
+        assert len(trigram) == 3, 'trigram length must be 3'
+        first_key = self.mapping_to_key.get(trigram[0])
+        second_key = self.mapping_to_key.get(trigram[1])
+        third_key = self.mapping_to_key.get(trigram[2])
+
+        # Keys not found
+        if not all([first_key, second_key, third_key]):
+            return False
+
+        return (
+            first_key.hand == third_key.hand
+            and first_key.hand != second_key.hand
+        )
+
+    def is_roll(self, trigram: str) -> bool:
+        """True if trigram are two keys rolled.
+
+        Consider trigram as rolled if:
+        - Pressing two keys with one hand and other with another
+        - Same pressed pair must be typed with different fingers
+        """
+        assert len(trigram) == 3, 'trigram length must be 3'
+        first_key = self.mapping_to_key.get(trigram[0])
+        second_key = self.mapping_to_key.get(trigram[1])
+        third_key = self.mapping_to_key.get(trigram[2])
+
+        # Keys not found
+        if not all([first_key, second_key, third_key]):
+            return False
+
+        return ((
+                # First and second keys are roll
+                first_key.hand == second_key.hand
+                and first_key.finger != second_key.finger
+                and first_key.hand != third_key.hand
+            ) or (
+                # Second and third keys are roll
+                second_key.hand == third_key.hand
+                and second_key.finger != third_key.finger
+                and second_key.hand != first_key.hand
+            )
+        )
+
+    def is_onehand(self, trigram: str) -> bool:
+        """True if trigram are onehand rolled (3roll).
+
+        Consider trigram as onehand if:
+        - All characters typed with one hand
+        - All characters typed with different fingers
+        - All keys goes in same direction
+        """
+        assert len(trigram) == 3, 'trigram length must be 3'
+        first_key = self.mapping_to_key.get(trigram[0])
+        second_key = self.mapping_to_key.get(trigram[1])
+        third_key = self.mapping_to_key.get(trigram[2])
+
+        # Keys not found
+        if not all([first_key, second_key, third_key]):
+            return False
+
+        return ( False )
+
     @cached_property
     def same_finger_skipgram_frequency(self) -> float:
-        """Returns same-finger 1-skipgram occurance frequency."""
+        """Return same-finger 1-skipgram occurance frequency."""
         sfs = 0
         trigrams = self.corpus.trigrams
 
@@ -440,7 +568,7 @@ class Keyboard():
 
     @cached_property
     def same_finger_skipgram_mean_distance(self) -> float:
-        """Returns mean distance between same-finger 1-skipgram in units."""
+        """Return mean distance between same-finger 1-skipgram in units."""
         trigrams = self.corpus.trigrams
 
         total_distance = 0
@@ -450,8 +578,8 @@ class Keyboard():
             if not self.is_sfs(trigram):
                 continue
 
-            left_key = self.mapping_to_key[trigram[0]]
-            right_key = self.mapping_to_key[trigram[2]]
+            left_key = self.mapping_to_key.get(trigram[0])
+            right_key = self.mapping_to_key.get(trigram[2])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -488,3 +616,40 @@ class Keyboard():
                 hss += usage
 
         return hss / trigrams.total()
+
+
+    @cached_property
+    def alternate_frequency(self) -> float:
+        """Return alternate trigram occurance frequency."""
+        alternates = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            if self.is_alternate(trigram):
+                alternates += usage
+
+        return alternates / trigrams.total()
+
+    @cached_property
+    def roll_frequency(self) -> float:
+        """Return roll trigram occurance frequency."""
+        rolls = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            if self.is_roll(trigram):
+                rolls += usage
+
+        return rolls / trigrams.total()
+
+    @cached_property
+    def onehand_frequency(self) -> float:
+        """Return onehand (3roll) trigram occurance frequency."""
+        onehands = 0
+        trigrams = self.corpus.trigrams
+
+        for trigram, usage in trigrams.items():
+            if self.is_onehand(trigram):
+                onehands += usage
+
+        return onehands / trigrams.total()

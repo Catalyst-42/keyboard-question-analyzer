@@ -21,6 +21,11 @@ report = {
     'u_same_finger_skipgram_mean_distance': keyboard.same_finger_skipgram_mean_distance,
     '%_half_scissor_skipgram_frequency': keyboard.half_scissor_skipgram_frequency,
     '%_full_scissor_skipgram_frequency': keyboard.full_scissor_skipgram_frequency,
+    '%_lateral_stretch_bigram_frequency': keyboard.lateral_stretch_bigram_frequency,
+    '%_lateral_stretch_skipgram_frequency': keyboard.lateral_stretch_skipgram_frequency,
+    '%_roll_frequency': keyboard.roll_frequency,
+    '%_alternate_frequency': keyboard.alternate_frequency,
+    'f_roll:alternation': keyboard.roll_frequency / keyboard.alternate_frequency,
 }
 
 for feature in report:
@@ -32,5 +37,5 @@ for feature in report:
         print(f'{feature}: {report[name]:.2%}')
     elif prefix == 'u':
         print(f'{feature}: {report[name]:.3}u')
-    elif prefix == 'i':
-        print(f'{feature}: {round(report[name]):.2}')
+    elif prefix == 'f':
+        print(f'{feature}: {report[name]:.2}')

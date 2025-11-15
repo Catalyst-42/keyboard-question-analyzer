@@ -58,5 +58,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *preview
-color_by: finger
+<<: *frequency
