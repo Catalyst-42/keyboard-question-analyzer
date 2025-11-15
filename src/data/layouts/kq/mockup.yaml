@@ -89,7 +89,7 @@ layout:
   Backslash:
     mappings:
       1: "Backslash"
-  
+
   # Home layer
   CapsLock:
     is_modifier: true
