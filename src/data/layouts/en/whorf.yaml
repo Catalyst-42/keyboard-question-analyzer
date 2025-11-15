@@ -1,0 +1,274 @@
+name: "Whorf"
+info: "Eliminates SFB"
+layout:
+  # Digit layer
+  IntlBackslash:
+    mappings:
+      1: "§"
+      2: "±"
+  Backquote:
+    mappings:
+      1: "`"
+      2: "~"
+  Digit1:
+    mappings:
+      1: "1"
+      2: "!"
+  Digit2:
+    mappings:
+      1: "2"
+      2: "@"
+  Digit3:
+    mappings:
+      1: "3"
+      2: "#"
+  Digit4:
+    mappings:
+      1: "4"
+      2: "$"
+  Digit5:
+    mappings:
+      1: "5"
+      2: "%"
+  Digit6:
+    mappings:
+      1: "6"
+      2: "^"
+  Digit7:
+    mappings:
+      1: "7"
+      2: "&"
+  Digit8:
+    mappings:
+      1: "8"
+      2: "*"
+  Digit9:
+    mappings:
+      1: "9"
+      2: "("
+  Digit0:
+    mappings:
+      1: "0"
+      2: ")"
+  Minus:
+    mappings:
+      1: "-"
+      2: "_"
+  Equal:
+    mappings:
+      1: "="
+      2: "+"
+  Backspace:
+    is_modifier: true
+    mappings:
+      1: "⌫"
+
+  # Top layer
+  Tab:
+    is_modifier: true
+    mappings:
+      1: "⇥"
+  KeyQ:
+    mappings:
+      1: "f"
+      2: "F"
+  KeyW:
+    mappings:
+      1: "l"
+      2: "L"
+  KeyE:
+    mappings:
+      1: "h"
+      2: "H"
+  KeyR:
+    mappings:
+      1: "d"
+      2: "D"
+  KeyT:
+    mappings:
+      1: "m"
+      2: "M"
+  KeyY:
+    mappings:
+      1: "v"
+      2: "V"
+  KeyU:
+    mappings:
+      1: "w"
+      2: "W"
+  KeyI:
+    mappings:
+      1: "o"
+      2: "O"
+  KeyO:
+    mappings:
+      1: "u"
+      2: "U"
+  KeyP:
+    mappings:
+      1: ","
+      2: "<"
+  BracketLeft:
+    mappings:
+      1: "["
+      2: "{"
+  BracketRight:
+    mappings:
+      1: "]"
+      2: "}"
+  Backslash:
+    mappings:
+      1: "\\"
+      2: "|"
+  
+  # Home layer
+  CapsLock:
+    is_modifier: true
+    mappings:
+      1: "⇪"
+  KeyA:
+    mappings:
+      1: "s"
+      2: "S"
+  KeyS:
+    mappings:
+      1: "r"
+      2: "R"
+  KeyD:
+    mappings:
+      1: "n"
+      2: "N"
+  KeyF:
+    is_home: true
+    mappings:
+      1: "t"
+      2: "T"
+  KeyG:
+    mappings:
+      1: "k"
+      2: "K"
+  KeyH:
+    mappings:
+      1: "g"
+      2: "G"
+  KeyJ:
+    is_home: true
+    mappings:
+      1: "y"
+      2: "Y"
+  KeyK:
+    mappings:
+      1: "a"
+      2: "A"
+  KeyL:
+    mappings:
+      1: "e"
+      2: "E"
+  Semicolon:
+    mappings:
+      1: "i"
+      2: "I"
+  Quote:
+    mappings:
+      1: "/"
+      2: "?"
+  Enter:
+    is_modifier: true
+    mappings:
+      1: "⏎"
+
+  # Bottom layer
+  ShiftLeft:
+    is_modifier: true
+    mappings:
+      1: "⇧"
+  KeyZ:
+    mappings:
+      1: "x"
+      2: "X"
+  KeyX:
+    mappings:
+      1: "j"
+      2: "J"
+  KeyC:
+    mappings:
+      1: "b"
+      2: "B"
+  KeyV:
+    mappings:
+      1: "z"
+      2: "Z"
+  KeyB:
+    mappings:
+      1: "q"
+      2: "Q"
+  KeyN:
+    mappings:
+      1: "p"
+      2: "P"
+  KeyM:
+    mappings:
+      1: "c"
+      2: "C"
+  Comma:
+    mappings:
+      1: "'"
+      2: "\""
+  Period:
+    mappings:
+      1: ";"
+      2: ":"
+  Slash:
+    mappings:
+      1: "."
+      2: ">"
+  ShiftRight:
+    is_modifier: true
+    mappings:
+      1: "⇧"
+
+  # Control keys
+  Function:
+    is_modifier: true
+    mappings:
+      1: "fn"
+  ControlLeft:
+    is_modifier: true
+    mappings:
+      1: "⌃"
+  AltLeft:
+    is_modifier: true
+    mappings:
+      1: "⌥"
+  MetaLeft:
+    is_modifier: true
+    mappings:
+      1: "⌘"
+  Space:
+    is_modifier: true
+    mappings:
+      1: " "
+  MetaRight:
+    is_modifier: true
+    mappings:
+      1: "⌘"
+  AltRight:
+    is_modifier: true
+    mappings:
+      1: "⌥"
+  ArrowLeft:
+    is_modifier: true
+    mappings:
+      1: "←"
+  ArrowUp:
+    is_modifier: true
+    mappings:
+      1: "↑"
+  ArrowDown:
+    is_modifier: true
+    mappings:
+      1: "↓"
+  ArrowRight:
+    is_modifier: true
+    mappings:
+      1: "→"
