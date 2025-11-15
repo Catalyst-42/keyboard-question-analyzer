@@ -1,5 +1,6 @@
 from internal.key import Key
 from internal.keyboard import Keyboard
+from math import hypot
 
 class Finger:
     """Model if finger that types text.
@@ -16,13 +17,16 @@ class Finger:
         self.travel_distance = 0.0
 
     def move_to(self, key: Key) -> None:
-        """Move finger to selected position."""
-        self.travel_distance += (
-            ((key.x - self.x)**2 + (key.y - self.y)**2) ** 0.5 
+        """Move finger to center of selected key."""
+        cx, cy = key.center()
+
+        self.travel_distance += hypot(
+            cx - self.x,
+            cy - self.y
         )
 
-        self.x = key.x
-        self.y = key.y
+        self.x = cx
+        self.y = cy
 
     def __repr__(self) -> str:
         """Display finger position."""

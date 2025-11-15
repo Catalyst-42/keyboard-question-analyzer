@@ -51,11 +51,19 @@ class Visualizer():
 
         if self.config['color_by'] in 'frequency':
             return colormaps['Purples'](
-                (key.layer_usage(layer) / self.keyboard.key_max_usage()) ** 0.5
+                (key.layer_usage(layer) / self.keyboard.key_max_usage) ** 0.5
             )
 
         if self.config['color_by'] in 'row':
-            return colormaps['Pastel1'](key.row - 1)
+            rows = {
+                'K': 5,
+                'E': 4,
+                'D': 3,
+                'C': 2,
+                'B': 1,
+                'A': 0,
+            }
+            return colormaps['Pastel1'](rows.get(key.row, 0))
 
         if self.config['color_by'] in 'finger':
             return colormaps['Set3'](key.finger - 1)
@@ -74,7 +82,7 @@ class Visualizer():
             return self._draw_polygon_key_patch(key, patch_color)
 
         return ptc.FancyBboxPatch(
-            (key.x, -key.y - key.h),
+            (key.x, key.y),
             key.w,
             key.h,
             boxstyle='round,rounding_size=3',
@@ -87,12 +95,12 @@ class Visualizer():
         """Draw notched key polygon."""
         # Notch place is bottom left
         xy = [
-            (key.x + key.notch_w, -key.y - key.h),
-            (key.x + key.w, -key.y - key.h),
-            (key.x + key.w, -key.y),
-            (key.x, -key.y),
-            (key.x, -key.y - key.notch_h),
-            (key.x + key.notch_w , -key.y - key.notch_h)
+            (key.x + key.notch_w, key.y + key.h),
+            (key.x + key.w, key.y + key.h),
+            (key.x + key.w, key.y),
+            (key.x, key.y),
+            (key.x, key.y + key.notch_h),
+            (key.x + key.notch_w , key.y + key.notch_h)
         ]
 
         return RoundedPolygon(
@@ -129,7 +137,7 @@ class Visualizer():
         # First layer
         self.axs[f'layer{layer}'].text(
             key.x + key.w * 2/4,
-            -key.y - key.h * 3/4 + 0.5,
+            key.y + key.h * 3/4 - 0.5,
             key.mapping(layer),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -141,7 +149,7 @@ class Visualizer():
         # Second layer
         self.axs[f'layer{layer}'].text(
             key.x + key.w * 2/4,
-            -key.y - key.h * 1/4 + 0.5,
+            key.y + key.h * 1/4 - 0.5,
             key.mapping(layer + 1),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -167,12 +175,26 @@ class Visualizer():
         """Draw dot on top right corner for key."""
         self.axs[f'layer{layer}'].text(
             key.x + key.w - 1.5,
-            -key.y - 0.5,
+            key.y + 0.5,
             '•',
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
             va='top',
             ha='right',
+            fontsize=6
+        )
+
+    def _draw_key_center_dot(self, layer: int, key: Key):
+        """Draw dot on the real center of the key box."""
+        cx, cy = key.center()
+        self.axs[f'layer{layer}'].text(
+            cx,
+            cy,
+            '•',
+            color='white',
+            path_effects=[pe.withStroke(linewidth=2, foreground='black')],
+            va='center',
+            ha='center',
             fontsize=6
         )
 
@@ -189,7 +211,7 @@ class Visualizer():
 
         self.axs[f'layer{layer}'].text(
             key.x + key.w/2,
-            -key.y - key.h + 0.5,
+            key.y + key.h + 0.5,
             f'{frequency:.2%}',
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -233,15 +255,15 @@ class Visualizer():
             row_and_finger = ''
 
             if self.config['show_row_numbers']:
-                row_and_finger += f'r{key.row}'
+                row_and_finger += f'{key.row}'
 
             if self.config['show_fingers']:
-                row_and_finger += f'f{key.finger}'
+                row_and_finger += f'{key.finger}'
 
             if row_and_finger:
                 self.axs[f'layer{layer}'].text(
                     key.x + 1.5,
-                    -key.y - 1.5,
+                    key.y + 1.5,
                     row_and_finger,
                     color='white',
                     path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -253,6 +275,9 @@ class Visualizer():
             if key.is_home and self.config['show_home_keys']:
                 self._draw_key_home_icon(layer, key)
 
+            if self.config['show_keys_centers']:
+                self._draw_key_center_dot(layer, key)
+
             if self.config['show_frequencies']:
                 self._draw_key_freqency(layer, key)
 
@@ -262,7 +287,7 @@ class Visualizer():
             # Get current key by cords
             for key in self.keyboard.keys:
                 in_key_x = key.x <= x <= key.x + key.w
-                in_key_y = key.y <= -y <= key.y + key.h
+                in_key_y = key.y <= y <= key.y + key.h
 
                 if in_key_x and in_key_y:
                     break
@@ -281,6 +306,7 @@ class Visualizer():
             info = f'{code}: "{mapping}", row: {row}, finger: {finger}, '
             info += f'usage: {layer_usage} ({usage}), '
             info += f'frequency: {layer_frequency:.2%} ({frequency:.2%})'
+            info += f'\n({x}, {y})'
 
             return info
 
@@ -288,6 +314,7 @@ class Visualizer():
 
     def set_view_box(self, layer: int):
         """Set plot view box."""
+
         keyboard_padding = 1
         keyboard_bbox = self.bboxes[layer]
 
@@ -301,6 +328,9 @@ class Visualizer():
         # Limit view in bbox
         self.axs[f'layer{layer}'].set_xlim(limits['x_min'], limits['x_max'])
         self.axs[f'layer{layer}'].set_ylim(limits['y_min'], limits['y_max'])
+
+        # X and Y zeros are on top left corner
+        self.axs[f'layer{layer}'].invert_yaxis()
 
     def set_plot_styles(self, layer: int):
         """Set canvas title and axis aspect."""

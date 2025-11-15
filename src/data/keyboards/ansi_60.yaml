@@ -1,4 +1,5 @@
 name: "ANSI 60%"
+one_unit: 40
 keyboard:
   # Digit layer
   Backquote:

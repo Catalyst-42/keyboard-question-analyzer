@@ -41,12 +41,15 @@ Describes the position of physical keys, it's physical parameters.
 Keyboard layout describes list of available
 physical keys with their location and sizes on canvas.
 
+Canvas: 
+
 ```
-Key rectangle specs:
- x.y---w-.
-  |      |
-  h      |
-  '------'
+0    x -->
+
+y   x.y---w-.
+|    |      |
+v    h      |
+     '------'
 ```
 
 ### Layout
@@ -145,9 +148,6 @@ each layer of keyboard layout
     - Finger 8 (n)
     - Finger 9 (n)
     - Finger 10 (n)
-  - Hand usage (%)
-    - Left hand (%)
-    - Right hand (%)
   - Finger usage (%)
     - Finger 1 (%)
     - Finger 2 (%)

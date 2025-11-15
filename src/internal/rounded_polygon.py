@@ -33,7 +33,7 @@ class RoundedPolygon(patches.PathPatch):
                 verts = [x00, x01, x1, x10]
             else:
                 verts += [x01, x1, x10]
-                
+
         codes = [path.Path.MOVETO] + n * [path.Path.LINETO, path.Path.CURVE3, path.Path.CURVE3]
 
         return np.atleast_1d(verts, codes)

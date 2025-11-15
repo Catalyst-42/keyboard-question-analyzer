@@ -16,5 +16,5 @@ keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 # Show keyboard layout
 visualizer = Visualizer(keyboard, ARGS)
 visualizer.render(ARGS['layers'])
-# visualizer.savefig('layout.png', dpi=300)
+visualizer.savefig('layout.png', dpi=300, transparent=True)
 visualizer.show()
