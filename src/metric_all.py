@@ -1,48 +1,31 @@
+import requests
+
+import pathlib
+import math
+
 from internal.corpus import Corpus
 from internal.hands import Hands
 from internal.keyboard import Keyboard
-from internal.setup import setup
 from internal.visualizer import Visualizer
 
-import requests
-
-corpora_names = {
-    'english': 'Английский',
-    'russian': 'Русский',
-    'code': 'Код',
-    'diaries': 'Дневники',
-}
-
-corpora = {
-    'english': 'en',
-    'code': 'en',
-    'russian': 'ru',
-    'diaries': 'ru',
-}
-
-keyboards = (
-    'matrix_60',
-    'iso_60',
-    'ansi_60',
-)
-
-layouts = {
-    'en': [
-        'ant',
-        'canary',
-        'colemak',
-        ''
-    ]
-}
-
-def report(corpus_folder, keyboard_file, layout_file):
+def report(keyboard, corpora_names):
     """Calculate all metrics and prepare data for Django API."""
-    # Load data
-    corpus = Corpus.load(corpus_folder)
-    keyboard = Keyboard.load(keyboard_file, layout_file, corpus)
-    hands = Hands(keyboard)
+    visualizer_args = {
+        'color_by': 'frequency',
+        'combined_2': False,
+        'layers': 1,
+        'show_fingers': False,
+        'show_frequencies': True,
+        'show_home_keys': True,
+        'show_key_codes': False,
+        'show_keys_centers': False,
+        'show_layout': True,
+        'show_modifiers': True,
+        'show_row_numbers': False,
+        'smallcaps': True
+    }
 
-    print(keyboard.info())
+    hands = Hands(keyboard)
 
     # Get id's from database
     req = requests.get('http://localhost:8000/api/keyboards/', params={'search': keyboard.name})
@@ -59,10 +42,11 @@ def report(corpus_folder, keyboard_file, layout_file):
     corpus_id = req.get('id')
 
     # Generate frequency heatmap
-    visualizer = Visualizer(keyboard, ARGS)
-    visualizer.render(ARGS['layers'])
+    visualizer = Visualizer(keyboard, visualizer_args)
+    visualizer.render(visualizer_args['layers'])
     heatmap_filename = f'{keyboard.layout_file}_{keyboard.file}_{corpus.name}.png'
     visualizer.savefig(heatmap_filename, dpi=300, transparent=True)
+    visualizer.close()
 
     # Simulate typing for travel distance
     hands.simulate_typing(keyboard, corpus, False)
@@ -138,34 +122,7 @@ def report(corpus_folder, keyboard_file, layout_file):
 
     return report, files
 
-
-# Fuck me twice
-def patch(corpus, keyboard, layout):
-    ARGS = setup('full_metrics')
-    ARGS = {
-        'color_by': 'frequency',
-        'combined_2': False,
-        'corpus': ARGS['corpus'],
-        'keyboard': ARGS['keyboard'],
-        'layers': 1,
-        'layout': ARGS['layout'],
-        'show_fingers': False,
-        'show_frequencies': True,
-        'show_home_keys': True,
-        'show_key_codes': False,
-        'show_keys_centers': False,
-        'show_layout': True,
-        'show_modifiers': True,
-        'show_row_numbers': False,
-        'smallcaps': True
-    }
-
-    metrics, files = report()
-
-    # Display
-    # for field in metrics:
-    #     print(f'{field}: {metrics[field]}')
-
+def upsert(metrics, files):
     # Check if metric already exists
     req = requests.get('http://localhost:8000/api/metrics/', params={
         'corpus__id': metrics['corpus'],
@@ -173,23 +130,72 @@ def patch(corpus, keyboard, layout):
         'layout__id': metrics['layout'],
     })
 
+    # Not exists, create
     if len(req.json()) == 0:
-        # Create
         requests.post(
             'http://localhost:8000/api/metrics/',
             data=metrics,
             files=files
         )
         print('Status: created')
+        return
 
-    else:
-        # Update
-        metric_id = req.json()[0]['id']
-        requests.patch(
-            f'http://localhost:8000/api/metrics/{metric_id}/',
-            data=metrics,
-            # files=files
-        )
-        print('Status: updated')
+    # Exists, update all but not images
+    metric_id = req.json()[0]['id']
+    requests.patch(
+        f'http://localhost:8000/api/metrics/{metric_id}/',
+        data=metrics,
+        # files=files
+    )
+    print('Status: updated')
 
+
+def process(keyboard, corpora_names):
+    metrics, files = report(keyboard, corpora_names)
+    upsert(metrics, files)
     print()
+
+    # Display
+    # for field in metrics:
+    #     print(f'{field}: {metrics[field]}')
+
+corpus_to_code = {
+    'english': 'en',
+    'code': 'en',
+    'russian': 'ru',
+    'diaries': 'ru',
+}
+
+corpora_names = {
+    'english': 'Английский',
+    'russian': 'Русский',
+    'code': 'Код',
+    'diaries': 'Дневники',
+}
+
+corpora_paths = pathlib.Path() / 'data' / 'corpora' / 'clean'
+corpora_paths = [*corpora_paths.glob('*')]
+
+keyboard_paths = pathlib.Path() / 'data' / 'keyboards'
+keyboard_paths = [*keyboard_paths.glob('*.yaml')]
+
+layout_paths = pathlib.Path() / 'data' / 'layouts'
+layout_paths = layout_paths.glob('**/*.yaml')
+layout_paths = [p for p in layout_paths if 'kq' not in p.parts]
+
+combination = 1
+
+for i, corpus_path in enumerate(corpora_paths):
+    corpus = Corpus.load(corpus_path)
+
+    for j, keyboard_path in enumerate(keyboard_paths):
+        for k, layout_path in enumerate(layout_paths):
+            if corpus_to_code[corpus.name] not in layout_path.parts:
+                continue
+
+            print(f'Combination {combination}')
+            print(corpus.name, keyboard_path.name, layout_path.name)
+            keyboard = Keyboard.load(keyboard_path, layout_path, corpus)
+
+            process(keyboard, corpora_names)
+            combination += 1

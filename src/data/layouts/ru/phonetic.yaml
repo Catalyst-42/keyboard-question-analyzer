@@ -4,8 +4,8 @@ layout:
   # Digit layer
   IntlBackslash:
     mappings:
-      1: ">"
-      2: "<"
+      1: "§"
+      2: "±"
   Backquote:
     mappings:
       1: "щ"

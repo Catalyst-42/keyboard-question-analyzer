@@ -150,7 +150,7 @@ def resolve_keyboard(keyboard: str) -> pathlib.Path:
     data_folder = pathlib.Path() / 'data'
     keyboards = data_folder / 'keyboards'
 
-    return keyboards / keyboard + '.yaml'
+    return keyboards / (keyboard + '.yaml')
 
 
 def resolve_layout(layout: str) -> pathlib.Path:
@@ -158,7 +158,7 @@ def resolve_layout(layout: str) -> pathlib.Path:
     data_folder = pathlib.Path() / 'data'
     layouts = data_folder / 'layouts'
 
-    return layouts / layout + '.yaml'
+    return layouts / (layout + '.yaml')
 
 def resolve_scan_folders(scan_folders: list[str]) -> list[pathlib.Path]:
     """Resolve list of scan folders making them type of path."""
@@ -169,7 +169,7 @@ def resolve_content_output_path(content_output_path: str) -> pathlib.Path:
     data_folder = pathlib.Path() / 'data'
     corpora = data_folder / 'corpora'
 
-    return corpora / 'raw' / content_output_path + '.txt'
+    return corpora / 'raw' / (content_output_path + '.txt')
 
 def setup(script_name=''):
     settings_folder = pathlib.Path() / 'settings'

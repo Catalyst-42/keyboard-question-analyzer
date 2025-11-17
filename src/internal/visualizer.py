@@ -386,3 +386,7 @@ class Visualizer():
     def savefig(self, name: str, *args, **kwargs):
         """Wrapper of plt.savefig(), saves plot image."""
         plt.savefig(name, *args, **kwargs)
+
+    def close(self):
+        """Wrapper of plt.close(), closes all plot figures."""
+        plt.close('all')
