@@ -1,4 +1,5 @@
 name: "Скоропись"
+file: "fasttype"
 layout:
   # Digit layer
   IntlBackslash:

@@ -1,4 +1,5 @@
 name: "Dhorf"
+file: "dhorf"
 info: "Whorf mod, eliminates SFB and scissors"
 layout:
   # Digit layer

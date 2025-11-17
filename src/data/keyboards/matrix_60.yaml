@@ -1,5 +1,6 @@
 name: "Matrix 60%"
-one_unit: 40
+file: "matrix_60"
+one_unit: 34
 keyboard:
   # Digit layer
   Backquote:

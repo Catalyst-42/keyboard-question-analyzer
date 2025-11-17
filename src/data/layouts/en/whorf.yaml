@@ -1,4 +1,5 @@
 name: "Whorf"
+file: "whorf"
 info: "Eliminates SFB"
 layout:
   # Digit layer

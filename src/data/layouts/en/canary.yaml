@@ -1,4 +1,5 @@
 name: "Canary"
+file: "canary"
 info: "Should minimize the scissors metric"
 layout:
   # Digit layer

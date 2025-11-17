@@ -12,9 +12,7 @@ class Key():
     Contains physical information and layout one.
     """
 
-    EMPTY_MAPPINGS = {1: '∅'}
-
-    def __init__(self, keyboard: Keyboard, key_code: str, key_data: dict, key_layout: dict) -> None:
+    def __init__(self, keyboard: Keyboard, key_code: str, key_data: dict, key_layout: dict):
         """Create key by given code, key data and layout data."""
         self.keyboard: Keyboard = keyboard
         self.key: str = key_code
@@ -24,7 +22,7 @@ class Key():
         self.y: int = key_data.get("y", 0)
         self.w: int = key_data.get('w', 40)
         self.h: int = key_data.get('h', 40)
-        self.row: int = key_data.get('row', 'A')
+        self.row: Keyboard.Row = key_data.get('row', 'A')
         self.finger: Keyboard.Finger = key_data.get('finger', 1)
         self.hand: Keyboard.Hand = 'left' if self.finger < 6 else 'right'
         self.is_home: bool = key_data.get('is_home', False)
@@ -41,7 +39,7 @@ class Key():
             self.notch = False
 
         # Layout properties
-        self.mappings: dict = key_layout.get('mappings', Key.EMPTY_MAPPINGS)
+        self.mappings: dict = key_layout.get('mappings', {})
         self.is_modifier: bool = key_layout.get('is_modifier', False)
 
     def __repr__(self) -> str:
@@ -56,7 +54,8 @@ class Key():
                 self.mappings.get(layer - 1)  # Fallback on lower layer
             )
 
-        raise ValueError(f'Layout mapping not found for {self.key}')
+        print(f'Warning: key {self.key} is not mapped')
+        return ''
 
     def layer_usage(self, layer: int) -> int:
         """Returns mapping usage by selected layer."""
@@ -81,7 +80,7 @@ class Key():
 
     @property
     def frequency(self) -> float:
-        """Returns key usage frequency."""
+        """Returns key total usage frequency by all layers."""
         return self.usage / self.keyboard.usage
 
     def visual_center(self) -> tuple[float, float]:
@@ -108,4 +107,3 @@ class Key():
             ax - bx,
             ay - by
         )
-

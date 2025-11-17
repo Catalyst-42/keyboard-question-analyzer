@@ -1,4 +1,5 @@
 name: "Vestnik"
+file: "vestnik"
 layout:
   # Digit layer
   IntlBackslash:

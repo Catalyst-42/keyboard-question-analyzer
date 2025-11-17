@@ -1,4 +1,5 @@
 name: "Mockup"
+file: "mockup"
 layout:
   # Digit layer
   Backquote:

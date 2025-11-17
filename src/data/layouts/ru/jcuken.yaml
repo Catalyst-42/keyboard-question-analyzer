@@ -1,4 +1,5 @@
 name: "ЙЦУКЕН"
+file: "jcuken"
 layout:
   # Digit layer
   IntlBackslash:

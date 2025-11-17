@@ -27,6 +27,25 @@ class Visualizer():
         self.fig: Figure
 
         self.bboxes = {}
+        self.constraint_config()
+
+    def constraint_config(self):
+        """Ensures that config don't contradictory."""
+        # Constraint for combiner
+        if self.config['combined_2'] and self.config['smallcaps']:
+            raise ValueError('Cant activate combined_2 and smallcaps both')
+
+        # Disable other printages
+        if self.config['combined_2']:
+            self.config['show_layout'] = False
+            self.config['smallcaps'] = False 
+            self.config['layers'] = 1
+
+        # Disable other printages
+        if self.config['smallcaps']:
+            self.config['show_layout'] = False
+            self.config['combined_2'] = False
+            self.config['layers'] = 1
 
     def render(self, number_of_layers: int):
         """Create keyboard visualisation for all layers."""
@@ -137,7 +156,7 @@ class Visualizer():
         # First layer
         self.axs[f'layer{layer}'].text(
             key.x + key.w * 2/4,
-            key.y + key.h * 3/4 - 0.5,
+            key.y + key.h * 3/4,
             key.mapping(layer),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -149,13 +168,34 @@ class Visualizer():
         # Second layer
         self.axs[f'layer{layer}'].text(
             key.x + key.w * 2/4,
-            key.y + key.h * 1/4 - 0.5,
+            key.y + key.h * 1/4,
             key.mapping(layer + 1),
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
             va='center_baseline',
             ha='center',
             fontsize=12
+        )
+
+    def _draw_key_layout_smallcaps(self, layer: int, key: Key):
+        """Draw mappings for both layers with compact way."""
+        if key.is_modifier or key.mapping(layer).upper() == key.mapping(layer + 1):
+            self._draw_key_layout(layer, key, True)
+            return
+
+        # First layer default
+        self._draw_key_layout(layer, key)
+
+        # Second layer top right and small
+        self.axs[f'layer{layer}'].text(
+            key.x + key.w * 3/4,
+            key.y + key.h * 1/4,
+            key.mapping(layer + 1),
+            color='white',
+            path_effects=[pe.withStroke(linewidth=2, foreground='black')],
+            va='center_baseline',
+            ha='center',
+            fontsize=8
         )
 
     def _draw_key_code(self, layer: int, key: Key):
@@ -206,12 +246,12 @@ class Visualizer():
         frequency = key.layer_frequency(layer) 
 
         # Account second layer
-        if self.config['combined_2']:
-           frequency += key.layer_frequency(layer + 1)
+        if self.config['combined_2'] | self.config['smallcaps']:
+           frequency = key.frequency
 
         self.axs[f'layer{layer}'].text(
             key.x + key.w/2,
-            key.y + key.h + 0.5,
+            key.y + key.h + 3,
             f'{frequency:.2%}',
             color='white',
             path_effects=[pe.withStroke(linewidth=2, foreground='black')],
@@ -247,6 +287,9 @@ class Visualizer():
 
             if self.config['combined_2']:
                 self._draw_key_layout_combined(layer, key)
+
+            if self.config['smallcaps']:
+                self._draw_key_layout_smallcaps(layer, key)
 
             if self.config['show_key_codes']:
                 self._draw_key_code(layer, key)
@@ -294,19 +337,11 @@ class Visualizer():
             else:
                 return ''
 
-            code = key.key
-            mapping = key.mapping(layer)
-            finger = key.finger
-            row = key.row
-            layer_usage = key.layer_usage(layer)
-            usage = key.usage
-            layer_frequency = key.layer_frequency(layer)
+            mappings = ''.join(key.mappings.values())
             frequency = key.frequency
-
-            info = f'{code}: "{mapping}", row: {row}, finger: {finger}, '
-            info += f'usage: {layer_usage} ({usage}), '
-            info += f'frequency: {layer_frequency:.2%} ({frequency:.2%})'
-            info += f'\n({x}, {y})'
+            
+            info = f'{key.key}: "{mappings}" usage {frequency:.2%}\n'
+            info += f'row {key.row} finger {key.finger}'
 
             return info
 

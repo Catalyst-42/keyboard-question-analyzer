@@ -1,4 +1,5 @@
 name: "qPhyx"
+file: "qphyx"
 layout:
   # Digit layer
   IntlBackslash:

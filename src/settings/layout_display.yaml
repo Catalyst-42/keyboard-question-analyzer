@@ -16,6 +16,7 @@ anchors:
     default: &default
       layers: 2
       combined_2: false
+      smallcaps: false
 
       show_modifiers: true
       show_layout: true
@@ -59,3 +60,7 @@ anchors:
 # Script settings
 <<: *default
 <<: *frequency
+
+layers: 1
+combined_2: false
+smallcaps: true

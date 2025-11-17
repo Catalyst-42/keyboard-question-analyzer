@@ -1,4 +1,5 @@
 name: "Programmer Dvorak"
+file: "programmer_dvorak"
 layout:
   # Digit layer
   IntlBackslash:

@@ -50,7 +50,10 @@ class Keyboard():
         self.one_unit: int = keyboard_model['one_unit']
 
         self.name = keyboard_model['name']
+        self.file = keyboard_model['file']
+
         self.layout_name = layout_model['name']
+        self.layout_file = layout_model['file']
 
         self._code_to_key: dict[str, Key] = {}
         self._mapping_to_key: dict[str, Key] = {}
@@ -236,7 +239,7 @@ class Keyboard():
 
         for bigram, weight in bigrams.items():
             left_key = self.mapping_to_key(bigram[0])
-            right_key = self.mapping_to_key(bigram[1])
+            right_key = self.mapping_to_key(bigram[-1])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -255,10 +258,10 @@ class Keyboard():
         assert len(bigram) == 2, 'bigram length must be 2'
 
         left_key = self.mapping_to_key(bigram[0])
-        right_key = self.mapping_to_key(bigram[1])
+        right_key = self.mapping_to_key(bigram[-1])
 
         # Same characters
-        if bigram[0] == bigram[1]:
+        if bigram[0] == bigram[-1]:
             return False
 
         # No fingers found
@@ -283,15 +286,6 @@ class Keyboard():
         bigrams = self.corpus.bigrams
         return self._ngram_frequency(bigrams, self.is_sfb)
 
-        sfb = 0
-        bigrams = self.corpus.bigrams
-
-        for bigram, usage in bigrams.items():
-            if self.is_sfb(bigram):
-                sfb += usage
-
-        return sfb / bigrams.total()
-
     @cached_property
     def same_finger_bigram_mean_distance(self) -> float:
         """Return mean distance between same-finger bigrams in units."""
@@ -305,7 +299,7 @@ class Keyboard():
                 continue
 
             left_key = self.mapping_to_key(bigram[0])
-            right_key = self.mapping_to_key(bigram[1])
+            right_key = self.mapping_to_key(bigram[-1])
 
             distance = left_key.distance_to(right_key) * weight
 
@@ -338,7 +332,7 @@ class Keyboard():
         """
         assert len(bigram) == 2, 'bigram length must be 2'
         top_key = self.mapping_to_key(bigram[0])
-        bottom_key = self.mapping_to_key(bigram[1])
+        bottom_key = self.mapping_to_key(bigram[-1])
 
         # Keys not found
         if not top_key or not bottom_key:
@@ -402,7 +396,11 @@ class Keyboard():
         """
         assert len(bigram) == 2, 'bigram length must be 2'
         left_key = self.mapping_to_key(bigram[0])
-        right_key = self.mapping_to_key(bigram[1])
+        right_key = self.mapping_to_key(bigram[-1])
+
+        # Keys not found
+        if not left_key or not right_key:
+            return False
 
         # Must be one hand fingers
         if left_key.hand != right_key.hand:
@@ -430,37 +428,18 @@ class Keyboard():
         """Calculates full scissor bigrams occurance frequency."""
         bigrams = self.corpus.bigrams
         return self._ngram_frequency(bigrams, self.is_fsb)
-        fsb = 0
-
-        for bigram, usage in bigrams.items():
-            if self.is_fsb(bigram):
-                fsb += usage
-
-        return fsb / bigrams.total()
 
     @cached_property
     def half_scissor_bigram_frequency(self) -> float:
         """Calculates half scissor bigrams occurance frequency."""
-        hsb = 0
         bigrams = self.corpus.bigrams
-
-        for bigram, usage in bigrams.items():
-            if self.is_hsb(bigram):
-                hsb += usage
-
-        return hsb / bigrams.total()
+        return self._ngram_frequency(bigrams, self.is_hsb)
 
     @cached_property
     def lateral_stretch_bigram_frequency(self) -> float:
         """Calculates lateral stretch bigram occurance frequency."""
-        lsb = 0
         bigrams = self.corpus.bigrams
-
-        for bigram, usage in bigrams.items():
-            if self.is_lsb(bigram):
-                lsb += usage
-
-        return lsb / bigrams.total()
+        return self._ngram_frequency(bigrams, self.is_lsb)
 
     @cached_property
     def lateral_stretch_skipgram_frequency(self) -> float:
@@ -615,14 +594,8 @@ class Keyboard():
     @cached_property
     def same_finger_skipgram_frequency(self) -> float:
         """Return same-finger 1-skipgram occurance frequency."""
-        sfs = 0
         trigrams = self.corpus.trigrams
-
-        for trigram, usage in trigrams.items():
-            if self.is_sfs(trigram):
-                sfs += usage
-
-        return sfs / trigrams.total()
+        return self._ngram_frequency(trigrams, self.is_sfs)
 
     @cached_property
     def same_finger_skipgram_mean_distance(self) -> float:
@@ -675,51 +648,26 @@ class Keyboard():
 
         return hss / trigrams.total()
 
-
     @cached_property
     def alternate_frequency(self) -> float:
         """Return alternate trigram occurance frequency."""
-        alternates = 0
         trigrams = self.corpus.trigrams
-
-        for trigram, usage in trigrams.items():
-            if self.is_alternate(trigram):
-                alternates += usage
-
-        return alternates / trigrams.total()
+        return self._ngram_frequency(trigrams, self.is_alternate)
 
     @cached_property
     def roll_frequency(self) -> float:
         """Return roll (2roll) trigram occurance frequency."""
-        rolls = 0
         trigrams = self.corpus.trigrams
-
-        for trigram, usage in trigrams.items():
-            if self.is_roll(trigram):
-                rolls += usage
-
-        return rolls / trigrams.total()
+        return self._ngram_frequency(trigrams, self.is_roll)
 
     @cached_property
     def onehand_frequency(self) -> float:
         """Return onehand (3roll) trigram occurance frequency."""
-        onehands = 0
         trigrams = self.corpus.trigrams
-
-        for trigram, usage in trigrams.items():
-            if self.is_onehand(trigram):
-                onehands += usage
-
-        return onehands / trigrams.total()
+        return self._ngram_frequency(trigrams, self.is_onehand)
 
     @cached_property
     def redirect_frequency(self) -> float:
         """Return redirect trigram occurance frequency."""
-        redirects = 0
         trigrams = self.corpus.trigrams
-
-        for trigram, usage in trigrams.items():
-            if self.is_redirect(trigram):
-                redirects += usage
-
-        return redirects / trigrams.total()
+        return self._ngram_frequency(trigrams, self.is_redirect)

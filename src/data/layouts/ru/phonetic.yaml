@@ -1,4 +1,5 @@
 name: "Фонетическая"
+file: "phonetic"
 layout:
   # Digit layer
   IntlBackslash:

@@ -1,4 +1,5 @@
 name: "ПК"
+file: "pc"
 layout:
   # Digit layer
   IntlBackslash:

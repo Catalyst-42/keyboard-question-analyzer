@@ -135,6 +135,42 @@ def add_argument(argument: str, parser: argparse.ArgumentParser, ARGS: dict):
             )
 
 
+def resolve_corpus(corpus: str, raw: bool = False) -> pathlib.Path:
+    """Resolve corpus folder path by name."""
+    data_folder = pathlib.Path() / 'data'
+    corpora = data_folder / 'corpora'
+
+    if raw:
+        return corpora / 'raw' / corpus
+    return corpora / 'clean' / corpus
+
+
+def resolve_keyboard(keyboard: str) -> pathlib.Path:
+    """Resolve keyboard yaml file path by name."""
+    data_folder = pathlib.Path() / 'data'
+    keyboards = data_folder / 'keyboards'
+
+    return keyboards / keyboard + '.yaml'
+
+
+def resolve_layout(layout: str) -> pathlib.Path:
+    """Resolve layout yaml file path by name."""
+    data_folder = pathlib.Path() / 'data'
+    layouts = data_folder / 'layouts'
+
+    return layouts / layout + '.yaml'
+
+def resolve_scan_folders(scan_folders: list[str]) -> list[pathlib.Path]:
+    """Resolve list of scan folders making them type of path."""
+    return [pathlib.Path(file) for file in scan_folders]
+
+def resolve_content_output_path(content_output_path: str) -> pathlib.Path:
+    """Resolve content output path txt file location."""
+    data_folder = pathlib.Path() / 'data'
+    corpora = data_folder / 'corpora'
+
+    return corpora / 'raw' / content_output_path + '.txt'
+
 def setup(script_name=''):
     settings_folder = pathlib.Path() / 'settings'
     global_settings_path = settings_folder / 'settings.yaml'
@@ -154,6 +190,7 @@ def setup(script_name=''):
 
     ARGS = global_settings | script_settings
     ARGS.pop('aliases', None)
+    ARGS.pop('anchors', None)
 
     # Parse arguments
     parser = argparse.ArgumentParser(prog=script_name)
@@ -163,25 +200,24 @@ def setup(script_name=''):
 
     ARGS.update(dict(parser.parse_args()._get_kwargs()))
 
-    # Full paths for global settings
-    data_folder = pathlib.Path() / 'data'
+    # Resolve paths
+    is_raw = script_name == 'clean_cospus'
+    is_scrapper = script_name == 'corpora_scrapper'
 
-    keyboards = data_folder / 'keyboards'
-    layouts = data_folder / 'layouts'
-    corpora = data_folder / 'corpora'
+    ARGS['keyboard'] = resolve_keyboard(ARGS['keyboard'])
+    ARGS['layout'] = resolve_layout(ARGS['layout'])
+    ARGS['corpus'] = resolve_corpus(ARGS['corpus'], is_raw)
 
-    ARGS['keyboard'] = keyboards / f'{ARGS['keyboard']}.yaml'
-    ARGS['layout'] = layouts / f'{ARGS['layout']}.yaml'
+    if is_scrapper:
+        ARGS['scan_folders'] = resolve_scan_folders(
+            ARGS['scan_folders']
+        )
+        ARGS['content_output_path'] = resolve_content_output_path(
+            ARGS['content_output_path']
+        )
 
-    if script_name == 'corpus_cleaner':
-        ARGS['corpus'] = corpora / 'raw' / ARGS['corpus']
-    else:
-        ARGS['corpus'] = corpora / 'clean' / ARGS['corpus']
-
-    if script_name == 'corpora_scrapper':
-        ARGS['scan_folders'] = [pathlib.Path(file) for file in ARGS['scan_folders']]
-        ARGS['content_output_path'] = corpora / 'raw' / f'{ARGS['content_output_path']}.txt'
-
+    # Display all settings
     # from pprint import pprint
     # pprint(ARGS)
+
     return ARGS

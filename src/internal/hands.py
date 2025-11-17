@@ -66,7 +66,7 @@ class Hands:
         """Move finger to selected key."""
         return self._fingers[finger].move_to(key)
 
-    def simulate_typing(self, keyboard: Keyboard, corpus: Corpus) -> None:
+    def simulate_typing(self, keyboard: Keyboard, corpus: Corpus, progress: bool = True) -> None:
         """Calculates travel distance by typing emulation."""
         one_percent = corpus.length // 100 - 1
 
@@ -76,7 +76,8 @@ class Hands:
             if key: 
                 self.move_to(key.finger, key)
 
-            if i % one_percent == 0:
+            if progress and i % one_percent == 0:
                 print(f'\rProgress: {i/corpus.length:.0%} ', end='')
 
-        print('\n')
+        if progress:
+            print('\n')

@@ -1,4 +1,5 @@
 name: "Зубачёв"
+file: "zybachev"
 layout:
   # Digit layer
   IntlBackslash:

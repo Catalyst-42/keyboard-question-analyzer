@@ -12,12 +12,12 @@ class Corpus():
     set of text.
     """
 
-    def __init__(self, name, text) -> None:
+    def __init__(self, name, text):
         """Created corpus from given text."""
         self.name = name
         self.text = text
 
-    def _drop_cache(self) -> None:
+    def _drop_cache(self):
         """Drops cached values."""
         del self.length
         del self.unigrams
@@ -77,7 +77,7 @@ class Corpus():
 
         return trigrams
 
-    def clean(self, allowed_chars: str | set = None, filter_func: callable = None) -> None:
+    def clean(self, allowed_chars: str | set = None, filter_func: callable = None):
         """Filger corpus text by given chars or function."""
         if allowed_chars:
             self.text = ''.join(
@@ -91,12 +91,11 @@ class Corpus():
 
         self._drop_cache()
 
-    def limit(self, length) -> None:
+    def limit(self, length):
         """Strip corpus content by given length."""
         self.text = self.text[:length]
         self._drop_cache()
 
     def char_usage(self, char: str) -> int:
         """Get character usage in corpus."""
-        assert len(char) == 1, 'Char must be length of one'
         return self.unigrams.get(char, 0)

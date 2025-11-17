@@ -1,4 +1,5 @@
 name: "QWERTY"
+file: "qwerty"
 layout:
   # Digit layer
   IntlBackslash:
