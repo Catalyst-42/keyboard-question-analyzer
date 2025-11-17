@@ -1,7 +1,6 @@
 import requests
 
 import pathlib
-import math
 
 from internal.corpus import Corpus
 from internal.hands import Hands

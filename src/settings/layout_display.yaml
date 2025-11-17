@@ -31,6 +31,8 @@ anchors:
       color_by: none
 
     frequency: &frequency
+      layers: 1
+      smallcaps: true
       show_frequencies: true
       color_by: frequency
 
@@ -59,8 +61,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *frequency
-
-layers: 1
-combined_2: false
-smallcaps: true
+<<: *preview

@@ -217,7 +217,7 @@ def setup(script_name=''):
         )
 
     # Display all settings
-    # from pprint import pprint
-    # pprint(ARGS)
+    from pprint import pprint
+    pprint(ARGS)
 
     return ARGS
