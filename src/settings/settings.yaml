@@ -20,4 +20,5 @@ anchors:
 # Global settings
 <<: *default
 <<: *qwerty
-layout: en/whorf
+
+keyboard: iso_60

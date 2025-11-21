@@ -84,6 +84,9 @@ class Visualizer():
             }
             return colormaps['Pastel1'](rows.get(key.row, 0))
 
+        if self.config['color_by'] in 'keyboard':
+            return colormaps['Pastel1'](3)
+
         if self.config['color_by'] in 'finger':
             return colormaps['Set3'](key.finger - 1)
 

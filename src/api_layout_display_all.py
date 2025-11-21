@@ -55,7 +55,7 @@ def report(keyboard, corpora_names):
 
 def upsert(metrics, files):
     # Check if metric already exists
-    req = requests.get('http://localhost:8000/api/layout_previews/', params={
+    req = requests.get('http://localhost:8000/api/layout-previews/', params={
         'keyboard__id': metrics['keyboard'],
         'layout__id': metrics['layout'],
     })
@@ -63,7 +63,7 @@ def upsert(metrics, files):
     # Not exists, create
     if len(req.json()) == 0:
         requests.post(
-            'http://localhost:8000/api/layout_previews/',
+            'http://localhost:8000/api/layout-previews/',
             data=metrics,
             files=files
         )
@@ -73,7 +73,7 @@ def upsert(metrics, files):
     # Exists, update all but not images
     preview_id = req.json()[0]['id']
     requests.patch(
-        f'http://localhost:8000/api/layout_previews/{preview_id}/',
+        f'http://localhost:8000/api/layout-previews/{preview_id}/',
         data=metrics,
         # files=files
     )

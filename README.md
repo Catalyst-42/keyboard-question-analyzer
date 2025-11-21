@@ -1,6 +1,12 @@
 # KeyboardQuestion
 Analysis of keyboard effectivenes.
 
+> [!NOTE]  
+> Backend is located on separate repository
+
+> [!NOTE]  
+> Frontend is located on separate repository
+
 Stages of getting metrics:
 - Create physical keyboard
   - Define physical keys, it's position on free canvas

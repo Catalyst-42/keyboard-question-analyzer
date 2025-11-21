@@ -42,6 +42,12 @@ anchors:
 
       color_by: home
 
+    keyboard: &keyboard
+      layers: 1
+      show_home_keys: false
+      show_layout: false
+      color_by: keyboard
+
     debug: &debug
       layers: 1
       show_layout: false
@@ -61,4 +67,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *preview
+<<: *keyboard
