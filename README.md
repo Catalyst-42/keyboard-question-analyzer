@@ -2,10 +2,14 @@
 Analysis of keyboard effectivenes.
 
 > [!NOTE]  
-> Backend is located on separate repository
+> Backend is located in separate repository
 
 > [!NOTE]  
-> Frontend is located on separate repository
+> Frontend is located in separate repository
+
+## Images
+## Setup
+## Launch
 
 Stages of getting metrics:
 - Create physical keyboard
@@ -229,3 +233,8 @@ each layer of keyboard layout
 
   - Keyboard
     - debug
+
+<!-- TODO
+- [ ] Make normal readme with examples
+- [ ] Refactor api queries
+-->

@@ -42,13 +42,11 @@ layout:
     mappings:
       1: "Equal"
   Backspace:
-    is_modifier: true
     mappings:
       1: "Backspace"
 
   # Top layer
   Tab:
-    is_modifier: true
     mappings:
       1: "Tab"
   KeyQ:
@@ -93,7 +91,6 @@ layout:
 
   # Home layer
   CapsLock:
-    is_modifier: true
     mappings:
       1: "CapsLock"
   KeyA:
@@ -132,13 +129,11 @@ layout:
     mappings:
       1: "Quote"
   Enter:
-    is_modifier: true
     mappings:
       1: "Enter"
 
   # Bottom layer
   ShiftLeft:
-    is_modifier: true
     mappings:
       1: "ShiftLeft"
   KeyZ:
@@ -172,52 +167,40 @@ layout:
     mappings:
       1: "Slash"
   ShiftRight:
-    is_modifier: true
     mappings:
       1: "ShiftRight"
 
   # Control keys
   Function:
-    is_modifier: true
     mappings:
       1: "Function"
   ControlLeft:
-    is_modifier: true
     mappings:
       1: "ControlLeft"
   AltLeft:
-    is_modifier: true
     mappings:
       1: "AltLeft"
   MetaLeft:
-    is_modifier: true
     mappings:
       1: "MetaLeft"
   Space:
-    is_modifier: true
     mappings:
       1: "Space"
   MetaRight:
-    is_modifier: true
     mappings:
       1: "MetaRight"
   AltRight:
-    is_modifier: true
     mappings:
       1: "AltRight"
   ArrowLeft:
-    is_modifier: true
     mappings:
       1: "ArrowLeft"
   ArrowUp:
-    is_modifier: true
     mappings:
       1: "ArrowUp"
   ArrowDown:
-    is_modifier: true
     mappings:
       1: "ArrowDown"
   ArrowRight:
-    is_modifier: true
     mappings:
       1: "ArrowRight"

@@ -288,11 +288,11 @@ class Visualizer():
             if self.config['show_layout']:
                 self._draw_key_layout(layer, key)
 
-            if self.config['combined_2']:
-                self._draw_key_layout_combined(layer, key)
+                if self.config['combined_2']:
+                    self._draw_key_layout_combined(layer, key)
 
-            if self.config['smallcaps']:
-                self._draw_key_layout_smallcaps(layer, key)
+                if self.config['smallcaps']:
+                    self._draw_key_layout_smallcaps(layer, key)
 
             if self.config['show_key_codes']:
                 self._draw_key_code(layer, key)

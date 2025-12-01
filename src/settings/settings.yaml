@@ -20,5 +20,3 @@ anchors:
 # Global settings
 <<: *default
 <<: *qwerty
-
-keyboard: iso_60

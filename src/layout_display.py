@@ -5,7 +5,8 @@ from internal.visualizer import Visualizer
 
 ARGS = setup('layout_display')
 
-corpus = Corpus.load(ARGS['corpus'])
+# corpus = Corpus.load(ARGS['corpus'])
+corpus = Corpus.load_mockup('data/frequencies/keylogger.yaml')
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 
 # Show keyboard layout

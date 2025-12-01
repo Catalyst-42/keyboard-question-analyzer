@@ -4,6 +4,7 @@ import pathlib
 from collections import Counter
 from functools import cached_property
 
+from yaml import safe_load
 
 class Corpus():
     """Set of text used to calculate statistics.
@@ -44,6 +45,19 @@ class Corpus():
                 text += file.read()
 
         return Corpus(name, text)
+
+    @classmethod
+    def load_mockup(self, unigram_frequency_path):
+        """Load mockup corpus with frequency by separate file."""
+        unigrams: dict = safe_load(
+            open(unigram_frequency_path, encoding="utf-8").read()
+        )
+
+        corpus = Corpus('Mockup', '')
+
+        # Replace unigrams on mockup ones
+        corpus.unigrams = unigrams['frequencies']
+        return corpus
 
     @property
     def chars(self) -> str:

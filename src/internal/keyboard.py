@@ -325,7 +325,8 @@ class Keyboard():
                 - Thumb
 
         Consider bigram as half scissor if:
-        - Vertical separation between keys is less than 2 units
+        - Vertical separation between keys
+        is less than 2 units and more than one
 
         Consider bigram as full scissor if:
         - Vertical separation between keys is 2 or more units

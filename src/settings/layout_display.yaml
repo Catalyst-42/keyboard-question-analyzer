@@ -65,6 +65,13 @@ anchors:
 
       color_by: home
 
+    mockup: &mockup
+      <<: *frequency
+      show_layout: false
+      show_home_keys: false
+      show_key_codes: true
+      layout: kq/mockup
+
 # Script settings
 <<: *default
-<<: *keyboard
+<<: *mockup
