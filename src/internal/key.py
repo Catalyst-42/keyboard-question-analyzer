@@ -51,7 +51,7 @@ class Key():
         if layer > 0:
             return self.mappings.get(
                 layer,
-                self.mappings.get(layer - 1)  # Fallback on lower layer
+                self.mapping(layer - 1)  # Fallback on lower layer
             )
 
         print(f'Warning: key {self.key} is not mapped')

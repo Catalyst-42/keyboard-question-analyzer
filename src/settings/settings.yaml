@@ -5,9 +5,9 @@
 
 anchors:
   presets: &default
-    keyboard: ansi_60    
-    layout: en/qwerty   
-    corpus: english     
+    keyboard: ansi_60
+    layout: en/qwerty
+    corpus: english
 
   qwerty: &qwerty
     layout: en/qwerty
@@ -19,4 +19,4 @@ anchors:
 
 # Global settings
 <<: *default
-<<: *qwerty
+<<: *jcuken

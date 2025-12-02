@@ -6,7 +6,7 @@ from internal.setup import *
 ARGS = setup('metric_travel_distance')
 
 corpus = Corpus.load(ARGS['corpus'])
-# corpus = Corpus('custom', 'hello')
+# corpus = Corpus('custom', 'привет')
 keyboard = Keyboard.load(ARGS['keyboard'], ARGS['layout'], corpus)
 hands = Hands(keyboard)
 

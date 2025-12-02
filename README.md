@@ -237,4 +237,5 @@ each layer of keyboard layout
 <!-- TODO
 - [ ] Make normal readme with examples
 - [ ] Refactor api queries
+- [ ] Recalculate all metrics with one unit equal 40
 -->

@@ -37,23 +37,21 @@ class Visualizer():
 
         # Disable other printages
         if self.config['combined_2']:
-            self.config['show_layout'] = False
             self.config['smallcaps'] = False 
             self.config['layers'] = 1
 
         # Disable other printages
         if self.config['smallcaps']:
-            self.config['show_layout'] = False
             self.config['combined_2'] = False
             self.config['layers'] = 1
 
-    def render(self, number_of_layers: int):
+    def render(self, number_of_layers: int, plot_layer_width: int = 8, plot_layer_height: int = 3):
         """Create keyboard visualisation for all layers."""
         layers = [[f'layer{i}'] for i in range(1, number_of_layers + 1)]
 
         self.fig, self.axs = plt.subplot_mosaic(
             layers,
-            figsize=(8, 3 * number_of_layers)
+            figsize=(plot_layer_width, plot_layer_height * number_of_layers)
         )
 
         # Render each layer
@@ -286,13 +284,14 @@ class Visualizer():
 
             # Display key info
             if self.config['show_layout']:
-                self._draw_key_layout(layer, key)
-
                 if self.config['combined_2']:
                     self._draw_key_layout_combined(layer, key)
 
-                if self.config['smallcaps']:
+                elif self.config['smallcaps']:
                     self._draw_key_layout_smallcaps(layer, key)
+
+                else:
+                    self._draw_key_layout(layer, key)
 
             if self.config['show_key_codes']:
                 self._draw_key_code(layer, key)

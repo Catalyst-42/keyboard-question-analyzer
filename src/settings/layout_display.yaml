@@ -33,6 +33,7 @@ anchors:
     frequency: &frequency
       layers: 1
       smallcaps: true
+      show_home_keys: false
       show_frequencies: true
       color_by: frequency
 
@@ -68,10 +69,21 @@ anchors:
     mockup: &mockup
       <<: *frequency
       show_layout: false
-      show_home_keys: false
       show_key_codes: true
       layout: kq/mockup
 
+    ansi_100:
+      <<: *preview
+      show_layout: false
+      show_home_keys: false
+      show_row_numbers: true
+      color_by: row
+      show_fingers: false
+
 # Script settings
 <<: *default
-<<: *mockup
+<<: *preview
+
+color_by: home
+show_fingers: true
+show_home_keys: false

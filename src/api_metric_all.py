@@ -15,7 +15,7 @@ def report(keyboard, corpora_names):
         'layers': 1,
         'show_fingers': False,
         'show_frequencies': True,
-        'show_home_keys': True,
+        'show_home_keys': False,
         'show_key_codes': False,
         'show_keys_centers': False,
         'show_layout': True,
@@ -177,6 +177,7 @@ corpora_paths = [*corpora_paths.glob('*')]
 
 keyboard_paths = pathlib.Path() / 'data' / 'keyboards'
 keyboard_paths = [*keyboard_paths.glob('*.yaml')]
+keyboard_paths = [k for k in keyboard_paths if '_100' not in k.parts]
 
 layout_paths = pathlib.Path() / 'data' / 'layouts'
 layout_paths = layout_paths.glob('**/*.yaml')
