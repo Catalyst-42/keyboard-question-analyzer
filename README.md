@@ -123,8 +123,10 @@ Also here's the mockup of finger usage and row usage.
  Left - 00.00%    00.00% - Right
 ```
 
-<!-- TODO
-- [ ] Make normal readme with examples
+<!--
+TODO:
+
+- [x] Make normal readme with examples
 - [ ] Refactor api queries
 - [ ] Recalculate all metrics with one unit equal 40
 -->

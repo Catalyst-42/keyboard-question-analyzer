@@ -19,11 +19,12 @@ class Corpus():
         self.text = text
 
     def _drop_cache(self):
-        """Drops cached values."""
-        del self.length
-        del self.unigrams
-        del self.bigrams
-        del self.trigrams
+        """Drops cached values. If a field doesn't exist, it's skipped."""
+        for attr in ('length', 'unigrams', 'bigrams', 'trigrams'):
+            try:
+                delattr(self, attr)
+            except AttributeError:
+                pass
 
     @classmethod 
     def load(self, corpus_folder) -> Corpus:

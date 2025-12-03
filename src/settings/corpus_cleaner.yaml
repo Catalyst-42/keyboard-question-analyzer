@@ -26,4 +26,4 @@ anchors:
 
 # Script settings
 limit_keys: 9_000_000
-<<: *code
+<<: *english

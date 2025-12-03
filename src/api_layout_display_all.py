@@ -7,11 +7,14 @@ of keyboards and layouts.
 import pathlib
 
 import requests
+from requests.auth import HTTPBasicAuth
 
 from internal.corpus import Corpus
 from internal.keyboard import Keyboard
 from internal.visualizer import Visualizer
 
+USER = ''
+PASSWORD = ''
 
 def report(keyboard, corpora_names):
     """Calculate all metrics and prepare data for Django API."""
@@ -71,7 +74,8 @@ def upsert(metrics, files):
         requests.post(
             'http://localhost:8000/api/layout-previews/',
             data=metrics,
-            files=files
+            files=files,
+            auth=HTTPBasicAuth(USER, PASSWORD)
         )
         print('Status: created')
         return
@@ -111,6 +115,7 @@ corpora_names = {
 
 keyboard_paths = pathlib.Path() / 'data' / 'keyboards'
 keyboard_paths = [*keyboard_paths.glob('*.yaml')]
+keyboard_paths = [k for k in keyboard_paths if 'ansi_100.yaml' not in k.parts]
 
 layout_paths = pathlib.Path() / 'data' / 'layouts'
 layout_paths = layout_paths.glob('**/*.yaml')

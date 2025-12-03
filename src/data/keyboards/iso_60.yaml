@@ -1,6 +1,6 @@
 name: "ISO 60%"
 file: "iso_60"
-one_unit: 34
+one_unit: 40
 keyboard:
   # Digit layer
   IntlBackslash:

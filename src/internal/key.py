@@ -49,10 +49,9 @@ class Key():
     def mapping(self, layer: int) -> str:
         """Finds mapping by layer. Fallback on bottom layers if not found."""
         if layer > 0:
-            return self.mappings.get(
-                layer,
-                self.mapping(layer - 1)  # Fallback on lower layer
-            )
+            if layer in self.mappings:
+                return self.mappings[layer]
+            return self.mapping(layer - 1)
 
         print(f'Warning: key {self.key} is not mapped')
         return ''

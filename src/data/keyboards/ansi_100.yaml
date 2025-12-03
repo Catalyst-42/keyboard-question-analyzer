@@ -1,6 +1,6 @@
 name: "ANSI 100%"
 file: "ansi_100"
-one_unit: 34
+one_unit: 40
 keyboard:
   # Functional layer (top row)
   Escape:
