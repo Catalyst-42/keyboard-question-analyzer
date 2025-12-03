@@ -1,3 +1,7 @@
+"""
+Used to calculate layout finger usage and row usage.
+"""
+
 from internal.keyboard import Keyboard
 from internal.corpus import Corpus
 from internal.setup import *

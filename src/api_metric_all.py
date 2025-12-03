@@ -1,3 +1,9 @@
+"""
+Used to fill backend API with metric data.
+Calculates all metrics for all combinations
+of keyboards, layouts and corpora.
+"""
+
 import requests
 
 import pathlib

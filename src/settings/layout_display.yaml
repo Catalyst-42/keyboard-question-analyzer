@@ -82,8 +82,4 @@ anchors:
 
 # Script settings
 <<: *default
-<<: *preview
-
-color_by: home
-show_fingers: true
-show_home_keys: false
+<<: *debug

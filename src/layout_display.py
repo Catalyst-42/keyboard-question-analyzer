@@ -1,3 +1,7 @@
+"""
+Used to display keyboard layout.
+"""
+
 from internal.keyboard import Keyboard
 from internal.corpus import Corpus
 from internal.setup import setup

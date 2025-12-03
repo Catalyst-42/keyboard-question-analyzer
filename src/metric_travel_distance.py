@@ -1,3 +1,7 @@
+"""
+Used to calculate travel distance of layout.
+"""
+
 from internal.keyboard import Keyboard
 from internal.corpus import Corpus
 from internal.hands import Hands

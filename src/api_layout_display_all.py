@@ -1,3 +1,9 @@
+"""
+Used to fill backend API with layout previews.
+Calculates all previews for all combinations
+of keyboards and layouts.
+"""
+
 import pathlib
 
 import requests

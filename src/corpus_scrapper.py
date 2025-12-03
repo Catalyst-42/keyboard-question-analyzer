@@ -1,4 +1,7 @@
-import pathlib
+"""
+Used to gather text into corpus
+by filters to file types.
+"""
 
 from internal.setup import setup
 

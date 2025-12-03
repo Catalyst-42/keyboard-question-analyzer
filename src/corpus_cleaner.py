@@ -1,3 +1,9 @@
+"""
+Used to clean selected via settings corpus. 
+Removes all keys, that not are not allowed and bump all
+corpus text into one file.
+"""
+
 import pathlib
 
 from internal.corpus import Corpus
